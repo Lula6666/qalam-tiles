@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qalam Tiles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@500;700&family=Instrument+Serif&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+/* Layout: a maker's bench — controls strip, tile tray beside an inspector (tile + unfolded edge + NFC reader), and a wooden rack below for composing phrases right to left. */
+:root{
+  --bg:#eef2f6; --surface:#ffffff; --surface-2:#e3e9f0; --fg:#14243d; --muted:#55657d; --line:#cfd8e3;
+  --accent:#2a5db0; --accent-ink:#ffffff; --gold:#b8892f;
+  --kraft:#c9a878; --board:#d6cbb6; --cereal:#b7a993; --tile-ink:#1b1a17; --wood:#d8b886; --wood-dark:#a9824e;
+  --copper:#c47a3c;
+  --cat-virtue:#2a5db0; --cat-knowledge:#c8922a; --cat-object:#2f7d7a;
+  --display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --naskh:"Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
+  --kufi:"Reem Kufi", "Noto Kufi Arabic", "Amiri", sans-serif;
+  --ruqaa:"Aref Ruqaa", "Amiri", serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1625; --surface:#162236; --surface-2:#1d2b42; --fg:#e6ecf5; --muted:#9aa9bf; --line:#2a3a54;
+    --accent:#7aa5ee; --accent-ink:#0e1625; --gold:#d9ad5a;
+    --wood:#c4a372; --wood-dark:#8f6d40; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1625; --surface:#162236; --surface-2:#1d2b42; --fg:#e6ecf5; --muted:#9aa9bf; --line:#2a3a54;
+  --accent:#7aa5ee; --accent-ink:#0e1625; --gold:#d9ad5a;
+  --wood:#c4a372; --wood-dark:#8f6d40; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--fg); font-family:var(--body); font-size:15px; line-height:1.5}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:clamp(16px,4vw,32px); padding-block:28px 48px; display:grid; gap:22px}
+header{display:grid; gap:6px}
+.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+h1{font-family:var(--display); font-weight:400; font-size:clamp(34px,6vw,52px); line-height:1.05; margin:0; text-wrap:balance}
+h1 .ar{font-family:var(--naskh); font-size:.8em; color:var(--gold); margin-inline-start:.3em}
+.lede{max-width:64ch; color:var(--muted); margin:0}
+h2{font-family:var(--display); font-weight:400; font-size:24px; margin:0}
+.sub{font-size:13px; color:var(--muted); margin:0}
+
+/* controls */
+.controls{display:flex; flex-wrap:wrap; gap:14px 22px; padding:14px 16px; background:var(--surface); border:1px solid var(--line); border-radius:10px}
+.ctl{display:grid; gap:6px; min-width:0}
+.ctl > span{font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.seg{display:flex; flex-wrap:wrap; border:1px solid var(--line); border-radius:8px; overflow:hidden; width:max-content; max-width:100%}
+.seg button{font:inherit; font-size:13px; border:0; background:transparent; color:var(--fg); padding:6px 12px; cursor:pointer; border-inline-end:1px solid var(--line)}
+.seg button:last-child{border-inline-end:0}
+.seg button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
+.seg .ar{font-size:15px}
+button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* bench */
+.bench{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:22px; align-items:start}
+@media (max-width:820px){ .bench{grid-template-columns:minmax(0,1fr)} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px; display:grid; gap:14px; min-width:0}
+.panel-head{display:grid; gap:2px}
+.tray{display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:12px}
+.tray button{all:unset; cursor:pointer; display:grid; gap:4px; justify-items:center; padding:6px; border-radius:10px}
+.tray button[aria-current="true"]{background:var(--surface-2)}
+.tray button:focus-visible{outline:2px solid var(--accent)}
+.tray .gloss{font-size:12px; color:var(--muted)}
+
+/* tile object */
+.tile{position:relative; width:100%; max-width:100%; background:var(--edge); filter:drop-shadow(0 3px 4px rgba(20,25,35,.25))}
+.tile .face{position:absolute; inset:7%; display:grid; place-items:center; color:var(--tile-ink)}
+.shape-hex{aspect-ratio:1/.88}
+.shape-hex, .shape-hex .face{clip-path:polygon(25% 2%,75% 2%,99% 50%,75% 98%,25% 98%,1% 50%)}
+.shape-tri{aspect-ratio:1/.9}
+.shape-tri, .shape-tri .face{clip-path:polygon(50% 1%,99% 99%,1% 99%)}
+.shape-tri .face{inset:9% 7% 5%}
+.shape-sq{aspect-ratio:1/1}
+.shape-sq, .shape-sq .face{clip-path:inset(0 round 7%)}
+.edge-wood{--edge:linear-gradient(115deg,var(--wood) 0 30%,var(--wood-dark) 31% 33%,var(--wood) 34% 62%,var(--wood-dark) 63% 64%,var(--wood) 65%)}
+.mat-corr .face{background:repeating-linear-gradient(90deg,rgba(60,40,10,.10) 0 2px,transparent 2px 8px),var(--kraft)}
+.mat-board .face{background:radial-gradient(circle at 20% 30%,rgba(0,0,0,.05) 0 1px,transparent 1.5px) 0 0/9px 9px,radial-gradient(circle at 70% 60%,rgba(0,0,0,.04) 0 1px,transparent 1.5px) 0 0/13px 13px,var(--board)}
+.mat-cereal .face{background:linear-gradient(160deg,rgba(255,255,255,.12),transparent 60%),var(--cereal)}
+.face .word{font-size:var(--wsize,28px); line-height:1.1; direction:rtl; text-align:center; padding-inline:8%; transform:translateY(-10%)}
+.shape-tri .face .word{transform:translateY(22%); font-size:calc(var(--wsize,28px)*.78)}
+.nfc{position:absolute; left:50%; bottom:13%; width:17%; aspect-ratio:1; transform:translateX(-50%); border-radius:50%;
+  background:radial-gradient(circle,#2b1d10 0 14%,transparent 15%),repeating-radial-gradient(circle,var(--copper) 0 2.5%,rgba(0,0,0,0) 2.5% 6%),rgba(196,122,60,.18);
+  box-shadow:inset 0 0 0 1px rgba(80,40,10,.5)}
+.shape-tri .nfc{bottom:9%; width:14%}
+.script-kufi .word{font-family:var(--kufi); font-weight:700}
+.script-naskh .word{font-family:var(--naskh); font-weight:700}
+.script-ruqaa .word{font-family:var(--ruqaa); font-weight:700}
+
+/* inspector */
+.inspect{display:grid; grid-template-columns:minmax(0,220px) minmax(0,1fr); gap:18px; align-items:center}
+@media (max-width:520px){ .inspect{grid-template-columns:minmax(0,1fr)} .inspect .big{max-width:240px; margin-inline:auto; width:100%} }
+.big{--wsize:clamp(38px,6vw,54px)}
+.big .tile{transition:transform .25s ease}
+.big.tapped .tile{transform:scale(.97)}
+.facts{display:grid; gap:8px; min-width:0}
+.facts .ar-big{font-size:34px; line-height:1.2; direction:rtl}
+.facts dl{display:grid; grid-template-columns:max-content minmax(0,1fr); gap:4px 12px; margin:0; font-size:14px}
+.facts dt{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding-top:2px}
+.facts dd{margin:0}
+.strip-label{font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.strip{display:flex; align-items:stretch; border-radius:4px; overflow:hidden; min-height:34px; background:var(--wood); border:1px solid var(--wood-dark); color:#2a1c0c; font-family:var(--mono); font-size:12px}
+.strip .band{width:14px; flex:none; background:var(--cat)}
+.strip .txt{display:flex; flex-wrap:wrap; align-items:center; gap:4px 14px; padding:6px 10px; min-width:0}
+.strip .txt .ar{font-family:var(--naskh); font-size:16px}
+
+.reader{border:1px dashed var(--line); border-radius:10px; padding:12px 14px; display:grid; gap:8px; background:var(--surface-2)}
+.reader-top{display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between}
+.status{font-family:var(--mono); font-size:12px; display:flex; gap:8px; align-items:center}
+.dot{width:8px; height:8px; border-radius:50%; background:var(--muted)}
+.reader.live .dot{background:#2f9e6a}
+.reader pre{margin:0; font-family:var(--mono); font-size:12px; white-space:pre-wrap; overflow-wrap:anywhere; color:var(--fg)}
+.story{margin:0; font-size:14px; max-width:60ch}
+.btn{font:inherit; font-size:13px; font-weight:500; border:1px solid var(--accent); background:var(--accent); color:var(--accent-ink); padding:7px 12px; border-radius:8px; cursor:pointer}
+.btn.ghost{background:transparent; color:var(--accent)}
+.btns{display:flex; flex-wrap:wrap; gap:8px}
+.voice-note{font-size:12px; color:var(--muted); margin:0}
+
+/* rack */
+.rack-wrap{display:grid; gap:12px}
+.rack{direction:rtl; display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; min-height:140px; padding:16px 16px 18px; border-radius:10px 10px 4px 4px;
+  background:var(--surface); border:1px solid var(--line); border-bottom:12px solid var(--wood-dark); position:relative}
+.rack:empty::before{content:"Rack is empty. Select a tile and press “Place on rack”."; direction:ltr; color:var(--muted); font-size:14px; align-self:center}
+.rack button{all:unset; cursor:pointer; width:104px; max-width:28vw; --wsize:24px}
+.rack button:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+.result{display:grid; gap:4px; padding:14px 16px; border-radius:10px; border:1px solid var(--line); background:var(--surface)}
+.result.match{border-color:var(--gold); box-shadow:inset 4px 0 0 var(--gold)}
+.result .phrase{font-size:30px; direction:rtl; line-height:1.3}
+.result .tr{font-family:var(--mono); font-size:13px; color:var(--muted)}
+.result .en{font-family:var(--display); font-size:22px}
+.foot{font-size:13px; color:var(--muted); max-width:75ch; margin:0}
+.chip{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-family:var(--mono)}
+.chip i{width:10px; height:10px; border-radius:2px; display:inline-block}
+.legend{display:flex; flex-wrap:wrap; gap:6px 16px}
+@media (prefers-reduced-motion: reduce){ .big .tile{transition:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Paper co-centered tangibles · concept prototype</div>
+    <h1>Qalam Tiles <span class="ar">قلم</span></h1>
+    <p class="lede">Upcycled cardboard tiles that carry one Arabic word as calligraphic image. The edge holds transliteration and translation, and an exposed NFC tag links to sound and meaning. Arrange tiles on the rack, right to left, to compose a proverb.</p>
+  </header>
+
+  <section class="controls" aria-label="Tile settings">
+    <div class="ctl"><span>Shape</span><div class="seg" id="shape"></div></div>
+    <div class="ctl"><span>Script style</span><div class="seg" id="script"></div></div>
+    <div class="ctl"><span>Substrate</span><div class="seg" id="material"></div></div>
+    <div class="ctl"><span>Edge</span><div class="seg" id="edge"></div></div>
+  </section>
+
+  <div class="bench">
+    <section class="panel" aria-labelledby="tray-h">
+      <div class="panel-head">
+        <h2 id="tray-h">Tile tray</h2>
+        <p class="sub">Tap a tile to read its tag.</p>
+      </div>
+      <div class="tray" id="tray"></div>
+      <div class="legend" aria-label="Edge color margins">
+        <span class="chip"><i style="background:var(--cat-virtue)"></i>virtue</span>
+        <span class="chip"><i style="background:var(--cat-knowledge)"></i>knowledge</span>
+        <span class="chip"><i style="background:var(--cat-object)"></i>object of the craft</span>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="ins-h">
+      <div class="panel-head">
+        <h2 id="ins-h">Tile in hand</h2>
+        <p class="sub">Face, unfolded edge, and what a phone reads from the tag.</p>
+      </div>
+      <div class="inspect">
+        <div class="big" id="big"></div>
+        <div class="facts" id="facts"></div>
+      </div>
+      <div>
+        <div class="strip-label">Edge, unfolded</div>
+        <div class="strip" id="strip"></div>
+      </div>
+      <div class="reader" id="reader" aria-live="polite">
+        <div class="reader-top">
+          <div class="status"><span class="dot"></span><span id="status">Waiting for a tile</span></div>
+          <div class="btns">
+            <button class="btn ghost" id="speak" type="button">Hear it</button>
+            <button class="btn" id="place" type="button">Place on rack</button>
+          </div>
+        </div>
+        <pre id="payload"></pre>
+        <p class="story" id="story"></p>
+        <p class="voice-note" id="voiceNote" hidden></p>
+      </div>
+    </section>
+  </div>
+
+  <section class="rack-wrap" aria-labelledby="rack-h">
+    <div class="panel-head" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px">
+      <div><h2 id="rack-h">Rack</h2><p class="sub">Reads right to left. Tap a tile on the rack to lift it off.</p></div>
+      <button class="btn ghost" id="clear" type="button">Clear rack</button>
+    </div>
+    <div class="rack" id="rack"></div>
+    <div class="result" id="result"></div>
+  </section>
+
+  <p class="foot">Concept prototype for the “Representational and Substrate Roles in Paper Co-Centered Tangibles” manuscript. Tag reads are simulated here; on a physical tile, an NTAG sticker sealed face-up under Mod Podge can be read by most phones. Script styles shown are Kufic, Naskh, and Ruqʿa.</p>
+</div>
+
+<script>
+const WORDS = [
+  {id:"sabr",   ar:"الصبر", tr:"aṣ-ṣabr",  en:"patience",       cat:"virtue",    story:"A virtue praised across Arabic poetry and proverb, often paired with relief that follows hardship."},
+  {id:"miftah", ar:"مفتاح", tr:"miftāḥ",   en:"key",            cat:"object",    story:"From the root f-t-ḥ, “to open.” The same root gives fatḥ, an opening or beginning."},
+  {id:"faraj",  ar:"الفرج", tr:"al-faraj", en:"relief",         cat:"virtue",    story:"Relief or release after difficulty; the reward the proverb promises to the patient."},
+  {id:"ilm",    ar:"العلم", tr:"al-ʿilm",  en:"knowledge",      cat:"knowledge", story:"Knowledge or learning. Libraries and paper mills in Baghdad made it portable and copyable."},
+  {id:"nur",    ar:"نور",   tr:"nūr",      en:"light",          cat:"knowledge", story:"Light, used throughout Arabic writing as a figure for understanding."},
+  {id:"qalam",  ar:"قلم",   tr:"qalam",    en:"reed pen",       cat:"object",    story:"The calligrapher’s pen, cut from reed. Its nib angle shapes the proportions of every letter."},
+  {id:"waraq",  ar:"ورق",   tr:"waraq",    en:"paper; leaves",  cat:"object",    story:"Paper, and also the leaves of a tree. Traditional calligraphy paper was treated with starch, egg white, and alum."},
+  {id:"kitab",  ar:"كتاب",  tr:"kitāb",    en:"book",           cat:"knowledge", story:"From the root k-t-b, “to write,” shared with kātib (writer) and maktaba (library)."}
+];
+const PROVERBS = [
+  {seq:["sabr","miftah","faraj"], ar:"الصبر مفتاح الفرج", tr:"aṣ-ṣabru miftāḥu l-faraj", en:"Patience is the key to relief."},
+  {seq:["ilm","nur"],             ar:"العلم نور",        tr:"al-ʿilmu nūr",            en:"Knowledge is light."}
+];
+const OPTS = {
+  shape:[["hex","Hexagon"],["tri","Triangle"],["sq","Square"]],
+  script:[["kufi","Kufic"],["naskh","Naskh"],["ruqaa","Ruqʿa"]],
+  material:[["corr","Corrugated"],["board","Paperboard"],["cereal","Cereal box"]],
+  edge:[["margin","Color margin"],["wood","Popsicle stick"]]
+};
+const state = {shape:"hex", script:"naskh", material:"corr", edge:"margin", sel:"sabr", rack:["sabr","miftah","faraj"]};
+const byId = id => WORDS.find(w => w.id === id);
+const catVar = c => `var(--cat-${c})`;
+const $ = id => document.getElementById(id);
+
+function tileEl(w){
+  const t = document.createElement("div");
+  t.className = `tile shape-${state.shape} mat-${state.material} script-${state.script}` + (state.edge === "wood" ? " edge-wood" : "");
+  if (state.edge === "margin") t.style.setProperty("--edge", catVar(w.cat));
+  const f = document.createElement("div"); f.className = "face";
+  const s = document.createElement("span"); s.className = "word"; s.lang = "ar"; s.textContent = w.ar;
+  const n = document.createElement("span"); n.className = "nfc"; n.setAttribute("aria-hidden","true");
+  f.append(s, n); t.append(f);
+  t.setAttribute("role","img"); t.setAttribute("aria-label", `${w.tr}, ${w.en}`);
+  return t;
+}
+function uid(id){
+  let h = 7; for (const c of id) h = (h*31 + c.charCodeAt(0)) >>> 0;
+  const b = [0x04]; for (let i=0;i<6;i++){ b.push((h >>> (i*5)) & 0xff); }
+  return b.map(x => x.toString(16).padStart(2,"0").toUpperCase()).join(":");
+}
+
+function renderControls(){
+  for (const [key, list] of Object.entries(OPTS)){
+    const el = $(key); el.innerHTML = "";
+    for (const [val, label] of list){
+      const b = document.createElement("button"); b.type = "button"; b.id = `${key}-${val}`;
+      b.textContent = label; b.setAttribute("aria-pressed", String(state[key] === val));
+      b.onclick = () => { state[key] = val; renderAll(); };
+      el.append(b);
+    }
+  }
+}
+function renderTray(){
+  const tray = $("tray"); tray.innerHTML = "";
+  for (const w of WORDS){
+    const b = document.createElement("button"); b.type = "button"; b.id = `tray-${w.id}`;
+    b.setAttribute("aria-current", String(state.sel === w.id));
+    b.setAttribute("aria-label", `Read tile ${w.tr}, ${w.en}`);
+    b.style.setProperty("--wsize","24px");
+    const g = document.createElement("span"); g.className = "gloss"; g.textContent = w.en;
+    b.append(tileEl(w), g);
+    b.onclick = () => { state.sel = w.id; renderAll(); tap(); };
+    tray.append(b);
+  }
+}
+const SCRIPT_NAME = {kufi:"Kufic", naskh:"Naskh", ruqaa:"Ruqʿa"};
+const MAT_NAME = {corr:"upcycled corrugated cardboard", board:"paperboard", cereal:"second-life cereal box"};
+function renderInspector(){
+  const w = byId(state.sel);
+  const big = $("big"); big.innerHTML = ""; big.append(tileEl(w));
+  $("facts").innerHTML = `
+    <div class="ar-big script-${state.script}"><span class="word" lang="ar" style="font-size:inherit;transform:none;padding:0">${w.ar}</span></div>
+    <dl>
+      <dt>Say</dt><dd>${w.tr}</dd>
+      <dt>Means</dt><dd>${w.en}</dd>
+      <dt>Script</dt><dd>${SCRIPT_NAME[state.script]}</dd>
+      <dt>Made of</dt><dd>${MAT_NAME[state.material]}</dd>
+    </dl>`;
+  const strip = $("strip");
+  strip.style.setProperty("--cat", state.edge === "margin" ? catVar(w.cat) : "transparent");
+  strip.innerHTML = `<span class="band"></span><span class="txt"><span class="ar" lang="ar">${w.ar}</span><span>${w.tr}</span><span>“${w.en}”</span><span>· ${w.cat}</span></span>`;
+  $("payload").textContent =
+`UID   ${uid(w.id)}  (NTAG213, 13.56 MHz)
+NDEF  text/ar   ${w.ar}
+      text/en   ${w.tr} · ${w.en}
+      uri       tiles/${w.id}/recitation.m4a`;
+  $("story").textContent = w.story;
+}
+function tap(){
+  const r = $("reader"); r.classList.add("live");
+  $("status").textContent = "Tag read";
+  const big = $("big"); big.classList.add("tapped"); setTimeout(() => big.classList.remove("tapped"), 220);
+}
+function renderRack(){
+  const rack = $("rack"); rack.innerHTML = "";
+  state.rack.forEach((id, i) => {
+    const w = byId(id);
+    const b = document.createElement("button"); b.type = "button"; b.id = `rack-${i}-${id}`;
+    b.setAttribute("aria-label", `Lift ${w.tr} off the rack`);
+    b.append(tileEl(w));
+    b.onclick = () => { state.rack.splice(i,1); renderRack(); };
+    rack.append(b);
+  });
+  const res = $("result");
+  const seq = state.rack.join(",");
+  const hit = PROVERBS.find(p => p.seq.join(",") === seq);
+  res.className = "result" + (hit ? " match" : "");
+  const sc = `script-${state.script}`;
+  if (hit){
+    res.innerHTML = `<div class="strip-label">Proverb recognized</div>
+      <div class="phrase ${sc}"><span class="word" lang="ar" style="font-size:inherit;transform:none;padding:0">${hit.ar}</span></div>
+      <div class="tr">${hit.tr}</div><div class="en">${hit.en}</div>`;
+    return;
+  }
+  const partial = PROVERBS.find(p => state.rack.length && p.seq.slice(0, state.rack.length).join(",") === seq);
+  if (partial){
+    const next = byId(partial.seq[state.rack.length]);
+    res.innerHTML = `<div class="strip-label">Keep going</div><div>Next tile for this phrase: <strong lang="ar">${next.ar}</strong> (${next.tr}, “${next.en}”).</div>`;
+  } else {
+    res.innerHTML = `<div class="strip-label">Try a phrase</div><div>Place <span lang="ar">الصبر · مفتاح · الفرج</span> for “Patience is the key to relief,” or <span lang="ar">العلم · نور</span> for “Knowledge is light.”</div>`;
+  }
+}
+function renderAll(){ renderControls(); renderTray(); renderInspector(); renderRack(); }
+
+$("place").onclick = () => { state.rack.push(state.sel); renderRack(); };
+$("clear").onclick = () => { state.rack = []; renderRack(); };
+$("speak").onclick = () => {
+  const w = byId(state.sel), note = $("voiceNote");
+  tap();
+  if (!("speechSynthesis" in window)){ note.hidden = false; note.textContent = `Audio isn’t available here. Say it: ${w.tr}.`; return; }
+  const voices = speechSynthesis.getVoices();
+  const v = voices.find(x => /^ar/i.test(x.lang));
+  if (!v){ note.hidden = false; note.textContent = `No Arabic voice is installed on this device. Say it: ${w.tr}.`; return; }
+  note.hidden = true;
+  const u = new SpeechSynthesisUtterance(w.ar); u.lang = v.lang; u.voice = v; u.rate = .8;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+};
+try { if ("speechSynthesis" in window) speechSynthesis.getVoices(); } catch(e){}
+renderAll();
+$("reader").classList.add("live"); $("status").textContent = "Tag read";
+</script>
+</body>
+</html>
