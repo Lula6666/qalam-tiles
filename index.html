@@ -158,6 +158,27 @@ button:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
 .foot{font-size:13px; color:var(--muted); margin:0; max-width:80ch}
 .foot a{color:var(--accent)}
 @media (prefers-reduced-motion: reduce){ .big .tile{transition:none} .hung{animation:none} }
+/* maker */
+.papers{display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:8px}
+@media (max-width:760px){ .papers{grid-template-columns:repeat(4,minmax(0,1fr))} }
+.papers button{all:unset; cursor:pointer; display:grid; gap:2px; justify-items:center; padding:4px; border-radius:6px}
+.papers button[aria-pressed="true"]{background:var(--page-2); outline:2px solid var(--gold)}
+.papers button:focus-visible{outline:2px solid var(--gold)}
+.paper{width:100%; aspect-ratio:1; display:grid; place-items:center; background:#f6ead0; border:1px solid #d9c39a; color:#1b1a17; box-shadow:1px 2px 0 rgba(0,0,0,.08)}
+.paper .word{font-size:var(--psize,22px); direction:rtl; line-height:1.1}
+.papers .gloss{font-size:12px; color:var(--muted)}
+.mk{display:grid; grid-template-columns:minmax(0,130px) auto minmax(0,110px) auto minmax(0,130px) minmax(0,1fr); gap:12px; align-items:center}
+@media (max-width:760px){ .mk{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr)} .mk-b{grid-column:1/-1} }
+.mk-c{display:grid; gap:4px; justify-items:center}
+.mk-t{width:100%; --wsize:30px}
+.mk-p{width:80%; --psize:28px}
+.mk-p.used{opacity:.25}
+.op{font-family:var(--display); font-size:26px; color:var(--gold)}
+.mk-b{display:grid; gap:8px; align-content:center}
+.just-pasted .face .word{animation:paste .6s ease-out}
+@keyframes paste{0%{transform:translateY(-60%) scale(1.2); opacity:0} 100%{transform:translateY(-10%)}}
+.tile.no-word .face .word{visibility:hidden}
+.edge-none{--edge:#a9824e}
 /* clips, 3D, tips */
 .sec-h{display:flex; flex-wrap:wrap; gap:12px 16px; align-items:flex-start; justify-content:space-between}
 .sec-h .t{display:grid; gap:4px; flex:1 1 300px; min-width:0}
@@ -187,39 +208,57 @@ a.btn{text-decoration:none; display:inline-flex}
   <header class="leaf head">
     <div class="band" aria-hidden="true"></div>
     <h1>Qalam Tiles <span class="ar" lang="ar">قلم</span></h1>
-    <p class="lede">Upcycled tiles that each carry one Arabic word in calligraphy. Set them on a paper folio to compose a proverb, then hang the folio on the frame, where everyone can see it and hear it read aloud.</p>
-    <div class="steps"><span><b>1</b>Pick a tile</span><span><b>2</b>Set it on your folio</span><span><b>3</b>Hang the folio</span></div>
+    <p class="lede">Make your own tiles: paste a printed Arabic word onto an upcycled blank. Hear each word, set the tiles on a paper folio to compose a proverb, then hang the folio on the frame, where everyone can see it and hear it read aloud.</p>
+    <div class="steps"><span><b>1</b>Make your tile</span><span><b>2</b>Hear it</span><span><b>3</b>Set it on your folio</span><span><b>4</b>Hang the folio</span></div>
     <div class="btns" style="justify-content:center"><button class="btn ghost" id="showTips" type="button">Show tips</button><a class="btn ghost" href="qalam-3d.html">Open the 3D walkthrough</a></div>
     <div class="band" aria-hidden="true"></div>
   </header>
 
   <section class="leaf" id="overview" aria-labelledby="ov-h">
     <div class="ov">
-      <video autoplay muted loop playsinline preload="metadata" aria-label="3D overview: four visitors pick tiles, set them on folios, and hang the folios on the frame"><source src="overview.mp4" type="video/mp4"><source src="overview.webm" type="video/webm"></video>
+      <video autoplay muted loop playsinline preload="metadata" aria-label="3D overview: four visitors make tiles, hear them, set them on folios, and hang the folios on the frame"><source src="overview.mp4" type="video/mp4"><source src="overview.webm" type="video/webm"></video>
       <div style="display:grid;gap:8px">
         <h2 id="ov-h">See it at the bench</h2>
-        <p class="sub">In an exhibit, a bench holds the tile trays and folios, and a frame stands beside it. Four visitors can work at once.</p>
-        <ol><li>Pick a tile and hear it</li><li>Set tiles on a folio, right to left</li><li>Hang the finished folio on the frame</li></ol>
+        <p class="sub">In an exhibit, a bench holds making kits, tile trays, and six folios, and a frame stands beside it. Many visitors can work at once.</p>
+        <ol><li>Make your tile: paste the word, add the edge</li><li>Hear it</li><li>Set tiles on a folio, right to left</li><li>Hang the finished folio on the frame</li></ol>
         <div><a class="btn" href="qalam-3d.html">Open the 3D walkthrough</a></div>
       </div>
     </div>
   </section>
 
-  <section class="leaf" aria-labelledby="bench-h">
-    <div class="sec-h"><div class="t"><h2 id="bench-h"><span class="ros">1</span>The bench</h2><p class="sub">Pick a tile from the tray. Its tag reads the word aloud.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: a child picks up a tile and hears it read aloud"><source src="step1.mp4" type="video/mp4"><source src="step1.webm" type="video/webm"></video><figcaption>At the bench</figcaption></figure></div>
-    <div class="controls" aria-label="Tile settings">
-      <div class="ctl"><span>Shape</span><div class="seg" id="shape"></div></div>
-      <div class="ctl"><span>Script</span><div class="seg" id="script"></div></div>
+  <section class="leaf" id="make" aria-labelledby="make-h">
+    <div class="sec-h"><div class="t"><h2 id="make-h"><span class="ros">1</span>Make your tile</h2><p class="sub">Choose a blank and a printed word paper, paste the paper on, then add the edge. Your choices stay with the tile you make.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: four visitors paste word papers onto blanks and add the edges"><source src="step1.mp4" type="video/mp4"><source src="step1.webm" type="video/webm"></video><figcaption>At the bench</figcaption></figure></div>
+    <div class="controls" aria-label="Choices for your tile">
+      <div class="ctl"><span>Blank shape</span><div class="seg" id="shape"></div></div>
       <div class="ctl"><span>Substrate</span><div class="seg" id="material"></div></div>
+      <div class="ctl"><span>Script on the paper</span><div class="seg" id="script"></div></div>
       <div class="ctl"><span>Edge</span><div class="seg" id="edge"></div></div>
     </div>
+    <div style="display:grid;gap:6px"><span class="k">Word papers · pick one</span><div class="papers" id="papers"></div></div>
+    <div class="mk">
+      <div class="mk-c"><span class="k">Blank</span><div class="mk-t" id="mkBlank"></div></div>
+      <span class="op" aria-hidden="true">+</span>
+      <div class="mk-c"><span class="k">Word paper</span><div class="mk-p" id="mkPaper"></div></div>
+      <span class="op" aria-hidden="true">=</span>
+      <div class="mk-c"><span class="k">Your tile</span><div class="mk-t" id="mkTile"></div></div>
+      <div class="mk-b">
+        <button class="btn" id="paste" type="button">Paste the paper</button>
+        <button class="btn" id="addEdge" type="button">Add the edge</button>
+        <p class="sub" id="mkNote" aria-live="polite"></p>
+        <button class="btn ghost" id="makeAll" type="button">Make all eight for me</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="leaf" id="hear" aria-labelledby="hear-h">
+    <div class="sec-h"><div class="t"><h2 id="hear-h"><span class="ros">2</span>Hear it</h2><p class="sub">Your tiles wait in the tray. Tap one to hold it. Its tag reads the word aloud.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: a child and a teen lift their tiles and hear the words"><source src="step2.mp4" type="video/mp4"><source src="step2.webm" type="video/webm"></video><figcaption>At the bench</figcaption></figure></div>
     <div class="bench">
       <div style="display:grid;gap:8px">
-        <span class="k">Tile tray</span>
+        <span class="k">Your tiles</span>
         <div class="tray" id="tray"></div>
         <div class="legend"><span><i style="background:var(--cat-virtue)"></i>virtue</span><span><i style="background:var(--cat-knowledge)"></i>knowledge</span><span><i style="background:var(--cat-object)"></i>object of the craft</span></div>
       </div>
-      <div style="display:grid;gap:10px">
+      <div style="display:grid;gap:10px" id="handWrap">
         <span class="k">Tile in hand</span>
         <div class="inspect"><div class="big" id="big"></div><div class="facts" id="facts"></div></div>
         <div class="strip" id="strip"></div>
@@ -234,7 +273,7 @@ a.btn{text-decoration:none; display:inline-flex}
   </section>
 
   <section class="leaf" aria-labelledby="folio-h">
-    <div class="sec-h"><div class="t"><h2 id="folio-h"><span class="ros">2</span>Your folio</h2><p class="sub">An ahar-paper card with one ruled line. Tap a tile on the line to lift it off.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: visitors set tiles on two folios at once"><source src="step2.mp4" type="video/mp4"><source src="step2.webm" type="video/webm"></video><figcaption>At the bench</figcaption></figure></div>
+    <div class="sec-h"><div class="t"><h2 id="folio-h"><span class="ros">3</span>Your folio</h2><p class="sub">An ahar-paper card with one ruled line. Tap a tile on the line to lift it off.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: visitors set tiles on two folios at once"><source src="step3.mp4" type="video/mp4"><source src="step3.webm" type="video/webm"></video><figcaption>At the bench</figcaption></figure></div>
     <div class="folio-wrap">
       <div class="folio" id="folio">
         <div class="line" id="line"></div>
@@ -250,7 +289,7 @@ a.btn{text-decoration:none; display:inline-flex}
   </section>
 
   <section class="leaf" aria-labelledby="frame-h">
-    <div class="sec-h"><div class="t"><h2 id="frame-h"><span class="ros">3</span>The hanging frame</h2><p class="sub">Finished folios hang on the cords. Tap one to hear it read aloud. Several visitors can fill folios at the same time, and the frame fills up together.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: two visitors hang their folios on the cord"><source src="step3.mp4" type="video/mp4"><source src="step3.webm" type="video/webm"></video><figcaption>At the frame</figcaption></figure></div>
+    <div class="sec-h"><div class="t"><h2 id="frame-h"><span class="ros">4</span>The hanging frame</h2><p class="sub">Finished folios hang on the cords. Tap one to hear it read aloud. Several visitors can fill folios at the same time, and the frame fills up together.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: two visitors hang their folios on the cord"><source src="step4.mp4" type="video/mp4"><source src="step4.webm" type="video/webm"></video><figcaption>At the frame</figcaption></figure></div>
     <div class="stall">
       <div class="awning" aria-hidden="true"></div><div class="scallop" aria-hidden="true"></div>
       <div class="posts"><div class="post"></div><div class="cords" id="cords"></div><div class="post"></div></div>
@@ -285,78 +324,112 @@ const OPTS = {
 };
 const SCRIPT_NAME = {kufi:"Kufic", naskh:"Naskh", ruqaa:"Ruqʿa"};
 const MAT_NAME = {ahar:"ahar paper on card", corr:"upcycled corrugated cardboard", board:"paperboard", cereal:"second-life cereal box"};
+const EDGE_NAME = {margin:"color margin", gold:"gold rim", wood:"popsicle stick"};
 const SLOTS = 8;
-const state = {shape:"hex", script:"naskh", material:"ahar", edge:"margin", sel:"sabr", line:["sabr","miftah","faraj"], hung:[]};
+// choices for the next tile; made tiles keep their own copy of the choices
+const state = {shape:"hex", script:"naskh", material:"ahar", edge:"margin", word:"sabr", stage:0, made:[], sel:null, line:[], hung:[]};
+let nextKey = 1;
 const byId = id => WORDS.find(w => w.id === id);
+const byKey = k => state.made.find(t => t.key === k);
 const catVar = c => `var(--cat-${c})`;
 const $ = id => document.getElementById(id);
 
-function tileEl(w){
-  const t = document.createElement("div");
-  t.className = `tile shape-${state.shape} mat-${state.material} script-${state.script}` + (state.edge === "wood" ? " edge-wood" : state.edge === "gold" ? " edge-gold" : "");
-  if (state.edge === "margin") t.style.setProperty("--edge", catVar(w.cat));
+// t: {id, shape, script, material, edge}; opts.noWord shows the bare blank; opts.noEdge shows a plain cardboard edge
+function tileEl(t, opts = {}){
+  const w = byId(t.id), edge = opts.noEdge ? "none" : t.edge, el = document.createElement("div");
+  el.className = `tile shape-${t.shape} mat-${t.material} script-${t.script}` + (edge === "wood" ? " edge-wood" : edge === "gold" ? " edge-gold" : edge === "none" ? " edge-none" : "") + (opts.noWord ? " no-word" : "");
+  if (edge === "margin") el.style.setProperty("--edge", catVar(w.cat));
   const f = document.createElement("div"); f.className = "face";
   const s = document.createElement("span"); s.className = "word"; s.lang = "ar"; s.textContent = w.ar;
   const n = document.createElement("span"); n.className = "nfc"; n.setAttribute("aria-hidden","true");
-  f.append(s, n); t.append(f);
-  t.setAttribute("role","img"); t.setAttribute("aria-label", `${w.tr}, ${w.en}`);
-  return t;
+  f.append(s, n); el.append(f);
+  el.setAttribute("role","img"); el.setAttribute("aria-label", opts.noWord ? "blank tile" : `${w.tr}, ${w.en}`);
+  return el;
 }
+const choice = () => ({id:state.word, shape:state.shape, script:state.script, material:state.material, edge:state.edge});
 function renderControls(){
   for (const [key, list] of Object.entries(OPTS)){
     const el = $(key); el.innerHTML = "";
     for (const [val, label] of list){
       const b = document.createElement("button"); b.type = "button";
       b.textContent = label; b.setAttribute("aria-pressed", String(state[key] === val));
-      b.onclick = () => { state[key] = val; renderAll(); };
+      b.onclick = () => { state[key] = val; state.stage = 0; renderControls(); renderPapers(); renderMaker(); };   // a new choice starts a new tile
       el.append(b);
     }
   }
 }
+function renderPapers(){
+  const box = $("papers"); box.innerHTML = "";
+  for (const w of WORDS){
+    const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-pressed", String(state.word === w.id));
+    b.setAttribute("aria-label", `Word paper ${w.tr}, ${w.en}`);
+    b.innerHTML = `<span class="paper script-${state.script}"><span class="word" lang="ar">${w.ar}</span></span><span class="gloss">${w.en}</span>`;
+    b.onclick = () => { state.word = w.id; state.stage = 0; renderPapers(); renderMaker(); };
+    box.append(b);
+  }
+}
+function renderMaker(justPasted){
+  const c = choice();
+  $("mkBlank").innerHTML = ""; $("mkBlank").append(tileEl(c, {noWord:true, noEdge:true}));
+  const pp = $("mkPaper"); pp.className = "mk-p" + (state.stage >= 1 ? " used" : "");
+  pp.innerHTML = `<span class="paper script-${c.script}"><span class="word" lang="ar">${byId(c.id).ar}</span></span>`;
+  const out = $("mkTile"); out.innerHTML = "";
+  const t = state.stage === 0 ? tileEl(c, {noWord:true, noEdge:true}) : tileEl(c, {noEdge: state.stage < 2});
+  if (justPasted) t.classList.add("just-pasted");
+  out.append(t);
+  $("paste").disabled = state.stage !== 0; $("addEdge").disabled = state.stage !== 1;
+  const w = byId(c.id);
+  $("mkNote").textContent = state.stage === 0 ? `Paste “${w.en}” onto the ${OPTS.shape.find(o => o[0] === c.shape)[1].toLowerCase()} blank.`
+    : state.stage === 1 ? `Pasted. Now add the ${EDGE_NAME[c.edge]}.` : `Done. ${w.tr} is in your tray below. Pick another word to make the next tile.`;
+}
 function renderTray(){
   const tray = $("tray"); tray.innerHTML = "";
-  for (const w of WORDS){
-    const b = document.createElement("button"); b.type = "button";
-    b.setAttribute("aria-current", String(state.sel === w.id));
-    b.setAttribute("aria-label", `Pick up ${w.tr}, ${w.en}`);
+  if (!state.made.length){ tray.innerHTML = `<p class="sub" style="grid-column:1/-1">Your tray is empty. Make a tile in step 1.</p>`; return; }
+  for (const t of state.made){
+    const w = byId(t.id), b = document.createElement("button"); b.type = "button";
+    b.setAttribute("aria-current", String(state.sel === t.key));
+    b.setAttribute("aria-label", `Hold ${w.tr}, ${w.en}`);
     const g = document.createElement("span"); g.className = "gloss"; g.textContent = w.en;
-    b.append(tileEl(w), g);
-    b.onclick = () => { state.sel = w.id; renderTray(); renderHand(); tap(); };
+    b.append(tileEl(t), g);
+    b.onclick = () => { state.sel = t.key; renderTray(); renderHand(); tap(); };
     tray.append(b);
   }
 }
 function renderHand(){
-  const w = byId(state.sel);
-  $("big").innerHTML = ""; $("big").append(tileEl(w));
-  $("facts").innerHTML = `<dl><dt>Say</dt><dd>${w.tr}</dd><dt>Means</dt><dd>${w.en}</dd><dt>Script</dt><dd>${SCRIPT_NAME[state.script]}</dd><dt>Made of</dt><dd>${MAT_NAME[state.material]}</dd></dl>`;
+  const t = byKey(state.sel), on = !!t;
+  $("speak").disabled = !on; $("place").disabled = !on;
+  if (!on){ $("big").innerHTML = ""; $("facts").innerHTML = `<p class="sub">Nothing in hand yet.</p>`; $("strip").innerHTML = ""; $("story").textContent = ""; $("status").textContent = "Waiting for a tile"; return; }
+  const w = byId(t.id);
+  $("big").innerHTML = ""; $("big").append(tileEl(t));
+  $("facts").innerHTML = `<dl><dt>Say</dt><dd>${w.tr}</dd><dt>Means</dt><dd>${w.en}</dd><dt>Script</dt><dd>${SCRIPT_NAME[t.script]}</dd><dt>Made of</dt><dd>${MAT_NAME[t.material]}</dd><dt>Edge</dt><dd>${EDGE_NAME[t.edge]}</dd></dl>`;
   const strip = $("strip");
-  strip.style.setProperty("--cat", state.edge === "margin" ? catVar(w.cat) : state.edge === "gold" ? "#b8892f" : "transparent");
+  strip.style.setProperty("--cat", t.edge === "margin" ? catVar(w.cat) : t.edge === "gold" ? "#b8892f" : "transparent");
   strip.innerHTML = `<span class="bandc"></span><span class="txt"><span class="ar" lang="ar">${w.ar}</span><span>${w.tr}</span><span>“${w.en}”</span><span>· ${w.cat}</span></span>`;
-  $("story").style.setProperty("--cat", catVar(w.cat));
-  $("story").textContent = w.story;
+  $("story").style.setProperty("--cat", catVar(w.cat)); $("story").textContent = w.story;
 }
 function tap(){ const big = $("big"); big.classList.add("tapped"); setTimeout(() => big.classList.remove("tapped"), 220); $("status").textContent = "Tag read"; }
-const match = () => PROVERBS.find(p => p.seq.join(",") === state.line.join(","));
+const lineIds = () => state.line.map(k => byKey(k).id);
+const match = () => PROVERBS.find(p => p.seq.join(",") === lineIds().join(","));
 function renderFolio(){
   const line = $("line"); line.innerHTML = "";
-  state.line.forEach((id, i) => {
-    const w = byId(id), b = document.createElement("button"); b.type = "button";
-    b.setAttribute("aria-label", `Lift ${w.tr} off the folio`); b.append(tileEl(w));
+  state.line.forEach((k, i) => {
+    const t = byKey(k), w = byId(t.id), b = document.createElement("button"); b.type = "button";
+    b.setAttribute("aria-label", `Lift ${w.tr} off the folio`); b.append(tileEl(t));
     b.onclick = () => { state.line.splice(i,1); renderFolio(); };
     line.append(b);
   });
-  const hit = match(), res = $("result"), sc = `script-${state.script}`;
+  const hit = match(), res = $("result");
   $("folio").classList.toggle("lit", !!hit);
   $("hang").disabled = !hit || state.hung.length >= SLOTS;
   $("speakLine").disabled = !state.line.length;
   if (hit){
-    res.innerHTML = `<div class="phrase ${sc}"><span class="word" lang="ar" style="font-size:inherit;transform:none;padding:0">${hit.ar}</span></div><div class="tr">${hit.tr}</div><div class="en">${hit.en}</div>`;
+    res.innerHTML = `<div class="phrase script-naskh"><span class="word" lang="ar" style="font-size:inherit;transform:none;padding:0">${hit.ar}</span></div><div class="tr">${hit.tr}</div><div class="en">${hit.en}</div>`;
     $("hangNote").textContent = state.hung.length >= SLOTS ? "The frame is full. Take some folios down first." : "The line is complete. Hang it on the frame.";
     return;
   }
   $("hangNote").textContent = "A finished proverb can be hung on the frame.";
-  const partial = state.line.length && PROVERBS.find(p => p.seq.slice(0, state.line.length).join(",") === state.line.join(","));
-  if (partial){ const n = byId(partial.seq[state.line.length]); res.innerHTML = `<div class="hint">Keep going. Next tile: <strong lang="ar" style="font-family:var(--naskh);font-size:18px">${n.ar}</strong> (${n.tr}, “${n.en}”).</div>`; }
+  const ids = lineIds(), partial = ids.length && PROVERBS.find(p => p.seq.slice(0, ids.length).join(",") === ids.join(","));
+  if (partial){ const n = byId(partial.seq[ids.length]); res.innerHTML = `<div class="hint">Keep going. Next tile: <strong lang="ar" style="font-family:var(--naskh);font-size:18px">${n.ar}</strong> (${n.tr}, “${n.en}”).${state.made.some(t => t.id === n.id) ? "" : " Make it in step 1."}</div>`; }
   else res.innerHTML = `<div class="hint">Try <span lang="ar" style="font-family:var(--naskh);font-size:18px">الصبر · مفتاح · الفرج</span> for “Patience is the key to relief,” or <span lang="ar" style="font-family:var(--naskh);font-size:18px">العلم · نور</span> for “Knowledge is light.” Start from the right.</div>`;
 }
 function renderFrame(){
@@ -376,7 +449,7 @@ function renderFrame(){
   }
   $("frameCount").textContent = state.hung.length ? `${state.hung.length} of ${SLOTS} pegs filled` : "No folios hung yet";
 }
-function renderAll(){ renderControls(); renderTray(); renderHand(); renderFolio(); renderFrame(); }
+function renderAll(){ renderControls(); renderPapers(); renderMaker(); renderTray(); renderHand(); renderFolio(); renderFrame(); }
 
 function say(text, tr){
   const note = $("voiceNote");
@@ -387,14 +460,21 @@ function say(text, tr){
   const u = new SpeechSynthesisUtterance(text); u.lang = v.lang; u.voice = v; u.rate = .8;
   speechSynthesis.cancel(); speechSynthesis.speak(u);
 }
-$("speak").onclick = () => { const w = byId(state.sel); tap(); say(w.ar, w.tr); };
-$("place").onclick = () => { state.line.push(state.sel); renderFolio(); };
+function addMade(c){ const t = {...c, key: nextKey++}; state.made.push(t); return t; }
+$("paste").onclick = () => { if (state.stage !== 0) return; state.stage = 1; renderMaker(true); };
+$("addEdge").onclick = () => { if (state.stage !== 1) return; state.stage = 2; const t = addMade(choice()); state.sel = t.key; renderMaker(); renderTray(); renderHand(); };
+$("makeAll").onclick = () => { const have = new Set(state.made.map(t => t.id)); WORDS.forEach(w => { if (!have.has(w.id)) addMade({...choice(), id:w.id}); });
+  if (!state.sel) state.sel = state.made[0].key; state.stage = 2; renderMaker(); renderTray(); renderHand(); $("mkNote").textContent = "All eight words are in your tray below."; };
+$("speak").onclick = () => { const t = byKey(state.sel); if (!t) return; const w = byId(t.id); tap(); say(w.ar, w.tr); };
+$("place").onclick = () => { if (!state.sel || state.line.includes(state.sel)) { if (state.sel) $("hangNote").textContent = "That tile is already on the folio. Make another copy in step 1 if you need it."; return; } state.line.push(state.sel); renderFolio(); };
 $("clear").onclick = () => { state.line = []; renderFolio(); };
-$("speakLine").onclick = () => { const ws = state.line.map(byId); if (ws.length) say(ws.map(w => w.ar).join(" "), ws.map(w => w.tr).join(" ")); };
+$("speakLine").onclick = () => { const ws = lineIds().map(byId); if (ws.length) say(ws.map(w => w.ar).join(" "), ws.map(w => w.tr).join(" ")); };
 $("hang").onclick = () => {
   const hit = match(); if (!hit || state.hung.length >= SLOTS) return;
-  state.hung.push({p: PROVERBS.indexOf(hit), script: state.script});
-  state.line = []; renderFolio(); renderFrame();
+  state.hung.push({p: PROVERBS.indexOf(hit), script: byKey(state.line[0]).script});
+  // the tiles go up with the folio, so they leave the tray
+  state.made = state.made.filter(t => !state.line.includes(t.key)); if (!byKey(state.sel)) state.sel = state.made[0]?.key ?? null;
+  state.line = []; renderTray(); renderHand(); renderFolio(); renderFrame();
 };
 $("takeDown").onclick = () => { state.hung = []; renderFrame(); renderFolio(); };
 try { if ("speechSynthesis" in window) speechSynthesis.getVoices(); } catch(e){}
@@ -402,13 +482,15 @@ renderAll();
 
 /* ---------- tips tour ---------- */
 const TIPS = [
-  {el: () => document.querySelector(".steps"), title: "Three steps", body: "Pick a tile, set it on your folio, then hang the folio. That is the whole idea."},
-  {el: () => $("overview"), title: "See it at the bench", body: "This clip shows four visitors doing it together. Open the 3D walkthrough to watch each step up close."},
-  {el: () => $("tray"), title: "1 · Pick a tile", body: "Each tile carries one Arabic word. The rim color shows its group: virtue, knowledge, or object of the craft."},
-  {el: () => $("speak"), title: "Hear it", body: "Every tile has an NFC tag. Tap Hear it to listen to the word, the way the tag would play it."},
-  {el: () => $("place"), title: "2 · Set it on your folio", body: "Put the tile in hand on your folio. Arabic reads right to left, so the first word goes on the right."},
-  {el: () => $("folio"), title: "Finish the line", body: "When the proverb is right, the gold rule lights up and its meaning appears. Tap a tile to lift it off."},
-  {el: () => $("hang"), title: "3 · Hang the folio", body: "A finished folio can be hung on the frame."},
+  {el: () => document.querySelector(".steps"), title: "Four steps", body: "Make your tile, hear it, set it on your folio, then hang the folio."},
+  {el: () => $("overview"), title: "See it at the bench", body: "This clip shows visitors doing it together. Open the 3D walkthrough to watch each step up close."},
+  {el: () => document.querySelector("#make .controls"), title: "1 · Choose", body: "Pick the blank’s shape and material, the script printed on the paper, and the edge."},
+  {el: () => $("papers"), title: "Pick a word paper", body: "Each paper carries one Arabic word. Choose the word for your tile."},
+  {el: () => $("paste"), title: "Paste, then add the edge", body: "Paste the paper onto the blank, then add the edge. The tile goes into your tray."},
+  {el: () => $("tray"), title: "2 · Hear it", body: "Tap a tile to hold it, then tap Hear it. On a real tile, the NFC tag plays the word."},
+  {el: () => $("place"), title: "3 · Set it on your folio", body: "Arabic reads right to left, so the first word goes on the right."},
+  {el: () => $("folio"), title: "Finish the line", body: "When the proverb is right, the gold rule lights up and its meaning appears."},
+  {el: () => $("hang"), title: "4 · Hang the folio", body: "A finished folio can be hung on the frame."},
   {el: () => $("cords"), title: "The shared frame", body: "Everyone’s folios hang here side by side. Tap one to hear the whole proverb."}
 ];
 let tipIdx = -1, ring = null, card = null;
