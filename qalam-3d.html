@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qalam Tiles 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Marcellus&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one 3D stage (bench table plus a hanging frame) with step buttons and a three-column caption below, sized to fit one screen. */
+:root{
+  --bg:#f3ead8; --page:#fbf4e4; --ink:#2b1d0e; --muted:#6f5a3c; --line:#d9c39a; --gold:#b8892f; --gold-2:#e2b04f;
+  --accent:#7a5326; --accent-ink:#fbf4e4; --scene:#efe4cf;
+  --display:"Marcellus", Georgia, serif; --body:"IBM Plex Sans", system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#1b140c; --page:#2a2016; --ink:#f1e6cf; --muted:#c3ad88; --line:#4f3d26; --gold:#d9ad5a; --gold-2:#e8c06c; --accent:#e2b04f; --accent-ink:#1b140c; --scene:#2b2219; color-scheme:dark; }
+}
+:root[data-theme="dark"]{ --bg:#1b140c; --page:#2a2016; --ink:#f1e6cf; --muted:#c3ad88; --line:#4f3d26; --gold:#d9ad5a; --gold-2:#e8c06c; --accent:#e2b04f; --accent-ink:#1b140c; --scene:#2b2219; color-scheme:dark; }
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:15px; line-height:1.5}
+.wrap{max-width:1080px; margin:0 auto; padding-inline:clamp(16px,4vw,32px); padding-block:10px 24px; display:grid; gap:8px}
+.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+h1{font-family:var(--display); font-weight:400; font-size:clamp(22px,3vw,30px); margin:0; line-height:1.1}
+h1 .ar{font-family:"Amiri", serif; font-weight:700; color:var(--gold)}
+.lede{margin:0; color:var(--muted); font-size:14px}
+.lede a{color:var(--accent)}
+.stage{position:relative; border-radius:8px; overflow:hidden; border:1px solid var(--line); outline:1px solid var(--gold); outline-offset:-5px; background:var(--scene); height:clamp(240px, calc(100vh - 340px), 500px)}
+.stage canvas{display:block; width:100%; height:100%}
+.hint3d{position:absolute; inset-inline-end:10px; bottom:8px; font-size:12px; color:var(--muted); background:var(--page); border:1px solid var(--line); padding:3px 8px; border-radius:6px}
+.steps{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.btn{font:inherit; font-size:14px; font-weight:500; border:1px solid var(--accent); background:transparent; color:var(--accent); padding:6px 12px; border-radius:6px; cursor:pointer; display:inline-flex; gap:7px; align-items:center}
+.btn .n{display:inline-grid; place-items:center; width:20px; height:20px; border-radius:50%; background:var(--gold-2); color:#2b1d0e; font-size:12px; font-weight:700}
+.btn[aria-pressed="true"], .btn.solid{background:var(--accent); color:var(--accent-ink)}
+.btn:disabled{opacity:.5; cursor:default}
+:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.cap{background:var(--page); border:1px solid var(--line); border-radius:8px; padding:10px 14px; display:grid; gap:6px}
+.cap h2{font-family:var(--display); font-weight:400; font-size:19px; margin:0}
+.cols{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
+@media (max-width:760px){ .cols{grid-template-columns:minmax(0,1fr)} }
+.col{background:var(--bg); border-radius:6px; padding:8px 10px; font-size:14px}
+.col .k{font-family:var(--mono); font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--muted)}
+.col p{margin:4px 0 0}
+html.clip body{background:#efe4cf}
+html.clip .wrap{padding:0; max-width:none; gap:0}
+html.clip .wrap > :not(.stage){display:none}
+html.clip .stage{border:0; outline:0; border-radius:0; width:100vw; height:100vh}
+html.clip .hint3d{display:none}
+</style>
+<script>if (/[?&]clip=/.test(location.search)) document.documentElement.classList.add("clip");</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Qalam Tiles · 3D walkthrough</div>
+  <h1>The bench and the hanging frame <span class="ar" lang="ar">قلم</span></h1>
+  <p class="lede">Four visitors share one bench. They pick word tiles, set them on paper folios to compose proverbs, then hang the folios on the frame. <a href="index.html">Back to the tiles</a></p>
+
+  <div class="stage" id="stage"><span class="hint3d">Drag to look around · scroll to zoom</span></div>
+
+  <div class="steps" role="group" aria-label="Steps">
+    <button class="btn solid" id="playAll" type="button">Play all</button>
+    <button class="btn" type="button" data-s="1" aria-pressed="false"><span class="n">1</span>Pick and hear</button>
+    <button class="btn" type="button" data-s="2" aria-pressed="false"><span class="n">2</span>Set on the folio</button>
+    <button class="btn" type="button" data-s="3" aria-pressed="false"><span class="n">3</span>Hang the folio</button>
+    <button class="btn" id="resetAll" type="button">Reset</button>
+  </div>
+
+  <section class="cap" aria-live="polite">
+    <h2 id="capH">Press a step</h2>
+    <div class="cols">
+      <div class="col"><span class="k">Hands on</span><p id="capT">Each step shows what visitors do with their hands.</p></div>
+      <div class="col"><span class="k">Together</span><p id="capW">Four visitors, two on each side of the bench, work at the same time.</p></div>
+      <div class="col"><span class="k">What happens</span><p id="capS">Each tile has an NFC tag, so a phone or the bench reader can say the word aloud.</p></div>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const stage = $("stage");
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const V = (x,y,z) => new THREE.Vector3(x,y,z);
+
+/* ---------- scene ---------- */
+const renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.shadowMap.enabled = true;
+stage.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(40, 16/9, 0.05, 30);
+const HOME = {p:[0.0, 2.6, 3.4], t:[0.85, 0.85, 0]};
+camera.position.set(...HOME.p);
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.target.set(...HOME.t); controls.enableDamping = true; controls.minDistance = 0.5; controls.maxDistance = 8; controls.maxPolarAngle = Math.PI*0.49;
+function setBg(){ scene.background = new THREE.Color(css("--scene") || "#efe4cf"); }
+setBg(); matchMedia("(prefers-color-scheme: dark)").addEventListener("change", setBg);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8170, 0.8));
+const sun = new THREE.DirectionalLight(0xffffff, 0.7); sun.position.set(1.4, 3.6, 1.8); sun.castShadow = true;
+sun.shadow.mapSize.set(1024,1024); Object.assign(sun.shadow.camera, {left:-2.5, right:2.5, top:2.5, bottom:-2.5}); scene.add(sun);
+
+const M = (c, o={}) => new THREE.MeshStandardMaterial(Object.assign({color:c, roughness:.8}, o));
+const add = (geo, mat, pos, parent=scene) => { const m = new THREE.Mesh(geo, mat); m.position.set(...pos); m.castShadow = m.receiveShadow = true; parent.add(m); return m; };
+function canvasTex(w, h, draw){
+  const c = document.createElement("canvas"); c.width = w; c.height = h; const g = c.getContext("2d");
+  const t = new THREE.CanvasTexture(c); t.anisotropy = 4;
+  const api = {c, g, t, redraw(fn){ g.clearRect(0,0,w,h); fn(g,w,h); t.needsUpdate = true; }};
+  if (draw) api.redraw(draw); return api;
+}
+const F = (wgt, px, fam="IBM Plex Sans, sans-serif") => `${wgt} ${px}px ${fam}`;
+
+const floor = add(new THREE.CircleGeometry(4.5, 48), M(0xcdbfa6), [0.8,0,0]); floor.rotation.x = -Math.PI/2;
+const TOP = 0.75;
+add(new THREE.BoxGeometry(1.64, 0.04, 0.84), M(0xd8c39b), [0, TOP-0.02, 0]);
+[[-.76,-.38],[.76,-.38],[-.76,.38],[.76,.38]].forEach(([x,z]) => add(new THREE.CylinderGeometry(.024,.024,TOP-0.04,12), M(0x8f6d40), [x,(TOP-0.04)/2,z]));
+
+/* ---------- words and proverbs (same as the website) ---------- */
+const WORDS = {
+  sabr:{ar:"الصبر", tr:"aṣ-ṣabr", en:"patience", cat:"virtue"}, miftah:{ar:"مفتاح", tr:"miftāḥ", en:"key", cat:"object"},
+  faraj:{ar:"الفرج", tr:"al-faraj", en:"relief", cat:"virtue"}, ilm:{ar:"العلم", tr:"al-ʿilm", en:"knowledge", cat:"knowledge"},
+  nur:{ar:"نور", tr:"nūr", en:"light", cat:"knowledge"}, qalam:{ar:"قلم", tr:"qalam", en:"pen", cat:"object"},
+  waraq:{ar:"ورق", tr:"waraq", en:"paper", cat:"object"}, kitab:{ar:"كتاب", tr:"kitāb", en:"book", cat:"knowledge"}
+};
+const PROVERBS = [
+  {seq:["sabr","miftah","faraj"], ar:"الصبر مفتاح الفرج", tr:"aṣ-ṣabru miftāḥu l-faraj", en:"Patience is the key to relief."},
+  {seq:["ilm","nur"], ar:"العلم نور", tr:"al-ʿilmu nūr", en:"Knowledge is light."}
+];
+const CAT = {virtue:0x1f5aa6, knowledge:0xb8892f, object:0x2f7d7a};
+
+/* ---------- tile trays and tiles ---------- */
+const TR = 0.03;
+add(new THREE.BoxGeometry(0.4, 0.012, 0.085), M(0xa9824e), [-0.25, TOP+0.006, 0.31]);
+add(new THREE.BoxGeometry(0.4, 0.012, 0.085), M(0xa9824e), [0.25, TOP+0.006, -0.31]);
+const TILE_Y = TOP + 0.012 + 0.0065;
+function wordTex(ar){ return canvasTex(256, 256, (g,w,h) => {
+  g.fillStyle = "#1b1a17"; g.textAlign = "center"; g.textBaseline = "middle"; g.direction = "rtl";
+  let px = 120; g.font = F(700, px, "Amiri, serif"); const m = g.measureText(ar).width; if (m > 200){ px = Math.floor(px*200/m); g.font = F(700, px, "Amiri, serif"); }
+  g.fillText(ar, w/2, h/2 + 6); }); }
+const tiles = {}, texs = [];
+function makeTile(id, x, z, back){
+  const w = WORDS[id], g = new THREE.Group(); g.position.set(x, TILE_Y, z); g.rotation.y = back ? Math.PI : 0; scene.add(g);
+  add(new THREE.CylinderGeometry(TR, TR, 0.013, 6), M(CAT[w.cat], {roughness:.6}), [0,0,0], g);
+  add(new THREE.CylinderGeometry(TR*0.8, TR*0.8, 0.0135, 6), M(0xf3e3bd, {roughness:.7}), [0,0,0], g);
+  const T = wordTex(w.ar); texs.push(() => T.redraw((gg,ww,hh) => { const t2 = wordTex(w.ar); gg.drawImage(t2.c, 0, 0); }));
+  const p = add(new THREE.PlaneGeometry(0.046, 0.046), new THREE.MeshBasicMaterial({map:T.t, transparent:true}), [0, 0.0072, 0], g); p.rotation.x = -Math.PI/2; p.castShadow = false;
+  g.userData = {home: g.position.clone(), back};
+  tiles[id] = g; return g;
+}
+["sabr","miftah","faraj","qalam"].forEach((id,i) => makeTile(id, -0.395 + i*0.097, 0.31, false));
+["ilm","nur","waraq","kitab"].forEach((id,i) => makeTile(id, 0.395 - i*0.097, -0.31, true));
+
+/* ---------- folios ---------- */
+const FW = 0.3, FD = 0.2;
+function folioDraw(Fo){ return (g,w,h) => {
+  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h);
+  g.strokeStyle = "#b8892f"; g.lineWidth = 8; g.strokeRect(10,10,w-20,h-20); g.lineWidth = 2; g.strokeRect(24,24,w-48,h-48);
+  g.strokeStyle = "#7a5326"; g.lineWidth = 3; g.beginPath(); g.arc(w/2, 44, 9, 0, 7); g.stroke();
+  const hit = PROVERBS.find(p => p.seq.join(",") === Fo.words.join(","));
+  g.strokeStyle = hit ? "#e2b04f" : "#b8892f"; g.lineWidth = hit ? 10 : 3; g.beginPath(); g.moveTo(50, 262); g.lineTo(w-50, 262); g.stroke();
+  if (hit){ g.fillStyle = "#6f5a3c"; g.textAlign = "center"; g.font = F(400, 26, "Marcellus, serif"); g.fillText(hit.tr, w/2, 312); g.fillStyle = "#2b1d0e"; g.font = F(400, 32, "Marcellus, serif"); g.fillText(hit.en, w/2, 356); }
+}; }
+function makeFolio(x, z, back){
+  const g = new THREE.Group(); g.position.set(x, TOP+0.0015, z); g.rotation.order = "YXZ"; g.rotation.y = back ? Math.PI : 0; scene.add(g);
+  const Fo = {g, back, words:[], home:g.position.clone()};
+  Fo.tex = canvasTex(600, 400, folioDraw(Fo));
+  const p = add(new THREE.PlaneGeometry(FW, FD), new THREE.MeshStandardMaterial({map:Fo.tex.t, roughness:.9}), [0,0,0], g); p.rotation.x = -Math.PI/2;
+  const bk = add(new THREE.PlaneGeometry(FW, FD), M(0xead9b4, {roughness:.95}), [0,-0.0005,0], g); bk.rotation.x = Math.PI/2;   // plain back of the folio
+  Fo.redraw = () => Fo.tex.redraw(folioDraw(Fo));
+  return Fo;
+}
+const folioF = makeFolio(-0.05, 0.11, false), folioB = makeFolio(0.05, -0.11, true);
+// slot i on a folio, in world space: first word at the visitor's right (reads right to left)
+function slotPos(Fo, i){ const local = V(0.1 - i*0.1, 0.0081, (262/400 - 0.5)*FD - 0.022); return Fo.g.localToWorld(local); }
+
+/* ---------- hanging frame (market stall) ---------- */
+const FX = 1.75, CORD_Y = 1.5;
+[[FX-0.62],[FX+0.62]].forEach(([x]) => add(new THREE.CylinderGeometry(0.025, 0.03, 2.05, 12), M(0x7a5326), [x, 1.025, 0]));
+add(new THREE.BoxGeometry(1.36, 0.06, 0.08), M(0x7a5326), [FX, 2.05, 0]);
+add(new THREE.BoxGeometry(1.4, 0.03, 0.5), M(0xb5532e), [FX, 2.1, 0]);
+for (let i = 0; i < 14; i++){ [-1,1].forEach(s => { const m = add(new THREE.CylinderGeometry(0.05, 0.05, 0.012, 16, 1, false, 0, Math.PI), M(0xb5532e), [FX-0.65+i*0.1, 2.06, s*0.25]); m.rotation.x = Math.PI/2; m.rotation.z = s > 0 ? 0 : Math.PI; }); }
+[CORD_Y, 1.05].forEach(y => { const c = add(new THREE.CylinderGeometry(0.004, 0.004, 1.24, 6), M(0x3b2a14), [FX, y, 0]); c.rotation.z = Math.PI/2; });
+const PEGS = [FX-0.42, FX-0.14, FX+0.14, FX+0.42];
+[CORD_Y, 1.05].forEach(y => PEGS.forEach(x => add(new THREE.BoxGeometry(0.014, 0.04, 0.02), M(0xc99a5b), [x, y-0.008, 0])));
+add(new THREE.BoxGeometry(1.36, 0.05, 0.3), M(0x7a5326), [FX, 0.025, 0]);
+
+/* ---------- reader rings: the word is read aloud ---------- */
+function soundRings(pos){
+  [0, 260, 520].forEach(d => setTimeout(() => {
+    const r = add(new THREE.TorusGeometry(0.03, 0.003, 8, 32), new THREE.MeshBasicMaterial({color:0xe2b04f, transparent:true}), [pos.x, pos.y, pos.z]);
+    r.rotation.x = Math.PI/2; r.castShadow = false;
+    tween(900, t => { r.scale.setScalar(1 + t*2.4); r.material.opacity = 1 - t; }).then(() => scene.remove(r));
+  }, d));
+}
+
+/* ---------- people ---------- */
+function makePerson(h, shirt, pants, x, z, faceBack){
+  const s = h/1.7, P = {s};
+  const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = faceBack ? 0 : Math.PI; scene.add(g); g.updateMatrixWorld(true); P.g = g;
+  const skin = M(0xc68e6a), hair = M(0x2b1d14);
+  [-1,1].forEach(k => add(new THREE.CylinderGeometry(.055*s,.05*s,.8*s,12), M(pants), [k*.08*s, .4*s, 0], g));
+  add(new THREE.CylinderGeometry(.16*s,.14*s,.62*s,16), M(shirt), [0, 1.11*s, 0], g);
+  const head = new THREE.Group(); head.position.set(0, 1.56*s, 0); g.add(head);
+  add(new THREE.SphereGeometry(.11*s, 20, 16), skin, [0,0,0], head);
+  add(new THREE.SphereGeometry(.115*s, 20, 16, 0, Math.PI*2, 0, Math.PI*.55), hair, [0,.01*s,-.01*s], head);
+  [-1,1].forEach(k => add(new THREE.SphereGeometry(.014*s, 8, 8), M(0x1b1b1b), [k*.04*s, .02*s, .1*s], head));
+  P.head = head;
+  const shoulderPos = sh => g.localToWorld(sh.userData.local.clone()); P.shoulderPos = shoulderPos;
+  P.arms = [-1,1].map(k => {
+    const sh = new THREE.Group(); scene.add(sh); sh.userData.local = V(k*.2*s, 1.38*s, 0);
+    const arm = add(new THREE.CylinderGeometry(.035*s, .03*s, 1, 10), M(shirt), [0,0,0.5], sh); arm.rotation.x = Math.PI/2;
+    const hand = new THREE.Group(); hand.position.set(0, 0, 1); sh.add(hand);
+    add(new THREE.SphereGeometry(.034*s, 12, 10), skin, [0, 0, .01*s], hand).scale.set(1.15, .55, 1.1);
+    for (let f = 0; f < 4; f++){ const fg = add(new THREE.CylinderGeometry(.0075*s, .0065*s, .045*s, 6), skin, [(-.021 + f*.014)*s, -.004*s, .052*s], hand); fg.rotation.x = Math.PI/2 + .25; }
+    const th = add(new THREE.CylinderGeometry(.008*s, .007*s, .035*s, 6), skin, [k*.034*s, 0, .022*s], hand); th.rotation.x = Math.PI/2; th.rotation.y = k*.7;
+    const A = {sh, arm, hand, follow:null, rest: () => g.localToWorld(V(k*.24*s, .76*s, .05*s))};
+    A.cur = A.rest(); A.from = A.cur.clone(); A.to = A.cur.clone(); A.t0 = 0; A.dur = 1; return A;
+  });
+  P.look = V(0, TOP, 0); P.lookTo = P.look.clone();
+  P.reach = 0.92*s; P.home = g.position.clone();
+  return P;
+}
+const P1 = makePerson(1.68, 0x2b5c9e, 0x2f3542, 0.3, 0.7);            // adult, front
+const P2 = makePerson(1.22, 0xe0a030, 0x4a5568, -0.36, 0.56);          // child, front
+const P3 = makePerson(1.5, 0xc2410c, 0x3f3f46, -0.3, -0.62, true);     // teen, back
+const P4 = makePerson(1.74, 0x2f7d7a, 0x2f3542, 0.3, -0.7, true);      // adult, back
+const people = [P1, P2, P3, P4];
+const armOf = (P, side) => P.arms[side === "L" ? 0 : 1];
+function reach(P, side, target, dur=850){ const A = armOf(P, side); A.follow = null; A.restMode = !target; A.from = A.cur.clone(); A.to = target ? target.clone() : A.rest(); A.t0 = performance.now(); A.dur = dur; }
+function restAll(P, dur=600){ ["L","R"].forEach(sd => reach(P, sd, null, dur)); }
+function look(P, v){ P.lookTo = v.clone(); }
+function nearSide(P, v){ return P.shoulderPos(P.arms[0].sh).distanceTo(v) < P.shoulderPos(P.arms[1].sh).distanceTo(v) ? "L" : "R"; }
+
+/* ---------- walking, with room between people ---------- */
+function canReach(P, target){ return Math.min(P.shoulderPos(P.arms[0].sh).distanceTo(target), P.shoulderPos(P.arms[1].sh).distanceTo(target)) <= P.reach; }
+const GAP = 0.46;
+function roomFor(P, x, side){
+  for (let i = 0; i < 3; i++){
+    people.forEach(Q => { if (Q === P || Math.sign(Q.g.position.z) !== side || Q.g.position.x > 1.0) return;
+      if (Math.abs(x - Q.g.position.x) < GAP) x = Q.g.position.x + (P.home.x >= Q.home.x ? GAP : -GAP); });
+  }
+  return Math.max(-0.78, Math.min(0.78, x));
+}
+function standFor(P, target){
+  const side = Math.sign(P.home.z) || 1, edge = 0.5 + 0.14*P.s;
+  let x = Math.max(-0.72, Math.min(0.72, target.x + (P.home.x > target.x ? 0.12 : -0.12)));
+  return V(roomFor(P, x, side), 0, side*edge);
+}
+async function walkTo(P, to, speed=0.7){
+  const from = P.g.position.clone(), d = from.distanceTo(to); if (d < 0.01) return;
+  await tween(Math.max(450, d/speed*1000), k => { const e = ease(k); P.g.position.lerpVectors(from, to, e); P.g.position.y = Math.abs(Math.sin(k*Math.PI*Math.max(2, Math.round(d*6))))*0.015; P.g.updateMatrixWorld(true); });
+  P.g.position.y = 0; P.g.updateMatrixWorld(true);
+}
+async function approach(P, target){ if (!canReach(P, target)){ look(P, target); await walkTo(P, standFor(P, target)); } }
+
+/* ---------- tweens ---------- */
+const tweens = [];
+const tween = (dur, fn) => new Promise(res => tweens.push({t0:performance.now(), dur, fn, res}));
+const ease = t => t<.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+const wait = ms => new Promise(r => setTimeout(r, ms));
+let cam = null;
+function camGo(p, t, dur=1400){ cam = {fp:camera.position.clone(), ft:controls.target.clone(), tp:V(...p), tt:V(...t), t0:performance.now(), dur}; }
+
+// pick up a tile, lift it to look at it, and hear it read aloud
+async function pickAndHear(P, id){
+  const T = tiles[id]; await approach(P, T.position);
+  const side = nearSide(P, T.position), A = armOf(P, side);
+  look(P, T.position); reach(P, side, T.position.clone().add(V(0,0.02,0)), 800); await wait(820);
+  A.follow = T; const from = T.position.clone(), up = P.g.localToWorld(V(0, 1.12*P.s, 0.32*P.s));
+  look(P, up); await tween(900, t => T.position.lerpVectors(from, up, ease(t)));
+  soundRings(T.position.clone()); await wait(1300);
+  return {T, A, side};
+}
+// set a held (or tray) tile on the next slot of a folio
+async function setTile(P, id, Fo, held){
+  const T = tiles[id], i = Fo.words.length, to = slotPos(Fo, i);
+  let A, side;
+  if (held){ ({A, side} = held); }
+  else { await approach(P, T.position); side = nearSide(P, T.position); A = armOf(P, side);
+    look(P, T.position); reach(P, side, T.position.clone().add(V(0,0.02,0)), 800); await wait(820); A.follow = T; }
+  await approach(P, to);
+  look(P, to); const from = T.position.clone();
+  await tween(1000, t => { T.position.lerpVectors(from, to, ease(t)); T.position.y += Math.sin(t*Math.PI)*0.05; });
+  A.follow = null; reach(P, side, null, 700);
+  Fo.g.attach(T); Fo.words.push(id); Fo.redraw();
+}
+// carry a finished folio to the frame and hang it on a peg
+async function hangFolio(P, Fo, pegX, cordY){
+  await approach(P, Fo.g.position);
+  const sideZ = Math.sign(P.home.z), side = nearSide(P, Fo.g.position), A = armOf(P, side);
+  look(P, Fo.g.position); reach(P, side, Fo.g.position.clone().add(V(0,0.02,0)), 800); await wait(820);
+  A.follow = Fo.g;
+  const p0 = Fo.g.position.clone(), lift = p0.clone().add(V(0, 0.28, 0));
+  await tween(700, t => { Fo.g.position.lerpVectors(p0, lift, ease(t)); Fo.g.rotation.x = ease(t)*Math.PI/4; });
+  const stand = V(pegX + (sideZ > 0 ? -0.05 : 0.05), 0, sideZ*0.5), pFrom = P.g.position.clone(), d = pFrom.distanceTo(stand);
+  const carryAt = V(pegX, cordY - 0.12, sideZ*0.22);
+  look(P, V(pegX, cordY, 0));
+  await tween(Math.max(1200, d/0.65*1000), k => { const e = ease(k);
+    P.g.position.lerpVectors(pFrom, stand, e); P.g.position.y = Math.abs(Math.sin(k*Math.PI*Math.max(2, Math.round(d*6))))*0.015; P.g.updateMatrixWorld(true);
+    Fo.g.position.lerpVectors(lift, carryAt, e); Fo.g.rotation.x = Math.PI/4 + e*Math.PI/4; });
+  P.g.position.y = 0; P.g.updateMatrixWorld(true);
+  const hangAt = V(pegX, cordY - FD/2 - 0.012, sideZ*0.012);
+  await tween(800, t => Fo.g.position.lerpVectors(carryAt, hangAt, ease(t)));
+  A.follow = null; reach(P, side, null, 700);
+  await tween(900, t => Fo.g.rotation.z = Math.sin(t*Math.PI*3)*0.06*(1-t));
+  Fo.g.rotation.z = 0;
+}
+
+/* ---------- state ---------- */
+function resetAll(){
+  [folioF, folioB].forEach(Fo => { Fo.g.position.copy(Fo.home); Fo.g.rotation.set(0, Fo.back ? Math.PI : 0, 0); Fo.words = []; Fo.redraw(); });
+  Object.values(tiles).forEach(T => { scene.attach(T); T.position.copy(T.userData.home); T.rotation.set(0, T.userData.back ? Math.PI : 0, 0); });
+  people.forEach(P => { P.arms.forEach(A => A.follow = null); P.g.position.copy(P.home); P.g.updateMatrixWorld(true); restAll(P, 300); look(P, V(0, TOP, 0)); });
+}
+function place(Fo, ids){ ids.forEach(id => { const T = tiles[id]; T.position.copy(slotPos(Fo, Fo.words.length)); Fo.g.attach(T); Fo.words.push(id); }); Fo.redraw(); }
+function applyDone(n){ if (n >= 1){ place(folioF, ["sabr"]); place(folioB, ["ilm"]); } if (n >= 2){ place(folioF, ["miftah","faraj"]); place(folioB, ["nur"]); } }
+
+const CAP = {
+  1:["1 · Pick a tile and hear it",
+     "A child picks up الصبر and holds it near the reader at the bench. At the back, a teen picks up العلم. Each word is read aloud.",
+     "Each side of the bench has its own tile tray, so two people can pick tiles at the same time.",
+     "The NFC tag in each tile plays the word. The child sets it at the start of the line, on the right, because Arabic reads right to left."],
+  2:["2 · Set the tiles on the folio",
+     "At the front, an adult adds مفتاح and the child adds الفرج. At the back, an adult adds نور.",
+     "There are two folios, one for each side, so two proverbs grow at once without anyone waiting.",
+     "When a line is right, its gold rule lights up and the meaning appears: “Patience is the key to relief.” and “Knowledge is light.”"],
+  3:["3 · Hang the folio",
+     "Two visitors carry their finished folios to the frame and hang them on the cord.",
+     "The frame is shared. Everyone’s folios hang side by side, and it fills up through the day.",
+     "Tapping a hung folio plays the whole proverb, the way the old odes were recited aloud."]
+};
+function caption(n){ const c = CAP[n]; $("capH").textContent = c[0]; $("capT").textContent = c[1]; $("capW").textContent = c[2]; $("capS").textContent = c[3]; }
+async function step1(){
+  caption(1); camGo([-1.25, 1.9, 1.0], [-0.05, 0.8, 0]);
+  const [a, b] = await Promise.all([ pickAndHear(P2, "sabr"), pickAndHear(P3, "ilm") ]);
+  await Promise.all([ setTile(P2, "sabr", folioF, a), setTile(P3, "ilm", folioB, b) ]);
+  await wait(500);
+}
+async function step2(){
+  caption(2); camGo([-1.1, 2.1, 0.9], [0, 0.76, 0]);
+  await Promise.all([ setTile(P1, "miftah", folioF), setTile(P4, "nur", folioB) ]);
+  await setTile(P2, "faraj", folioF);
+  await wait(900);
+}
+async function step3(){
+  caption(3); camGo([0.6, 2.0, 3.0], [1.1, 1.0, 0]);
+  await Promise.all([ hangFolio(P1, folioF, PEGS[0], CORD_Y), hangFolio(P4, folioB, PEGS[2], CORD_Y) ]);
+  await wait(900);
+}
+const STEPS = [null, step1, step2, step3];
+let busy = false;
+function lock(on){ busy = on; document.querySelectorAll(".steps .btn").forEach(b => b.disabled = on); }
+async function run(list){ if (busy) return; lock(true); try { for (const n of list){ document.querySelectorAll("[data-s]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.s === n))); await STEPS[n](); await wait(300); } } finally { lock(false); } }
+function prepare(n){ resetAll(); applyDone(n-1); }
+document.querySelectorAll("[data-s]").forEach(b => b.onclick = () => { if (busy) return; const n = +b.dataset.s; prepare(n); run([n]); });
+$("playAll").onclick = () => { if (busy) return; resetAll(); run([1,2,3]); };
+$("resetAll").onclick = () => { if (busy) return; resetAll(); camGo(HOME.p, HOME.t);
+  document.querySelectorAll("[data-s]").forEach(b => b.setAttribute("aria-pressed","false"));
+  $("capH").textContent = "Press a step"; $("capT").textContent = "Each step shows what visitors do with their hands."; $("capW").textContent = "Four visitors, two on each side of the bench, work at the same time."; $("capS").textContent = "Each tile has an NFC tag, so a phone or the bench reader can say the word aloud."; };
+
+/* ---------- clip mode: ?clip=N records step N close up; ?clip=0 is the overview ---------- */
+const CLIP = (() => { const m = location.search.match(/[?&]clip=(\d+)/); return m ? +m[1] : null; })();
+const CLOSE = { 1:[[-0.85, 1.4, 0.55], [-0.1, 0.85, 0.05]], 2:[[-0.7, 1.5, 0.4], [0, 0.76, 0]], 3:[[2.6, 1.55, 1.45], [1.55, 1.2, 0]] };
+if (CLIP !== null){
+  renderer.setPixelRatio(1); camGo = () => {};
+  const base = caption; caption = n => { base(n); if (CLIP > 0){ camera.position.set(...CLOSE[n][0]); controls.target.set(...CLOSE[n][1]); } };
+  window.__clipReady = false; window.__clipDone = false;
+  setTimeout(async () => {
+    if (CLIP === 0){ resetAll(); camera.position.set(-0.9, 2.3, 2.9); controls.target.set(0.85, 0.85, 0); controls.autoRotate = true; controls.autoRotateSpeed = 1.2;
+      window.__clipReady = true; await step1(); await step2(); await step3(); await wait(500); }
+    else { prepare(CLIP); caption(CLIP); await wait(500); window.__clipReady = true; await STEPS[CLIP](); await wait(400); }
+    window.__clipDone = true;
+  }, 1500);
+}
+
+/* ---------- loop ---------- */
+function frame(now){
+  for (let i = tweens.length-1; i >= 0; i--){ const w = tweens[i], t = Math.min(1, (now - w.t0)/w.dur); w.fn(t); if (t >= 1){ tweens.splice(i,1); w.res(); } }
+  if (cam){ const t = Math.min(1, (now - cam.t0)/cam.dur), e = ease(t); camera.position.lerpVectors(cam.fp, cam.tp, e); controls.target.lerpVectors(cam.ft, cam.tt, e); if (t >= 1) cam = null; }
+  people.forEach(P => {
+    P.look.lerp(P.lookTo, 0.08);
+    const hp = P.head.getWorldPosition(V(0,0,0));
+    const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(P.look, hp, V(0,1,0)));
+    P.head.quaternion.copy(P.g.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(q));
+    P.arms.forEach(A => {
+      if (A.follow) A.cur.copy(A.follow.getWorldPosition(V(0,0,0))).add(V(0, 0.018, 0));
+      else { if (A.restMode) A.to = A.rest();   // a resting arm hangs at the side, even while the person walks
+        const t = Math.min(1, (now - A.t0)/A.dur); A.cur.lerpVectors(A.from, A.to, ease(t)); }
+      const sp = P.shoulderPos(A.sh); A.sh.position.copy(sp);
+      const len = Math.max(0.05, Math.min(P.reach, sp.distanceTo(A.cur))); A.sh.lookAt(A.cur); A.arm.scale.set(1, len, 1); A.arm.position.z = len/2; A.hand.position.z = Math.max(0.05, len - 0.05*P.s);
+    });
+  });
+  controls.update(); renderer.render(scene, camera); requestAnimationFrame(frame);
+}
+function resize(){ const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix(); }
+new ResizeObserver(resize).observe(stage); resize();
+document.fonts && document.fonts.ready.then(() => { texs.forEach(f => f()); [folioF, folioB].forEach(Fo => Fo.redraw()); });
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
