@@ -54,17 +54,19 @@ html.clip .hint3d{display:none}
 <body>
 <div class="wrap">
   <div class="eyebrow">Qalam Tiles · 3D walkthrough</div>
-  <h1>The bench and the hanging frame <span class="ar" lang="ar">قلم</span></h1>
-  <p class="lede">Four visitors share one bench with six folios. They make their own word tiles, hear them, set them on folios to compose proverbs, then hang the folios on the frame. <a href="index.html">Back to the tiles</a></p>
+  <h1>The craft table and the wall frame <span class="ar" lang="ar">قلم</span></h1>
+  <p class="lede">A six-sided craft table seats six, each with their own kit tray, so nobody waits in line. Visitors choose a proverb, make one of its words as a tile, scan it, finish the proverb with tiles from neighbors and the word library, hang it on the wall frame, and take home a card with their name. <a href="index.html">Back to the tiles</a></p>
 
   <div class="stage" id="stage"><span class="hint3d">Drag to look around · scroll to zoom</span></div>
 
   <div class="steps" role="group" aria-label="Steps">
     <button class="btn solid" id="playAll" type="button">Play all</button>
-    <button class="btn" type="button" data-s="1" aria-pressed="false"><span class="n">1</span>Make your tile</button>
-    <button class="btn" type="button" data-s="2" aria-pressed="false"><span class="n">2</span>Hear it</button>
-    <button class="btn" type="button" data-s="3" aria-pressed="false"><span class="n">3</span>Set on the folio</button>
-    <button class="btn" type="button" data-s="4" aria-pressed="false"><span class="n">4</span>Hang the folio</button>
+    <button class="btn" type="button" data-s="1" aria-pressed="false"><span class="n">1</span>Choose a proverb</button>
+    <button class="btn" type="button" data-s="2" aria-pressed="false"><span class="n">2</span>Make your tile</button>
+    <button class="btn" type="button" data-s="3" aria-pressed="false"><span class="n">3</span>Scan it</button>
+    <button class="btn" type="button" data-s="4" aria-pressed="false"><span class="n">4</span>Finish the proverb</button>
+    <button class="btn" type="button" data-s="5" aria-pressed="false"><span class="n">5</span>Hang the folio</button>
+    <button class="btn" type="button" data-s="6" aria-pressed="false"><span class="n">6</span>Take a gift</button>
     <button class="btn" id="resetAll" type="button">Reset</button>
   </div>
 
@@ -72,8 +74,17 @@ html.clip .hint3d{display:none}
     <h2 id="capH">Press a step</h2>
     <div class="cols">
       <div class="col"><span class="k">Hands on</span><p id="capT">Each step shows what visitors do with their hands.</p></div>
-      <div class="col"><span class="k">Together</span><p id="capW">Four visitors, two on each side of the bench, work at the same time.</p></div>
-      <div class="col"><span class="k">What happens</span><p id="capS">Each tile has an NFC tag, so a phone or the bench reader can say the word aloud.</p></div>
+      <div class="col"><span class="k">Together</span><p id="capW">Six seats, each with a full kit tray. Shared supplies sit on a turntable in the middle.</p></div>
+      <div class="col"><span class="k">What happens</span><p id="capS">Each word sticker carries a small QR code. The seat screen shows the word, and any phone can play it aloud.</p></div>
+    </div>
+  </section>
+
+  <section class="cap" aria-labelledby="legend-h">
+    <h2 id="legend-h">What’s on the table</h2>
+    <div class="cols legend3">
+      <div class="col"><span class="k">At each of the six seats</span><p>A kit tray with a word sticker sheet, a tracing card, a pencil, and a glue stick. Next to it: three proverb cards, a small seat screen, and a folio.</p></div>
+      <div class="col"><span class="k">On the turntable in the middle</span><p>Shared bins of blanks in four shapes, stacks of four papers, three edge rolls, glue, pencils, and the word library: tiles made earlier, reused all day.</p></div>
+      <div class="col"><span class="k">Around the table</span><p>The example board on the easel shows how a tile is made and the finished shapes. The carved wall frame holds up to 50 folios. The gift printer makes name cards.</p></div>
     </div>
   </section>
 </div>
@@ -92,15 +103,15 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.shadowMap.enable
 stage.prepend(renderer.domElement);
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(40, 16/9, 0.05, 30);
-const HOME = {p:[0.0, 2.6, 3.4], t:[0.85, 0.85, 0]};
+const HOME = {p:[1.2, 2.7, 3.4], t:[0.2, 0.9, -0.6]};
 camera.position.set(...HOME.p);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.target.set(...HOME.t); controls.enableDamping = true; controls.minDistance = 0.5; controls.maxDistance = 8; controls.maxPolarAngle = Math.PI*0.49;
+controls.target.set(...HOME.t); controls.enableDamping = true; controls.minDistance = 0.5; controls.maxDistance = 9; controls.maxPolarAngle = Math.PI*0.49;
 function setBg(){ scene.background = new THREE.Color(css("--scene") || "#efe4cf"); }
 setBg(); matchMedia("(prefers-color-scheme: dark)").addEventListener("change", setBg);
 scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8170, 0.8));
-const sun = new THREE.DirectionalLight(0xffffff, 0.7); sun.position.set(1.4, 3.6, 1.8); sun.castShadow = true;
-sun.shadow.mapSize.set(1024,1024); Object.assign(sun.shadow.camera, {left:-2.5, right:2.5, top:2.5, bottom:-2.5}); scene.add(sun);
+const sun = new THREE.DirectionalLight(0xffffff, 0.7); sun.position.set(1.6, 3.8, 2.2); sun.castShadow = true;
+sun.shadow.mapSize.set(1024,1024); Object.assign(sun.shadow.camera, {left:-3, right:3, top:3, bottom:-3}); scene.add(sun);
 
 const M = (c, o={}) => new THREE.MeshStandardMaterial(Object.assign({color:c, roughness:.8}, o));
 const add = (geo, mat, pos, parent=scene) => { const m = new THREE.Mesh(geo, mat); m.position.set(...pos); m.castShadow = m.receiveShadow = true; parent.add(m); return m; };
@@ -111,67 +122,153 @@ function canvasTex(w, h, draw){
   if (draw) api.redraw(draw); return api;
 }
 const F = (wgt, px, fam="IBM Plex Sans, sans-serif") => `${wgt} ${px}px ${fam}`;
+const redrawers = [];   // re-run canvas drawings once the web fonts arrive
 
-const floor = add(new THREE.CircleGeometry(4.5, 48), M(0xcdbfa6), [0.8,0,0]); floor.rotation.x = -Math.PI/2;
-const TOP = 0.75;
-add(new THREE.BoxGeometry(1.64, 0.04, 0.84), M(0xd8c39b), [0, TOP-0.02, 0]);
-[[-.76,-.38],[.76,-.38],[-.76,.38],[.76,.38]].forEach(([x,z]) => add(new THREE.CylinderGeometry(.024,.024,TOP-0.04,12), M(0x8f6d40), [x,(TOP-0.04)/2,z]));
+const floor = add(new THREE.PlaneGeometry(9, 7), M(0xcdbfa6), [0.2, 0, -0.4]); floor.rotation.x = -Math.PI/2;
+const wall = add(new THREE.PlaneGeometry(9, 3.2), M(0xe6d8bd, {roughness:.95}), [0.2, 1.6, -1.9]);
+
+/* ---------- the six-sided craft table ---------- */
+const TOP = 0.75, HR = 0.86, AP = HR*Math.cos(Math.PI/6);    // hexagon radius and apothem
+add(new THREE.CylinderGeometry(HR, HR, 0.04, 6), M(0xd8c39b), [0, TOP-0.02, 0]);
+for (let k = 0; k < 6; k++){ const a = k*Math.PI/3; add(new THREE.CylinderGeometry(.024,.024,TOP-0.04,12), M(0x8f6d40), [Math.sin(a)*0.7, (TOP-0.04)/2, Math.cos(a)*0.7]); }
+const SEAT = k => Math.PI/6 + k*Math.PI/3;                    // the six sides face 30°, 90°, ... from +z
+const radial = (phi, r) => V(Math.sin(phi)*r, 0, Math.cos(phi)*r);
+const tang = (phi, d) => V(Math.cos(phi)*d, 0, -Math.sin(phi)*d);
+const at = (phi, r, d=0, y=TOP) => radial(phi, r).add(tang(phi, d)).setY(y);
 
 /* ---------- words and proverbs (same as the website) ---------- */
 const WORDS = {
-  sabr:{ar:"الصبر", tr:"aṣ-ṣabr", en:"patience", cat:"virtue"}, miftah:{ar:"مفتاح", tr:"miftāḥ", en:"key", cat:"object"},
+  sabr:{ar:"الصبر", tr:"aṣ-ṣabr", en:"patience", cat:"virtue"}, miftah:{ar:"مفتاح", tr:"miftāḥ", en:"key", cat:"everyday"},
   faraj:{ar:"الفرج", tr:"al-faraj", en:"relief", cat:"virtue"}, ilm:{ar:"العلم", tr:"al-ʿilm", en:"knowledge", cat:"knowledge"},
-  nur:{ar:"نور", tr:"nūr", en:"light", cat:"knowledge"}, qalam:{ar:"قلم", tr:"qalam", en:"pen", cat:"object"},
-  waraq:{ar:"ورق", tr:"waraq", en:"paper", cat:"object"}, kitab:{ar:"كتاب", tr:"kitāb", en:"book", cat:"knowledge"}
+  nur:{ar:"نور", tr:"nūr", en:"light", cat:"knowledge"}, khayr:{ar:"خير", tr:"khayr", en:"best", cat:"virtue"},
+  jalis:{ar:"جليس", tr:"jalīs", en:"companion", cat:"everyday"}, zaman:{ar:"في الزمان", tr:"fī z-zamān", en:"in time", cat:"everyday"},
+  kitab:{ar:"كتاب", tr:"kitāb", en:"book", cat:"knowledge"}
 };
 const PROVERBS = [
   {seq:["sabr","miftah","faraj"], ar:"الصبر مفتاح الفرج", tr:"aṣ-ṣabru miftāḥu l-faraj", en:"Patience is the key to relief."},
-  {seq:["ilm","nur"], ar:"العلم نور", tr:"al-ʿilmu nūr", en:"Knowledge is light."}
+  {seq:["ilm","nur"], ar:"العلم نور", tr:"al-ʿilmu nūr", en:"Knowledge is light."},
+  {seq:["khayr","jalis","zaman","kitab"], ar:"خير جليس في الزمان كتاب", tr:"khayru jalīsin fī z-zamāni kitāb", en:"The best companion in time is a book."}
 ];
-const CAT = {virtue:0x1f5aa6, knowledge:0xb8892f, object:0x2f7d7a};
+const CAT = {virtue:0x1f5aa6, knowledge:0xb8892f, everyday:0x2f7d7a};
 
-/* ---------- tiles: a blank shape with a printed word paper pasted on top ---------- */
+/* ---------- word stickers (with a small QR code) and tiles ---------- */
 const TR = 0.03, KRAFT = 0xc9a878;
-const TILE_Y = TOP + 0.0065;
-function wordTex(ar){ return canvasTex(256, 256, (g,w,h) => {
+function qrMark(g, x, y, sz){   // a picture of a QR code: three corner squares and a few dots
+  const n = 11, c = sz/n; g.fillStyle = "#fff"; g.fillRect(x - c, y - c, sz + 2*c, sz + 2*c); g.fillStyle = "#1b1a17";
+  const finder = (fx, fy) => { g.fillRect(x + fx*c, y + fy*c, 4*c, 4*c); g.fillStyle = "#fff"; g.fillRect(x + (fx+1)*c, y + (fy+1)*c, 2*c, 2*c); g.fillStyle = "#1b1a17"; g.fillRect(x + (fx+1.5)*c, y + (fy+1.5)*c, c, c); };
+  finder(0, 0); finder(7, 0); finder(0, 7);
+  [[5,1],[5,3],[6,5],[8,5],[10,6],[5,6],[7,7],[9,8],[5,9],[7,10],[10,10],[9,10],[6,8],[1,5],[3,5]].forEach(([q, r]) => g.fillRect(x + q*c, y + r*c, c, c));
+}
+function stickerDraw(ar){ return (g,w,h) => {
   g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = "#d9c39a"; g.lineWidth = 6; g.strokeRect(3,3,w-6,h-6);
   g.fillStyle = "#1b1a17"; g.textAlign = "center"; g.textBaseline = "middle"; g.direction = "rtl";
-  let px = 120; g.font = F(700, px, "Amiri, serif"); const m = g.measureText(ar).width; if (m > 200){ px = Math.floor(px*200/m); g.font = F(700, px, "Amiri, serif"); }
-  g.fillText(ar, w/2, h/2 + 6); }); }
-const tiles = {}, papers = {}, texs = [];
-// a word paper: a small printed square, ready to paste
-function makePaper(id, x, z, back){
-  const w = WORDS[id], T = wordTex(w.ar), g = new THREE.Group(); g.position.set(x, TOP + 0.0012, z); g.rotation.y = back ? Math.PI : 0; scene.add(g);
-  texs.push(() => { const t2 = wordTex(w.ar); T.redraw(gg => gg.drawImage(t2.c, 0, 0)); });
+  let px = 110; g.font = F(700, px, "Amiri, serif"); const m = g.measureText(ar).width; if (m > 200){ px = Math.floor(px*200/m); g.font = F(700, px, "Amiri, serif"); }
+  g.fillText(ar, w/2, h/2 - 14); qrMark(g, w/2 - 21, h - 62, 42);
+}; }
+const tiles = {}, papers = {};
+function makePaper(id, pos, rotY){
+  const w = WORDS[id], T = canvasTex(256, 256, stickerDraw(w.ar)), g = new THREE.Group(); g.position.copy(pos).setY(TOP + 0.0012); g.rotation.y = rotY; scene.add(g);
+  redrawers.push(() => T.redraw(stickerDraw(w.ar)));
   const p = add(new THREE.PlaneGeometry(0.04, 0.04), new THREE.MeshStandardMaterial({map:T.t, roughness:.9}), [0,0,0], g); p.rotation.x = -Math.PI/2; p.castShadow = false;
-  g.userData = {home:g.position.clone(), back}; papers[id] = g; return g;
+  g.userData = {home:g.position.clone(), rotY}; papers[id] = g; return g;
 }
-// a blank tile: cardboard rim and face; the rim takes the group color when the edge is added
-function makeBlank(id, x, z, back){
-  const g = new THREE.Group(); g.position.set(x, TILE_Y, z); g.rotation.y = back ? Math.PI : 0; scene.add(g);
+function makeBlank(id, pos, rotY, y=TOP+0.0065){
+  const g = new THREE.Group(); g.position.copy(pos).setY(y); g.rotation.y = rotY; scene.add(g);
   const rim = add(new THREE.CylinderGeometry(TR, TR, 0.013, 6), M(KRAFT, {roughness:.8}), [0,0,0], g);
   add(new THREE.CylinderGeometry(TR*0.82, TR*0.82, 0.0135, 6), M(0xd9c09a, {roughness:.85}), [0,0,0], g);
-  g.userData = {home:g.position.clone(), back, rim, id}; tiles[id] = g; return g;
+  g.userData = {home:g.position.clone(), rotY, rim, id}; tiles[id] = g; return g;
 }
-function pasteNow(id){ const T = tiles[id], P = papers[id]; P.position.copy(T.position).add(V(0, 0.0072, 0)); T.attach(P); P.rotation.set(0,0,0); P.position.set(0, 0.0072, 0); }
+function pasteNow(id){ const T = tiles[id], P = papers[id]; T.attach(P); P.rotation.set(0,0,0); P.position.set(0, 0.0072, 0); }
 function edgeNow(id){ tiles[id].userData.rim.material.color.setHex(CAT[WORDS[id].cat]); }
-// each visitor has a small kit in front of them: a blank on the left, the word paper on the right
-const KITS = [  // [person index, word, x, z, back]
-  [1, "sabr",  -0.36, 0.31, false], [0, "miftah", 0.3, 0.31, false],
-  [2, "ilm",   -0.3, -0.31, true],  [3, "nur",    0.3, -0.31, true]
-];
-KITS.forEach(([pi, id, x, z, back]) => { makeBlank(id, x - (back ? -0.055 : 0.055), z, back); makePaper(id, x + (back ? -0.055 : 0.055), z, back); });
-// tiles made earlier by other visitors wait in a tray at each end
-add(new THREE.BoxGeometry(0.1, 0.012, 0.2), M(0xa9824e), [-0.7, TOP+0.006, 0.26]);
-add(new THREE.BoxGeometry(0.1, 0.012, 0.2), M(0xa9824e), [0.7, TOP+0.006, -0.26]);
-[["faraj",-0.7,0.31,false],["qalam",-0.7,0.21,false],["waraq",0.7,-0.31,true],["kitab",0.7,-0.21,true]].forEach(([id,x,z,back]) => {
-  makeBlank(id, x, z, back); tiles[id].position.y = TOP + 0.012 + 0.0065; tiles[id].userData.home = tiles[id].position.clone();
-  makePaper(id, x, z, back); pasteNow(id); edgeNow(id); tiles[id].userData.ready = true;
-});
-// a glue pot on each side
-[[ -0.05, 0.33], [0.05, -0.33]].forEach(([x,z]) => { add(new THREE.CylinderGeometry(0.018, 0.02, 0.04, 16), M(0xf2f2f0, {roughness:.4}), [x, TOP+0.02, z]); add(new THREE.CylinderGeometry(0.02, 0.02, 0.008, 16), M(0x2f7d7a), [x, TOP+0.044, z]); });
 
-/* ---------- folios ---------- */
+/* ---------- kit trays: one at every seat, so six people can make tiles at once ---------- */
+// the personal kit tray at every seat: a word sticker sheet, a tracing card, a pencil, and a glue stick
+function sheetDraw(g, w, h){
+  g.fillStyle = "#ffffff"; g.fillRect(0,0,w,h); g.strokeStyle = "#d3d1c7"; g.lineWidth = 3; g.strokeRect(1,1,w-2,h-2);
+  const ids = Object.keys(WORDS); g.textAlign = "center"; g.textBaseline = "middle"; g.direction = "rtl";
+  for (let r = 0; r < 9; r++) for (let c = 0; c < 3; c++){ const x = 14 + c*80, y = 10 + r*26; g.fillStyle = "#f6ead0"; g.fillRect(x, y, 72, 22);
+    g.fillStyle = "#1b1a17"; g.font = F(700, 15, ["Reem Kufi, serif","Amiri, serif","Aref Ruqaa, serif"][c]); g.fillText(WORDS[ids[r]].ar, x + 36, y + 12); }
+}
+function traceDraw(g, w, h){
+  g.fillStyle = "#f3e3bd"; g.fillRect(0,0,w,h); g.strokeStyle = "#b8892f"; g.lineWidth = 4; g.strokeRect(2,2,w-4,h-4);
+  g.setLineDash([5, 6]); g.strokeStyle = "#8a7f6d"; g.lineWidth = 2; g.textAlign = "center"; g.textBaseline = "middle"; g.direction = "rtl"; g.font = F(700, 90, "Amiri, serif"); g.strokeText("نور", w/2, h/2 + 6);
+}
+const SHEET = canvasTex(256, 250, sheetDraw), TRACE = canvasTex(256, 190, traceDraw);
+redrawers.push(() => SHEET.redraw(sheetDraw), () => TRACE.redraw(traceDraw));
+function kitTray(phi){
+  const g = new THREE.Group(); g.position.copy(at(phi, 0.6, 0, TOP + 0.004)); g.rotation.y = phi; scene.add(g);
+  add(new THREE.BoxGeometry(0.3, 0.008, 0.12), M(0xa9824e), [0,0,0], g);
+  add(new THREE.PlaneGeometry(0.1, 0.098), new THREE.MeshStandardMaterial({map:SHEET.t, roughness:.9}), [-0.085, 0.0045, -0.005], g).rotation.x = -Math.PI/2;   // sticker sheet
+  add(new THREE.PlaneGeometry(0.09, 0.067), new THREE.MeshStandardMaterial({map:TRACE.t, roughness:.9}), [0.035, 0.0045, -0.02], g).rotation.x = -Math.PI/2;   // tracing card
+  add(new THREE.CylinderGeometry(0.009, 0.009, 0.05, 14), M(0xf2f2f0, {roughness:.4}), [0.12, 0.029, -0.02], g);                                           // glue stick
+  add(new THREE.CylinderGeometry(0.0095, 0.0095, 0.012, 14), M(0x2f7d7a), [0.12, 0.058, -0.02], g);
+  const pc = add(new THREE.CylinderGeometry(0.0035, 0.0035, 0.12, 6), M(0xe2b04f), [0.03, 0.009, 0.042], g); pc.rotation.z = Math.PI/2; g.userData.pencil = pc;   // pencil
+  return g;
+}
+const SEATS = [0,1,2,3,4,5].map(SEAT);
+const trays = SEATS.map(phi => kitTray(phi));
+function pcardDraw(p){ return (g,w,h) => {
+  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = "#b8892f"; g.lineWidth = 8; g.strokeRect(6,6,w-12,h-12);
+  g.fillStyle = "#1b1a17"; g.textAlign = "center"; g.direction = "rtl"; g.font = F(700, p.ar.length > 14 ? 34 : 44, "Amiri, serif"); g.fillText(p.ar, w/2, 120);
+  g.direction = "ltr"; g.fillStyle = "#2b1d0e"; g.font = F(400, 22, "Marcellus, serif");
+  const words = p.en.split(" "); let line = "", y = 180; words.forEach(wd => { if ((line + wd).length > 18){ g.fillText(line, w/2, y); y += 28; line = ""; } line += wd + " "; }); g.fillText(line, w/2, y);
+  qrMark(g, w/2 - 24, h - 80, 48);
+}; }
+const PCARD = PROVERBS.map(p => { const T = canvasTex(240, 320, pcardDraw(p)); redrawers.push(() => T.redraw(pcardDraw(p))); return T; });
+// each seat has a small screen that reads the QR code and shows the word; the sound plays on the visitor's own phone
+function screenDraw(id){ return (g,w,h) => {
+  g.fillStyle = id ? "#f6ead0" : "#20302c"; g.fillRect(0,0,w,h);
+  if (!id){ g.fillStyle = "#9fd8c8"; g.textAlign = "center"; g.font = F(500, 28); g.fillText("Scan a tile", w/2, h/2); return; }
+  const wd = WORDS[id] || {ar:id.ar, tr:id.tr, en:id.en};
+  g.fillStyle = "#1b1a17"; g.textAlign = "center"; g.direction = "rtl"; g.font = F(700, wd.ar.length > 8 ? 54 : 84, "Amiri, serif"); g.fillText(wd.ar, w/2, h*0.42);
+  g.direction = "ltr"; g.fillStyle = "#6f5a3c"; g.font = F(400, 30, "Marcellus, serif"); g.fillText(wd.tr, w/2, h*0.64); g.fillStyle = "#2b1d0e"; g.font = F(500, 30); g.fillText(wd.en, w/2, h*0.8);
+}; }
+const scanners = [], cards = [];
+SEATS.forEach((phi, k) => {
+  const sc = new THREE.Group(); sc.position.copy(at(phi, 0.67, 0.21, TOP)); sc.rotation.y = phi; scene.add(sc);
+  add(new THREE.BoxGeometry(0.05, 0.012, 0.05), M(0x6b4a24), [0, 0.006, 0], sc);
+  const scr = add(new THREE.BoxGeometry(0.11, 0.15, 0.008), M(0x2c2c2a, {roughness:.4}), [0, 0.08, 0.01], sc); scr.rotation.x = -0.35;
+  const ST = canvasTex(320, 420, screenDraw(null)); const face = add(new THREE.PlaneGeometry(0.095, 0.13), new THREE.MeshBasicMaterial({map:ST.t}), [0, 0.081, 0.0155], sc); face.rotation.x = -0.35;
+  sc.userData = {show: id => ST.redraw(screenDraw(id))}; redrawers.push(() => ST.redraw(screenDraw(null)));
+  scanners.push(sc);
+  // a small stand with the three proverb cards
+  const st = new THREE.Group(); st.position.copy(at(phi, 0.66, -0.22, TOP)); st.rotation.y = phi; scene.add(st);
+  add(new THREE.BoxGeometry(0.12, 0.02, 0.04), M(0x6b4a24), [0, 0.01, 0], st);
+  const cs = PROVERBS.map((p, i) => { const c = new THREE.Group(); c.position.set(-0.035 + i*0.035, 0.05, 0.005 - i*0.004); c.rotation.x = -0.25; st.add(c);
+    add(new THREE.BoxGeometry(0.06, 0.08, 0.002), [M(0xf6ead0), M(0xf6ead0), M(0xf6ead0), M(0xf6ead0), new THREE.MeshStandardMaterial({map:PCARD[i].t}), M(0xf6ead0)], [0,0,0], c);
+    c.userData = {home:c.position.clone(), rot:c.rotation.clone(), parent:st}; return c; });
+  cards.push(cs);
+});
+// the four visitors: front-right, front-left, back-left, back-right. Two seats stay free with their kits.
+const VIS = [
+  {seat:0, h:1.68, shirt:0x2b5c9e, pants:0x2f3542, word:"miftah"},   // P1 adult
+  {seat:5, h:1.22, shirt:0xe0a030, pants:0x4a5568, word:"sabr"},     // P2 child
+  {seat:3, h:1.5,  shirt:0xc2410c, pants:0x3f3f46, word:"ilm"},      // P3 teen
+  {seat:2, h:1.74, shirt:0x2f7d7a, pants:0x2f3542, word:"nur"}       // P4 adult
+];
+VIS.forEach(v => { const phi = SEATS[v.seat]; makeBlank(v.word, at(phi, 0.5, 0.06), phi); makePaper(v.word, at(phi, 0.5, -0.06), phi); });
+
+/* ---------- turntable in the middle: glue, pencils, spare stickers, and tiles earlier visitors made ---------- */
+const lazy = new THREE.Group(); lazy.position.set(0, TOP, 0); scene.add(lazy);
+add(new THREE.CylinderGeometry(0.29, 0.29, 0.02, 40), M(0x9a7445), [0, 0.01, 0], lazy);
+add(new THREE.CylinderGeometry(0.02, 0.022, 0.05, 16), M(0xf2f2f0, {roughness:.4}), [0, 0.045, 0], lazy);
+add(new THREE.CylinderGeometry(0.022, 0.022, 0.01, 16), M(0x2f7d7a), [0, 0.075, 0], lazy);
+add(new THREE.CylinderGeometry(0.025, 0.02, 0.06, 16, 1, true), M(0x7a5326), [0.09, 0.05, 0.03], lazy);
+[0,1,2].forEach(i => { const p = add(new THREE.CylinderGeometry(0.003, 0.003, 0.12, 6), M(0xe2b04f), [0.085 + i*0.005, 0.09, 0.03], lazy); p.rotation.z = 0.1*(i-1); });
+// shared materials in a ring: four bins of blanks, paper stacks, edge rolls
+[[6, 0.0], [3, 1], [4, 2], [24, 3]].forEach(([seg, i]) => { const a = Math.PI/4 + i*Math.PI/4, x = Math.sin(a)*0.13, z = Math.cos(a)*0.13;
+  add(new THREE.BoxGeometry(0.055, 0.025, 0.055), M(0x7a5326), [x, 0.032, z], lazy);
+  const bl = seg === 4 ? add(new THREE.BoxGeometry(0.03, 0.01, 0.03), M(KRAFT), [x, 0.05, z], lazy) : add(new THREE.CylinderGeometry(0.018, 0.018, 0.01, seg), M(KRAFT), [x, 0.05, z], lazy); });
+[0xf3e3bd, 0xc9a878, 0xd6cbb6, 0xb7a993].forEach((c, i) => { const a = Math.PI*1.3, x = Math.sin(a)*0.13, z = Math.cos(a)*0.13; add(new THREE.BoxGeometry(0.06, 0.006, 0.075), M(c), [x, 0.024 + i*0.006, z], lazy); });
+[0x1f5aa6, 0xe2b04f, 0xb08654].forEach((c, i) => { const a = Math.PI*1.62 + i*0.22, x = Math.sin(a)*0.135, z = Math.cos(a)*0.135; const r = add(new THREE.CylinderGeometry(0.02, 0.02, 0.016, 20), M(c), [x, 0.028, z], lazy); });
+const READY = [["faraj", 0], ["khayr", Math.PI*0.5], ["jalis", Math.PI*0.9], ["zaman", Math.PI*1.25], ["kitab", Math.PI*1.6]];   // the word library: tiles stay at the exhibit
+READY.forEach(([id, a]) => {
+  const pos = V(Math.sin(a)*0.22, 0, Math.cos(a)*0.22);
+  makeBlank(id, pos, a); const T = tiles[id]; T.position.y = 0.02 + 0.0065; lazy.add(T); T.userData.home = T.position.clone(); T.userData.parent = lazy;
+  makePaper(id, V(0,0,0), 0); pasteNow(id); edgeNow(id); T.userData.ready = true;
+});
+
+/* ---------- folios: one in front of every seat ---------- */
 const FW = 0.3, FD = 0.2;
 function folioDraw(Fo){ return (g,w,h) => {
   g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h);
@@ -181,32 +278,109 @@ function folioDraw(Fo){ return (g,w,h) => {
   g.strokeStyle = hit ? "#e2b04f" : "#b8892f"; g.lineWidth = hit ? 10 : 3; g.beginPath(); g.moveTo(50, 262); g.lineTo(w-50, 262); g.stroke();
   if (hit){ g.fillStyle = "#6f5a3c"; g.textAlign = "center"; g.font = F(400, 26, "Marcellus, serif"); g.fillText(hit.tr, w/2, 312); g.fillStyle = "#2b1d0e"; g.font = F(400, 32, "Marcellus, serif"); g.fillText(hit.en, w/2, 356); }
 }; }
-function makeFolio(x, z, back){
-  const g = new THREE.Group(); g.position.set(x, TOP+0.0015, z); g.rotation.order = "YXZ"; g.rotation.y = back ? Math.PI : 0; scene.add(g);
-  const Fo = {g, back, words:[], home:g.position.clone()};
+function makeFolio(phi){
+  const g = new THREE.Group(); g.position.copy(at(phi, 0.43, 0, TOP + 0.0015)); g.rotation.order = "YXZ"; g.rotation.y = phi; scene.add(g);
+  const Fo = {g, phi, words:[], home:g.position.clone()};
   Fo.tex = canvasTex(600, 400, folioDraw(Fo));
   const p = add(new THREE.PlaneGeometry(FW, FD), new THREE.MeshStandardMaterial({map:Fo.tex.t, roughness:.9}), [0,0,0], g); p.rotation.x = -Math.PI/2;
-  const bk = add(new THREE.PlaneGeometry(FW, FD), M(0xead9b4, {roughness:.95}), [0,-0.0005,0], g); bk.rotation.x = Math.PI/2;   // plain back of the folio
-  Fo.redraw = () => Fo.tex.redraw(folioDraw(Fo));
+  const bk = add(new THREE.PlaneGeometry(FW, FD), M(0xead9b4, {roughness:.95}), [0,-0.0005,0], g); bk.rotation.x = Math.PI/2;
+  Fo.redraw = () => Fo.tex.redraw(folioDraw(Fo)); redrawers.push(Fo.redraw);
   return Fo;
 }
-const folioF = makeFolio(0, 0.11, false), folioB = makeFolio(0, -0.11, true);
-const spare = [makeFolio(-0.52, 0.11, false), makeFolio(0.52, 0.11, false), makeFolio(-0.52, -0.11, true), makeFolio(0.52, -0.11, true)];   // waiting for more visitors
-// slot i on a folio, in world space: first word at the visitor's right (reads right to left)
-function slotPos(Fo, i){ const local = V(0.1 - i*0.1, 0.0081, (262/400 - 0.5)*FD - 0.022); return Fo.g.localToWorld(local); }
+const folios = SEATS.map(makeFolio);
+const folioA = folios[5], folioB = folios[3];   // the child's folio (front-left) and the teen's folio (back-left)
+// slot i on a folio: first word at the visitor's right, because Arabic reads right to left
+function slotPos(Fo, i){ return Fo.g.localToWorld(V(0.105 - i*0.07, 0.0081, (262/400 - 0.5)*FD - 0.022)); }
 
-/* ---------- hanging frame (market stall) ---------- */
-const FX = 1.75, CORD_Y = 1.5;
-[[FX-0.62],[FX+0.62]].forEach(([x]) => add(new THREE.CylinderGeometry(0.025, 0.03, 2.05, 12), M(0x7a5326), [x, 1.025, 0]));
-add(new THREE.BoxGeometry(1.36, 0.06, 0.08), M(0x7a5326), [FX, 2.05, 0]);
-add(new THREE.BoxGeometry(1.4, 0.03, 0.5), M(0xb5532e), [FX, 2.1, 0]);
-for (let i = 0; i < 14; i++){ [-1,1].forEach(s => { const m = add(new THREE.CylinderGeometry(0.05, 0.05, 0.012, 16, 1, false, 0, Math.PI), M(0xb5532e), [FX-0.65+i*0.1, 2.06, s*0.25]); m.rotation.x = Math.PI/2; m.rotation.z = s > 0 ? 0 : Math.PI; }); }
-[CORD_Y, 1.05].forEach(y => { const c = add(new THREE.CylinderGeometry(0.004, 0.004, 1.24, 6), M(0x3b2a14), [FX, y, 0]); c.rotation.z = Math.PI/2; });
-const PEGS = [FX-0.42, FX-0.14, FX+0.14, FX+0.42];
-[CORD_Y, 1.05].forEach(y => PEGS.forEach(x => add(new THREE.BoxGeometry(0.014, 0.04, 0.02), M(0xc99a5b), [x, y-0.008, 0])));
-add(new THREE.BoxGeometry(1.36, 0.05, 0.3), M(0x7a5326), [FX, 0.025, 0]);
+/* ---------- process board on an easel: the steps and the finished shapes ---------- */
+function boardDraw(g, w, h){
+  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = "#7a5326"; g.lineWidth = 16; g.strokeRect(8,8,w-16,h-16);
+  g.fillStyle = "#2b1d0e"; g.textAlign = "center"; g.font = F(400, 46, "Marcellus, serif"); g.fillText("Example: how a tile is made", w/2, 72);
+  g.fillStyle = "#6f5a3c"; g.font = F(400, 24); g.fillText("Take one of each from the middle of the table, then follow the four stages.", w/2, 112);
+  const hex = (x, y, r, fill, stroke, lw) => { g.beginPath(); for (let i = 0; i < 6; i++){ const a = Math.PI/6 + i*Math.PI/3; g.lineTo(x + r*Math.cos(a), y + r*Math.sin(a)); } g.closePath(); g.fillStyle = fill; g.fill(); if (stroke){ g.strokeStyle = stroke; g.lineWidth = lw; g.stroke(); } };
+  const steps = [["1 Pick a blank", "hexagon, triangle,", "square, or circle"], ["2 Glue on a paper", "ahar, corrugated,", "board, or cereal box"], ["3 Paste a word", "then trace it", "with the pencil"], ["4 Add an edge", "color strip, gold", "tape, or wood strip"]];
+  steps.forEach(([t, a, b], i) => {
+    const x = 130 + i*247, y = 220;
+    hex(x, y, 64, "#c9a878", i === 3 ? "#1f5aa6" : "#8f6d40", i === 3 ? 13 : 3);
+    if (i >= 1){ g.fillStyle = "#f3e3bd"; g.fillRect(x-40, y-40, 80, 80); }
+    if (i >= 2){ g.fillStyle = "#1b1a17"; g.font = F(700, 38, "Amiri, serif"); g.fillText("نور", x, y + 6); qrMark(g, x - 10, y + 18, 20); }
+    g.fillStyle = "#2b1d0e"; g.font = F(600, 27); g.fillText(t, x, y + 104);
+    g.fillStyle = "#6f5a3c"; g.font = F(400, 21); g.fillText(a, x, y + 134); g.fillText(b, x, y + 160);
+    if (i < 3){ g.fillStyle = "#b8892f"; g.font = F(700, 40); g.fillText("→", x + 124, y + 12); }
+  });
+  g.fillStyle = "#2b1d0e"; g.font = F(600, 27); g.fillText("Finished tiles", w/2, 438);
+  [["hex", "#1f5aa6", "الصبر"], ["tri", "#b8892f", "خير"], ["sq", "#2f7d7a", "كتاب"], ["circ", "#b08654", "نور"]].forEach(([s, c, word], i) => {
+    const x = 200 + i*200, y = 532; g.fillStyle = c; g.beginPath();
+    if (s === "hex") hex(x, y, 60, c);
+    if (s === "tri"){ g.moveTo(x, y-62); g.lineTo(x+66, y+50); g.lineTo(x-66, y+50); g.closePath(); g.fill(); }
+    if (s === "sq"){ g.fillRect(x-54, y-54, 108, 108); }
+    if (s === "circ"){ g.arc(x, y, 58, 0, 7); g.fill(); }
+    const ty = s === "tri" ? y + 14 : y; g.fillStyle = "#f3e3bd"; g.fillRect(x-34, ty-30, 68, 60);
+    g.fillStyle = "#1b1a17"; g.font = F(700, word.length > 3 ? 24 : 30, "Amiri, serif"); g.fillText(word, x, ty + 4);
+  });
+}
+const easel = new THREE.Group(); easel.position.set(-1.7, 0, -0.55); easel.rotation.y = 0.55; scene.add(easel);
+[-0.3, 0.3].forEach(x => { const l = add(new THREE.CylinderGeometry(0.015, 0.015, 1.6, 8), M(0x7a5326), [x, 0.8, 0], easel); l.rotation.x = -0.12; });
+const BT = canvasTex(1000, 640, boardDraw); redrawers.push(() => BT.redraw(boardDraw));
+const board = add(new THREE.BoxGeometry(0.9, 0.576, 0.02), [M(0x7a5326), M(0x7a5326), M(0x7a5326), M(0x7a5326), new THREE.MeshStandardMaterial({map:BT.t, roughness:.9}), M(0x7a5326)], [0, 1.25, 0.03], easel);
 
-/* ---------- reader rings: the word is read aloud ---------- */
+/* ---------- the wall frame: a carved wooden frame with 5 cords × 10 pegs, up to 50 folios ---------- */
+const WZ = -1.86, CORDS = [1.98, 1.7, 1.42, 1.14, 0.86], PEGX = i => -1.62 + i*0.36;
+const fw = 3.76, fh = 1.66, fy = 1.38;
+[[0, fy + fh/2, fw + 0.12, 0.1], [0, fy - fh/2, fw + 0.12, 0.1]].forEach(([x, y, w, h]) => add(new THREE.BoxGeometry(w, h, 0.06), M(0x6b4a24), [x, y, WZ]));
+[[-fw/2, fy], [fw/2, fy]].forEach(([x, y]) => add(new THREE.BoxGeometry(0.1, fh + 0.1, 0.06), M(0x6b4a24), [x, y, WZ]));
+for (let i = 0; i < 26; i++){ const x = -fw/2 + 0.08 + i*0.145; [fy + fh/2, fy - fh/2].forEach(y => { const d = add(new THREE.BoxGeometry(0.05, 0.05, 0.02), M(0xc99a5b), [x, y, WZ + 0.035]); d.rotation.z = Math.PI/4; }); }
+for (let i = 0; i < 12; i++){ const y = fy - fh/2 + 0.08 + i*0.135; [-fw/2, fw/2].forEach(x => { const d = add(new THREE.BoxGeometry(0.05, 0.05, 0.02), M(0xc99a5b), [x, y, WZ + 0.035]); d.rotation.z = Math.PI/4; }); }
+add(new THREE.PlaneGeometry(fw - 0.06, fh - 0.06), M(0xf0e2c4, {roughness:.95}), [0, fy, WZ + 0.002]);
+CORDS.forEach(y => { const c = add(new THREE.CylinderGeometry(0.004, 0.004, fw - 0.1, 6), M(0x3b2a14), [0, y, WZ + 0.03]); c.rotation.z = Math.PI/2;
+  for (let i = 0; i < 10; i++) add(new THREE.BoxGeometry(0.014, 0.04, 0.02), M(0xc99a5b), [PEGX(i), y - 0.008, WZ + 0.035]); });
+// folios hung by earlier visitors
+function hungDraw(p){ return (g,w,h) => {
+  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = "#b8892f"; g.lineWidth = 8; g.strokeRect(10,10,w-20,h-20); g.lineWidth = 2; g.strokeRect(24,24,w-48,h-48);
+  g.strokeStyle = "#7a5326"; g.lineWidth = 3; g.beginPath(); g.arc(w/2, 44, 9, 0, 7); g.stroke();
+  g.strokeStyle = "#e2b04f"; g.lineWidth = 10; g.beginPath(); g.moveTo(50, 262); g.lineTo(w-50, 262); g.stroke();
+  g.fillStyle = "#6f5a3c"; g.textAlign = "center"; g.font = F(400, 26, "Marcellus, serif"); g.fillText(p.tr, w/2, 312);
+  g.fillStyle = "#2b1d0e"; g.font = F(400, 30, "Marcellus, serif"); g.fillText(p.en, w/2, 356);
+}; }
+const HUNG_TEX = PROVERBS.map(p => { const T = canvasTex(600, 400, hungDraw(p)); redrawers.push(() => T.redraw(hungDraw(p))); return T; });
+const EARLIER = [[0,0],[0,2],[0,3],[0,6],[0,9],[1,1],[1,4],[1,5],[1,8],[2,0],[2,3],[2,6],[2,7],[3,2],[3,5],[3,9],[4,1],[4,4],[4,8]];
+// each word sticker texture is shared by all the tiles that carry that word
+const WORD_TEX = {}; Object.keys(WORDS).forEach(id => { const T = canvasTex(256, 256, stickerDraw(WORDS[id].ar)); redrawers.push(() => T.redraw(stickerDraw(WORDS[id].ar))); WORD_TEX[id] = T; });
+const SHAPE_SEG = [6, 20, 4, 6];
+EARLIER.forEach(([r, c], i) => {
+  const p = PROVERBS[i % 3], cx = PEGX(c), cy = CORDS[r] - FD/2 - 0.012;
+  const m = add(new THREE.PlaneGeometry(FW, FD), new THREE.MeshStandardMaterial({map:HUNG_TEX[i % 3].t, roughness:.9}), [cx, cy, WZ + 0.045]); m.castShadow = false;
+  // the folio's tiles, standing on its ruled line, first word on the right
+  p.seq.forEach((id, k) => {
+    const g = new THREE.Group(); g.position.set(cx + 0.105 - k*0.07, cy - 0.009 + 0.022, WZ + 0.052); g.rotation.x = Math.PI/2; scene.add(g);
+    const seg = SHAPE_SEG[(i + k) % 4];
+    add(new THREE.CylinderGeometry(TR, TR, 0.013, seg), M(CAT[WORDS[id].cat], {roughness:.7}), [0,0,0], g).rotation.y = seg === 4 ? Math.PI/4 : 0;
+    add(new THREE.CylinderGeometry(TR*0.82, TR*0.82, 0.0135, seg), M(0xd9c09a, {roughness:.85}), [0,0,0], g).rotation.y = seg === 4 ? Math.PI/4 : 0;
+    const pl = add(new THREE.PlaneGeometry(0.036, 0.036), new THREE.MeshStandardMaterial({map:WORD_TEX[id].t, roughness:.9}), [0, 0.0072, 0], g); pl.rotation.x = -Math.PI/2; pl.castShadow = false;
+  });
+});
+const FREE = {A:[4, 3], B:[1, 6]};   // the pegs our visitors will use: a low cord for the child, a middle cord for the adult
+
+/* ---------- gift corner: a printer that makes a name card ---------- */
+const GX = 2.35, GZ = -1.35;
+add(new THREE.BoxGeometry(0.6, 0.9, 0.45), M(0x8f6d40), [GX, 0.45, GZ]);
+add(new THREE.BoxGeometry(0.34, 0.14, 0.26), M(0x9a9890, {roughness:.5}), [GX, 0.97, GZ]);
+add(new THREE.BoxGeometry(0.24, 0.01, 0.02), M(0x2c2c2a), [GX, 0.99, GZ + 0.13]);
+function cardDraw(g, w, h){
+  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = "#b8892f"; g.lineWidth = 10; g.strokeRect(8,8,w-16,h-16); g.lineWidth = 2; g.strokeRect(24,24,w-48,h-48);
+  g.fillStyle = "#1b1a17"; g.textAlign = "center"; g.direction = "rtl"; g.font = F(700, 92, "Amiri, serif"); g.fillText("سارة", w/2, 190);
+  g.direction = "ltr"; g.fillStyle = "#2b1d0e"; g.font = F(400, 44, "Marcellus, serif"); g.fillText("Sara", w/2, 262);
+  g.strokeStyle = "#e2b04f"; g.lineWidth = 5; g.beginPath(); g.moveTo(w/2 - 70, 296); g.lineTo(w/2 + 70, 296); g.stroke();
+  g.fillStyle = "#6f5a3c"; g.font = F(400, 24, "Marcellus, serif"); g.fillText("Qalam Tiles", w/2, 336);
+}
+const CT = canvasTex(360, 400, cardDraw); redrawers.push(() => CT.redraw(cardDraw));
+const card = new THREE.Group(); scene.add(card);
+add(new THREE.BoxGeometry(0.09, 0.1, 0.002), [M(0xf6ead0), M(0xf6ead0), M(0xf6ead0), M(0xf6ead0), new THREE.MeshStandardMaterial({map:CT.t}), M(0xf6ead0)], [0,0,0], card);
+const CARD_IN = V(GX, 0.985, GZ + 0.08);
+// a phone on the table for typing the name, next to a small QR sign
+add(new THREE.BoxGeometry(0.16, 0.12, 0.01), M(0xf6ead0), [GX - 0.2, 0.96, GZ + 0.15]).rotation.x = -0.6;
+
+/* ---------- reader rings: the word plays from the phone ---------- */
 function soundRings(pos){
   [0, 260, 520].forEach(d => setTimeout(() => {
     const r = add(new THREE.TorusGeometry(0.03, 0.003, 8, 32), new THREE.MeshBasicMaterial({color:0xe2b04f, transparent:true}), [pos.x, pos.y, pos.z]);
@@ -216,19 +390,19 @@ function soundRings(pos){
 }
 
 /* ---------- people ---------- */
-function makePerson(h, shirt, pants, x, z, faceBack){
+function makePerson(h, shirt, pants, x, z, rotY){
   const s = h/1.7, P = {s};
-  const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = faceBack ? 0 : Math.PI; scene.add(g); g.updateMatrixWorld(true); P.g = g;
+  const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = rotY; scene.add(g); g.updateMatrixWorld(true); P.g = g;
   const skin = M(0xc68e6a), hair = M(0x2b1d14);
   [-1,1].forEach(k => add(new THREE.CylinderGeometry(.055*s,.05*s,.8*s,12), M(pants), [k*.08*s, .4*s, 0], g));
   add(new THREE.CylinderGeometry(.16*s,.14*s,.62*s,16), M(shirt), [0, 1.11*s, 0], g);
   const head = new THREE.Group(); head.position.set(0, 1.56*s, 0); g.add(head);
   add(new THREE.SphereGeometry(.11*s, 20, 16), skin, [0,0,0], head);
   add(new THREE.SphereGeometry(.115*s, 20, 16, 0, Math.PI*2, 0, Math.PI*.55), hair, [0,.01*s,-.01*s], head);
-  add(new THREE.SphereGeometry(.117*s, 20, 16, Math.PI, Math.PI, 0, Math.PI*.82), hair, [0,.005*s,-.012*s], head);   // hair covers the back of the head, so the face side is clear
+  add(new THREE.SphereGeometry(.117*s, 20, 16, Math.PI, Math.PI, 0, Math.PI*.82), hair, [0,.005*s,-.012*s], head);   // hair covers the back of the head
   [-1,1].forEach(k => add(new THREE.SphereGeometry(.014*s, 8, 8), M(0x1b1b1b), [k*.04*s, .02*s, .1*s], head));
-  add(new THREE.SphereGeometry(.018*s, 10, 8), M(0xb57a58), [0, -.012*s, .108*s], head);                            // nose
-  add(new THREE.BoxGeometry(.04*s, .008*s, .01*s), M(0x7a3b2e), [0, -.05*s, .098*s], head);                         // mouth
+  add(new THREE.SphereGeometry(.018*s, 10, 8), M(0xb57a58), [0, -.012*s, .108*s], head);
+  add(new THREE.BoxGeometry(.04*s, .008*s, .01*s), M(0x7a3b2e), [0, -.05*s, .098*s], head);
   P.head = head;
   const shoulderPos = sh => g.localToWorld(sh.userData.local.clone()); P.shoulderPos = shoulderPos;
   P.arms = [-1,1].map(k => {
@@ -238,45 +412,21 @@ function makePerson(h, shirt, pants, x, z, faceBack){
     add(new THREE.SphereGeometry(.034*s, 12, 10), skin, [0, 0, .01*s], hand).scale.set(1.15, .55, 1.1);
     for (let f = 0; f < 4; f++){ const fg = add(new THREE.CylinderGeometry(.0075*s, .0065*s, .045*s, 6), skin, [(-.021 + f*.014)*s, -.004*s, .052*s], hand); fg.rotation.x = Math.PI/2 + .25; }
     const th = add(new THREE.CylinderGeometry(.008*s, .007*s, .035*s, 6), skin, [k*.034*s, 0, .022*s], hand); th.rotation.x = Math.PI/2; th.rotation.y = k*.7;
-    const A = {sh, arm, hand, follow:null, rest: () => g.localToWorld(V(k*.24*s, .76*s, .05*s))};
+    const A = {sh, arm, hand, follow:null, restMode:true, rest: () => g.localToWorld(V(k*.24*s, .76*s, .05*s))};
     A.cur = A.rest(); A.from = A.cur.clone(); A.to = A.cur.clone(); A.t0 = 0; A.dur = 1; return A;
   });
   P.look = V(0, TOP, 0); P.lookTo = P.look.clone();
-  P.reach = 0.92*s; P.home = g.position.clone();
+  P.reach = 0.92*s; P.home = g.position.clone(); P.homeRot = rotY;
   return P;
 }
-const P1 = makePerson(1.68, 0x2b5c9e, 0x2f3542, 0.3, 0.7);            // adult, front
-const P2 = makePerson(1.22, 0xe0a030, 0x4a5568, -0.36, 0.56);          // child, front
-const P3 = makePerson(1.5, 0xc2410c, 0x3f3f46, -0.3, -0.62, true);     // teen, back
-const P4 = makePerson(1.74, 0x2f7d7a, 0x2f3542, 0.3, -0.7, true);      // adult, back
-const people = [P1, P2, P3, P4];
+const people = VIS.map(v => { const phi = SEATS[v.seat], s = v.h/1.7, d = AP + 0.15*s; const pos = radial(phi, d); return makePerson(v.h, v.shirt, v.pants, pos.x, pos.z, phi + Math.PI); });
+const [P1, P2, P3, P4] = people;
 const armOf = (P, side) => P.arms[side === "L" ? 0 : 1];
 function reach(P, side, target, dur=850){ const A = armOf(P, side); A.follow = null; A.restMode = !target; A.from = A.cur.clone(); A.to = target ? target.clone() : A.rest(); A.t0 = performance.now(); A.dur = dur; }
 function restAll(P, dur=600){ ["L","R"].forEach(sd => reach(P, sd, null, dur)); }
 function look(P, v){ P.lookTo = v.clone(); }
 function nearSide(P, v){ return P.shoulderPos(P.arms[0].sh).distanceTo(v) < P.shoulderPos(P.arms[1].sh).distanceTo(v) ? "L" : "R"; }
-
-/* ---------- walking, with room between people ---------- */
-function canReach(P, target){ return Math.min(P.shoulderPos(P.arms[0].sh).distanceTo(target), P.shoulderPos(P.arms[1].sh).distanceTo(target)) <= P.reach; }
-const GAP = 0.46;
-function roomFor(P, x, side){
-  for (let i = 0; i < 3; i++){
-    people.forEach(Q => { if (Q === P || Math.sign(Q.g.position.z) !== side || Q.g.position.x > 1.0) return;
-      if (Math.abs(x - Q.g.position.x) < GAP) x = Q.g.position.x + (P.home.x >= Q.home.x ? GAP : -GAP); });
-  }
-  return Math.max(-0.78, Math.min(0.78, x));
-}
-function standFor(P, target){
-  const side = Math.sign(P.home.z) || 1, edge = 0.5 + 0.14*P.s;
-  let x = Math.max(-0.72, Math.min(0.72, target.x + (P.home.x > target.x ? 0.12 : -0.12)));
-  return V(roomFor(P, x, side), 0, side*edge);
-}
-async function walkTo(P, to, speed=0.7){
-  const from = P.g.position.clone(), d = from.distanceTo(to); if (d < 0.01) return;
-  await tween(Math.max(450, d/speed*1000), k => { const e = ease(k); P.g.position.lerpVectors(from, to, e); P.g.position.y = Math.abs(Math.sin(k*Math.PI*Math.max(2, Math.round(d*6))))*0.015; P.g.updateMatrixWorld(true); });
-  P.g.position.y = 0; P.g.updateMatrixWorld(true);
-}
-async function approach(P, target){ if (!canReach(P, target)){ look(P, target); await walkTo(P, standFor(P, target)); } }
+const wpos = o => o.getWorldPosition(V(0,0,0));
 
 /* ---------- tweens ---------- */
 const tweens = [];
@@ -285,147 +435,220 @@ const ease = t => t<.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
 const wait = ms => new Promise(r => setTimeout(r, ms));
 let cam = null;
 function camGo(p, t, dur=1400){ cam = {fp:camera.position.clone(), ft:controls.target.clone(), tp:V(...p), tt:V(...t), t0:performance.now(), dur}; }
+const angDiff = (a, b) => { let d = (b - a) % (Math.PI*2); if (d > Math.PI) d -= Math.PI*2; if (d < -Math.PI) d += Math.PI*2; return d; };
+async function turnTo(P, yaw, dur=450){ const y0 = P.g.rotation.y, d = angDiff(y0, yaw); if (Math.abs(d) < 0.02) return; await tween(dur, t => { P.g.rotation.y = y0 + d*ease(t); P.g.updateMatrixWorld(true); }); }
+// walk through waypoints, turning to face the way they go
+async function walkPath(P, pts, faceAtEnd){
+  for (const to of pts){
+    const from = P.g.position.clone(), d = from.distanceTo(to); if (d < 0.01) continue;
+    look(P, to.clone().add(to.clone().sub(from).normalize()).setY(1.2*P.s));   // look where they walk
+    await turnTo(P, Math.atan2(to.x - from.x, to.z - from.z));
+    await tween(Math.max(400, d/0.75*1000), k => { P.g.position.lerpVectors(from, to, k); P.g.position.y = Math.abs(Math.sin(k*Math.PI*Math.max(2, Math.round(d*6))))*0.015; P.g.updateMatrixWorld(true); });
+    P.g.position.y = 0; P.g.updateMatrixWorld(true);
+  }
+  if (faceAtEnd !== undefined) await turnTo(P, faceAtEnd);
+}
 
-// paste the word paper onto the blank, press it down, then add the colored edge
-async function makeTile(P, id){
-  const T = tiles[id], Pp = papers[id]; await approach(P, Pp.position);
-  const side = nearSide(P, Pp.position), A = armOf(P, side);
-  look(P, Pp.position); reach(P, side, Pp.position.clone().add(V(0,0.015,0)), 800); await wait(820);
-  A.follow = Pp; const from = Pp.position.clone(), to = T.position.clone().add(V(0, 0.0072, 0)); look(P, to);
-  await tween(900, t => { Pp.position.lerpVectors(from, to, ease(t)); Pp.position.y += Math.sin(t*Math.PI)*0.05; });
-  A.follow = null; pasteNow(id);
-  const press = T.position.clone().add(V(0, 0.012, 0));
-  reach(P, side, press.clone().add(V(0, 0.03, 0)), 300); await wait(300);
-  reach(P, side, press, 250); await wait(260); reach(P, side, press.clone().add(V(0, 0.03, 0)), 250); await wait(260);   // press it flat
-  reach(P, side, press, 250); await wait(260);
-  const rim = T.userData.rim.material.color, c0 = rim.clone(), c1 = new THREE.Color(CAT[WORDS[id].cat]);
-  await tween(700, t => rim.copy(c0).lerp(c1, t));                                                          // edge strip goes on
-  reach(P, side, null, 600); await wait(300);
+/* ---------- actions ---------- */
+async function grab(P, obj){ const p = wpos(obj), side = nearSide(P, p), A = armOf(P, side); look(P, p); reach(P, side, p.clone().add(V(0,0.015,0)), 800); await wait(820); A.follow = obj; return {A, side}; }
+function release(P, h){ h.A.follow = null; reach(P, h.side, null, 650); }
+async function moveTo(obj, to, dur=900, arc=0.05){ const from = obj.position.clone(); await tween(dur, t => { obj.position.lerpVectors(from, to, ease(t)); obj.position.y += Math.sin(t*Math.PI)*arc; }); }
+// 1: paste the word sticker on the blank, press it, trace the word with the pencil, add the edge
+async function makeTile(P, id, tray){
+  const T = tiles[id], Pp = papers[id];
+  let h = await grab(P, Pp); const to = T.position.clone().add(V(0, 0.0072, 0)); look(P, to);
+  await moveTo(Pp, to); release(P, h); pasteNow(id);
+  const press = wpos(T).add(V(0, 0.012, 0));
+  for (let i = 0; i < 2; i++){ reach(P, h.side, press.clone().add(V(0, 0.03, 0)), 250); await wait(260); reach(P, h.side, press, 250); await wait(260); }
+  const pc = tray.userData.pencil, pHome = pc.position.clone(), pRot = pc.rotation.clone();
+  const tp = wpos(T).add(V(0.02, 0.04, 0.0)); h = await grab(P, pc); tray.worldToLocal(tp);
+  await moveTo(pc, tp, 600, 0.02); pc.rotation.z = 0.5;
+  const c0 = pc.position.clone();
+  await tween(1300, t => { pc.position.set(c0.x + Math.sin(t*Math.PI*4)*0.018, c0.y, c0.z + Math.cos(t*Math.PI*6)*0.01); });   // tracing the letters
+  pc.rotation.copy(pRot); await moveTo(pc, pHome, 600, 0.02); release(P, h);
+  const rim = T.userData.rim.material.color, k0 = rim.clone(), k1 = new THREE.Color(CAT[WORDS[id].cat]);
+  reach(P, h.side, press, 300); await tween(700, t => rim.copy(k0).lerp(k1, t)); reach(P, h.side, null, 500); await wait(300);
 }
-// pick up a tile, lift it to look at it, and hear it read aloud
-async function pickAndHear(P, id){
-  const T = tiles[id]; await approach(P, T.position);
-  const side = nearSide(P, T.position), A = armOf(P, side);
-  look(P, T.position); reach(P, side, T.position.clone().add(V(0,0.02,0)), 800); await wait(820);
-  A.follow = T; const from = T.position.clone(), up = P.g.localToWorld(V(0, 1.12*P.s, 0.32*P.s));
-  look(P, up); await tween(900, t => T.position.lerpVectors(from, up, ease(t)));
-  soundRings(T.position.clone()); await wait(1300);
-  return {T, A, side, from};
+// 2: lift the tile and scan its QR code; the word plays
+async function hear(P, id, seat){
+  const sc = scanners[seat], T = tiles[id], h = await grab(P, T), from = T.position.clone(), front = wpos(sc).add(V(0, 0.1, 0)).add(radial(SEATS[seat], -0.07));
+  look(P, front); await moveTo(T, front, 900, 0.04); sc.userData.show(id); soundRings(wpos(sc).add(V(0, 0.09, 0))); await wait(1700);
+  await moveTo(T, from, 800, 0.04); release(P, h);
 }
-async function hearAndPutBack(P, id){
-  const h = await pickAndHear(P, id), T = h.T, up = T.position.clone();
-  await tween(800, t => T.position.lerpVectors(up, h.from, ease(t))); h.A.follow = null; reach(P, h.side, null, 600);
+// 1: look at the three proverb cards, pick one, scan its QR to hear the whole proverb
+async function choose(P, seat, k){
+  const c = cards[seat][k], h = await grab(P, c), up = P.g.localToWorld(V(0, 1.12*P.s, 0.3*P.s));
+  scene.attach(c); look(P, up); const from = c.position.clone(), r0 = c.rotation.clone();
+  await tween(900, t => { c.position.lerpVectors(from, up, ease(t)); });
+  await wait(900);
+  const sc = scanners[seat], front = wpos(sc).add(V(0, 0.11, 0)).add(radial(SEATS[seat], -0.08)); look(P, front);
+  await moveTo(c, front, 800, 0.02); sc.userData.show(PROVERBS[k]); soundRings(wpos(sc).add(V(0, 0.09, 0))); await wait(1600);
+  const home = c.userData.parent.localToWorld(c.userData.home.clone()); await moveTo(c, home, 800, 0.03);
+  c.userData.parent.attach(c); c.position.copy(c.userData.home); c.rotation.copy(c.userData.rot); release(P, h);
 }
-// set a held (or tray) tile on the next slot of a folio
-async function setTile(P, id, Fo, held){
-  const T = tiles[id], i = Fo.words.length, to = slotPos(Fo, i);
-  let A, side;
-  if (held){ ({A, side} = held); }
-  else { await approach(P, T.position); side = nearSide(P, T.position); A = armOf(P, side);
-    look(P, T.position); reach(P, side, T.position.clone().add(V(0,0.02,0)), 800); await wait(820); A.follow = T; }
-  await approach(P, to);
-  look(P, to); const from = T.position.clone();
-  await tween(1000, t => { T.position.lerpVectors(from, to, ease(t)); T.position.y += Math.sin(t*Math.PI)*0.05; });
-  A.follow = null; reach(P, side, null, 700);
+// 3: set a tile on the next slot of a folio
+async function setTile(P, id, Fo){
+  const T = tiles[id], to = slotPos(Fo, Fo.words.length);
+  if (T.parent !== scene) scene.attach(T);
+  const h = await grab(P, T); look(P, to);
+  await moveTo(T, to, 1000, 0.05); release(P, h);
   Fo.g.attach(T); Fo.words.push(id); Fo.redraw();
 }
-// carry a finished folio to the frame and hang it on a peg
-async function hangFolio(P, Fo, pegX, cordY){
-  await approach(P, Fo.g.position);
-  const sideZ = Math.sign(P.home.z), side = nearSide(P, Fo.g.position), A = armOf(P, side);
-  look(P, Fo.g.position); reach(P, side, Fo.g.position.clone().add(V(0,0.02,0)), 800); await wait(820);
-  A.follow = Fo.g;
-  const p0 = Fo.g.position.clone(), lift = p0.clone().add(V(0, 0.28, 0));
-  await tween(700, t => { Fo.g.position.lerpVectors(p0, lift, ease(t)); Fo.g.rotation.x = ease(t)*Math.PI/4; });
-  const stand = V(pegX + (sideZ > 0 ? -0.05 : 0.05), 0, sideZ*0.5), pFrom = P.g.position.clone(), d = pFrom.distanceTo(stand);
-  const carryAt = V(pegX, cordY - 0.12, sideZ*0.22);
-  look(P, V(pegX, cordY, 0));
-  await tween(Math.max(1200, d/0.65*1000), k => { const e = ease(k);
-    P.g.position.lerpVectors(pFrom, stand, e); P.g.position.y = Math.abs(Math.sin(k*Math.PI*Math.max(2, Math.round(d*6))))*0.015; P.g.updateMatrixWorld(true);
-    Fo.g.position.lerpVectors(lift, carryAt, e); Fo.g.rotation.x = Math.PI/4 + e*Math.PI/4; });
-  P.g.position.y = 0; P.g.updateMatrixWorld(true);
-  const hangAt = V(pegX, cordY - FD/2 - 0.012, sideZ*0.012);
-  await tween(800, t => Fo.g.position.lerpVectors(carryAt, hangAt, ease(t)));
-  A.follow = null; reach(P, side, null, 700);
-  await tween(900, t => Fo.g.rotation.z = Math.sin(t*Math.PI*3)*0.06*(1-t));
-  Fo.g.rotation.z = 0;
+// pass a tile to the person beside you, who places it
+async function handOver(P, Q, id, Fo){
+  const T = tiles[id]; const h = await grab(P, T);
+  const mid = wpos(P.head).lerp(wpos(Q.head), 0.5).setY(TOP + 0.22).lerp(V(0, TOP + 0.22, 0), 0.35);
+  look(P, mid); look(Q, mid); await moveTo(T, mid, 900, 0.03);
+  const side = nearSide(Q, mid), A = armOf(Q, side); reach(Q, side, mid.clone().add(V(0,0.015,0)), 500); await wait(520);
+  release(P, h); A.follow = T;
+  const to = slotPos(Fo, Fo.words.length); look(Q, to); await moveTo(T, to, 900, 0.03);
+  A.follow = null; reach(Q, side, null, 600); Fo.g.attach(T); Fo.words.push(id); Fo.redraw();
+}
+// spin the turntable so a tile faces the person, then take it
+async function spinTo(P, id){
+  const T = tiles[id], a = Math.atan2(wpos(T).x, wpos(T).z), want = Math.atan2(P.g.position.x, P.g.position.z), d = angDiff(a, want), r0 = lazy.rotation.y;
+  await tween(Math.max(500, Math.abs(d)*500), t => lazy.rotation.y = r0 + d*ease(t));
+}
+// 4: carry a folio around the table to the wall frame and hang it on a free peg
+async function hangFolio(P, Fo, [row, col], route){
+  const h = await grab(P, Fo.g); const p0 = Fo.g.position.clone(), lift = p0.clone().add(V(0, 0.25, 0));
+  const r0 = Fo.g.rotation.y, dY = angDiff(r0, 0);
+  await tween(700, t => { Fo.g.position.lerpVectors(p0, lift, ease(t)); Fo.g.rotation.x = ease(t)*Math.PI/2; Fo.g.rotation.y = r0 + dY*ease(t); });
+  // the folio rides in front of the chest while walking
+  const off = () => P.g.localToWorld(V(0, 1.0*P.s, 0.3));
+  let riding = true; (function ride(){ if (!riding) return; Fo.g.position.copy(off()); requestAnimationFrame(ride); })();
+  const stand = V(PEGX(col), 0, WZ + 0.55);
+  await walkPath(P, [...route, stand], Math.PI);   // face the wall
+  riding = false;
+  const cur = Fo.g.position.clone(), hangAt = V(PEGX(col), CORDS[row] - FD/2 - 0.012, WZ + 0.05);
+  look(P, hangAt); await tween(900, t => Fo.g.position.lerpVectors(cur, hangAt, ease(t)));
+  release(P, h);
+  await tween(900, t => Fo.g.rotation.z = Math.sin(t*Math.PI*3)*0.06*(1-t)); Fo.g.rotation.z = 0;
+}
+// 5: type a name on the phone, the printer prints the card, take it
+async function gift(P){
+  await walkPath(P, [V(1.2, 0, 0.55), V(GX - 0.05, 0, GZ + 0.6)], Math.PI);
+  const phone = V(GX - 0.2, 0.97, GZ + 0.15), side = nearSide(P, phone);
+  look(P, phone); reach(P, side, phone, 600); await wait(620);
+  for (let i = 0; i < 3; i++){ reach(P, side, phone.clone().add(V(0.01*i, 0.02, 0)), 180); await wait(200); reach(P, side, phone, 180); await wait(200); }
+  reach(P, side, null, 500); look(P, CARD_IN);
+  card.visible = true; card.position.copy(CARD_IN); card.rotation.set(-Math.PI/2 + 0.2, 0, 0);
+  await tween(1400, t => card.position.z = CARD_IN.z + t*0.1);
+  const h = await grab(P, card); const up = P.g.localToWorld(V(0, 1.15*P.s, 0.28*P.s)); look(P, up);
+  const r0 = card.rotation.x; await tween(900, t => { card.position.lerpVectors(CARD_IN.clone().add(V(0,0,0.1)), up, ease(t)); card.rotation.x = r0 + (0.1 - r0)*ease(t); card.rotation.y = Math.PI*ease(t)*0; });
+  await wait(1200);
 }
 
 /* ---------- state ---------- */
 function resetAll(){
-  [folioF, folioB].forEach(Fo => { Fo.g.position.copy(Fo.home); Fo.g.rotation.set(0, Fo.back ? Math.PI : 0, 0); Fo.words = []; Fo.redraw(); });
-  Object.values(tiles).forEach(T => { scene.attach(T); T.position.copy(T.userData.home); T.rotation.set(0, T.userData.back ? Math.PI : 0, 0); });
-  Object.entries(papers).forEach(([id, Pp]) => { if (tiles[id].userData.ready) return; scene.attach(Pp); Pp.position.copy(Pp.userData.home); Pp.rotation.set(0, Pp.userData.back ? Math.PI : 0, 0); tiles[id].userData.rim.material.color.setHex(KRAFT); });
-  people.forEach(P => { P.arms.forEach(A => A.follow = null); P.g.position.copy(P.home); P.g.updateMatrixWorld(true); restAll(P, 300); look(P, V(0, TOP, 0)); });
+  folios.forEach(Fo => { Fo.g.position.copy(Fo.home); Fo.g.rotation.set(0, Fo.phi, 0); Fo.words = []; Fo.redraw(); });
+  Object.values(tiles).forEach(T => { (T.userData.parent || scene).attach(T); T.position.copy(T.userData.home); T.rotation.set(0, T.userData.rotY, 0); });
+  Object.entries(papers).forEach(([id, Pp]) => { if (tiles[id].userData.ready) return; scene.attach(Pp); Pp.position.copy(Pp.userData.home); Pp.rotation.set(0, Pp.userData.rotY, 0); tiles[id].userData.rim.material.color.setHex(KRAFT); });
+  lazy.rotation.y = 0; card.visible = false;
+  scanners.forEach(sc => sc.userData.show(null));
+  cards.forEach(cs => cs.forEach(c => { c.userData.parent.attach(c); c.position.copy(c.userData.home); c.rotation.copy(c.userData.rot); }));
+  people.forEach(P => { P.arms.forEach(A => A.follow = null); P.g.position.copy(P.home); P.g.rotation.y = P.homeRot; P.g.updateMatrixWorld(true); restAll(P, 300); look(P, V(0, TOP, 0)); });
 }
-function place(Fo, ids){ ids.forEach(id => { const T = tiles[id]; T.position.copy(slotPos(Fo, Fo.words.length)); Fo.g.attach(T); Fo.words.push(id); }); Fo.redraw(); }
+function place(Fo, ids){ ids.forEach(id => { const T = tiles[id]; if (T.parent !== scene) scene.attach(T); T.position.copy(slotPos(Fo, Fo.words.length)); T.rotation.set(0, Fo.phi, 0); Fo.g.attach(T); Fo.words.push(id); }); Fo.redraw(); }
 function applyDone(n){
-  if (n >= 1) KITS.forEach(([pi, id]) => { pasteNow(id); edgeNow(id); });
-  if (n >= 3){ place(folioF, ["sabr","miftah","faraj"]); place(folioB, ["ilm","nur"]); }
+  if (n >= 2) VIS.forEach(v => { pasteNow(v.word); edgeNow(v.word); });
+  if (n >= 4){ place(folioA, ["sabr","miftah","faraj"]); place(folioB, ["ilm","nur"]); }
+  if (n >= 5){
+    [[folioA, FREE.A], [folioB, FREE.B]].forEach(([Fo, [r, c]]) => { Fo.g.rotation.set(Math.PI/2, 0, 0); Fo.g.position.set(PEGX(c), CORDS[r] - FD/2 - 0.012, WZ + 0.05); });
+    P2.g.position.set(PEGX(FREE.A[1]), 0, WZ + 0.55); P2.g.rotation.y = Math.PI; P3.g.position.set(PEGX(FREE.B[1]), 0, WZ + 0.55); P3.g.rotation.y = Math.PI;
+    people.forEach(P => { P.g.updateMatrixWorld(true); restAll(P, 10); });
+  }
 }
 
 const CAP = {
-  1:["1 · Make your tile",
-     "Each visitor has a kit: a blank cardboard shape and a printed word paper. They paste the paper onto the blank, press it flat, and add a colored edge strip.",
-     "All four visitors make a tile at the same time, two on each side of the bench. Six folios wait on the bench for more people.",
-     "The visitor chooses the shape, the script on the paper, the substrate, and the edge. On the website these are the choices in step 1."],
-  2:["2 · Hear it",
-     "The child lifts الصبر and the teen lifts العلم. The tag inside each tile reads the word aloud.",
-     "Each tile has its own tag, so two words can play at once without waiting.",
-     "The bench reader, or any phone, plays the word. Then they set the tile back down."],
-  3:["3 · Set the tiles on the folio",
-     "At the front, the child and an adult build “Patience is the key to relief.” At the back, two visitors build “Knowledge is light.” One tile comes from the tray of tiles earlier visitors made.",
-     "Each folio is its own line, so several proverbs grow at once. The extra folios are ready for the next visitors.",
+  1:["1 · Choose a proverb",
+     "Each seat has three proverb cards. The child and the teen pick one, read the meaning, and scan its QR code. The seat screen shows the proverb, and their phone can play it aloud.",
+     "Every seat has its own cards and screen, so everyone chooses at the same time.",
+     "The three proverbs use nine words in all. Each visitor makes one of the words in the proverb they chose."],
+  2:["2 · Make your tile",
+     "First, visitors look at the example board on the easel. It shows the four stages, pick a blank, glue on a paper, paste a word, add an edge, and four finished tiles. Then each visitor makes one word from their proverb, presses it flat, traces the letters with a pencil, and adds the edge.",
+     "Personal tools sit in each kit tray. Blanks, papers, and edge rolls are shared in the middle. Two seats wait for the next people.",
+     "The example board stays beside the table, so anyone can check the next stage without asking."],
+  3:["3 · Scan it",
+     "The child and the teen hold their tiles to the seat screen. It reads the QR code and shows the word, how to say it, and what it means.",
+     "Each seat has its own screen, so nobody waits. To hear the word, visitors scan the same code with their own phone.",
+     "No headphones are needed, which keeps it simple and cheap to run."],
+  4:["4 · Finish the proverb",
+     "The child sets her tile on her folio. The adult beside her hands over مفتاح, and she takes الفرج from the word library on the turntable. At the back, the adult hands نور to the teen.",
+     "Nobody has to make every word. Missing words come from neighbors or from the library, which holds tiles made earlier.",
      "When a line is right, its gold rule lights up and the meaning appears. Arabic reads right to left, so each line starts on the right."],
-  4:["4 · Hang the folio",
-     "Two visitors carry their finished folios to the frame and hang them on the cord.",
-     "The frame is shared. Everyone’s folios hang side by side, and it fills up through the day.",
-     "Tapping a hung folio plays the whole proverb, the way the old odes were recited aloud."]
+  5:["5 · Hang the folio",
+     "The child and the teen walk to the wall and hang their folios. The child uses a low cord she can reach.",
+     "The carved frame holds up to 50 folios on five cords, so everyone’s work hangs together through the day.",
+     "Tiles stay at the exhibit. At the end of the day, folios come down and the tiles go back to the library."],
+  6:["6 · Take a gift",
+     "An adult types a name on the phone by the printer. The screen suggests the Arabic spelling, and the visitor checks or fixes it before printing.",
+     "Names can also be typed from any phone by scanning a QR sign, so the printer never has a line. Cards wait in a pickup tray.",
+     "The printer makes a small card with the name in Arabic calligraphy and in English, to take home."]
 };
 function caption(n){ const c = CAP[n]; $("capH").textContent = c[0]; $("capT").textContent = c[1]; $("capW").textContent = c[2]; $("capS").textContent = c[3]; }
 async function step1(){
-  caption(1); camGo([-1.55, 1.75, 0.15], [0, 0.8, 0]);
-  await Promise.all(KITS.map(([pi, id]) => makeTile(people[pi], id)));
-  await wait(500);
-}
-async function step2(){
-  caption(2); camGo([-1.45, 1.7, 0.1], [-0.1, 0.9, 0]);
-  await Promise.all([ hearAndPutBack(P2, "sabr"), hearAndPutBack(P3, "ilm") ]);
+  caption(1); camGo([-2.1, 1.8, 0.0], [-0.35, 1.0, 0.0]);
+  await Promise.all([ choose(P2, VIS[1].seat, 0), choose(P3, VIS[2].seat, 1) ]);
   await wait(300);
 }
+const BOARD_CAM = [[-1.12, 1.32, 0.42], [-1.68, 1.22, -0.52]];
+async function step2(){
+  caption(2);
+  // first, everyone looks at the example board on the easel
+  const bp = wpos(board); people.forEach(P => look(P, bp));
+  if (CLIP !== null){ camera.position.set(...BOARD_CAM[0]); controls.target.set(...BOARD_CAM[1]); } else camGo(...BOARD_CAM, 1200);
+  await wait(3200);
+  if (CLIP !== null){ if (CLIP === 2){ camera.position.set(...CLOSE[2][0]); controls.target.set(...CLOSE[2][1]); } else if (CLIP === 0){ camera.position.set(2.2, 2.6, 3.0); controls.target.set(0.1, 0.9, -0.6); } }
+  else camGo([1.85, 1.95, 0.3], [0, 0.78, 0]);
+  await Promise.all(VIS.map((v, i) => makeTile(people[i], v.word, trays[v.seat])));
+  await wait(400);
+}
 async function step3(){
-  caption(3); camGo([-1.5, 1.85, 0.1], [0, 0.78, 0]);
-  await Promise.all([ setTile(P2, "sabr", folioF), setTile(P3, "ilm", folioB) ]);
-  await Promise.all([ setTile(P1, "miftah", folioF), setTile(P4, "nur", folioB) ]);
-  await setTile(P2, "faraj", folioF);
-  await wait(900);
+  caption(3); camGo([-2.1, 1.8, 0.0], [-0.35, 1.0, 0.0]);
+  await Promise.all([ hear(P2, "sabr", VIS[1].seat), hear(P3, "ilm", VIS[2].seat) ]);
+  await wait(300);
 }
 async function step4(){
-  caption(4); camGo([0.6, 2.0, 3.0], [1.1, 1.0, 0]);
-  await Promise.all([ hangFolio(P1, folioF, PEGS[0], CORD_Y), hangFolio(P4, folioB, PEGS[2], CORD_Y) ]);
+  caption(4); camGo([1.75, 2.05, 0.25], [-0.1, 0.78, 0]);
+  await Promise.all([ setTile(P2, "sabr", folioA), setTile(P3, "ilm", folioB) ]);
+  await Promise.all([ handOver(P1, P2, "miftah", folioA), handOver(P4, P3, "nur", folioB) ]);
+  await spinTo(P2, "faraj"); await setTile(P2, "faraj", folioA);
   await wait(900);
 }
-const STEPS = [null, step1, step2, step3, step4];
+async function step5(){
+  caption(5); camGo([0.4, 1.9, 1.6], [0, 1.3, -1.6]);
+  await Promise.all([
+    hangFolio(P2, folioA, FREE.A, [V(-1.15, 0, 0.35), V(-1.15, 0, -1.0)]),
+    (async () => { await wait(600); await hangFolio(P3, folioB, FREE.B, [V(-0.7, 0, -1.0)]); })()
+  ]);
+  await wait(900);
+}
+async function step6(){
+  caption(6); camGo([1.0, 1.7, 0.3], [2.2, 1.0, -1.2]);
+  await gift(P1);
+}
+const STEPS = [null, step1, step2, step3, step4, step5, step6];
 let busy = false;
 function lock(on){ busy = on; document.querySelectorAll(".steps .btn").forEach(b => b.disabled = on); }
 async function run(list){ if (busy) return; lock(true); try { for (const n of list){ document.querySelectorAll("[data-s]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.s === n))); await STEPS[n](); await wait(300); } } finally { lock(false); } }
 function prepare(n){ resetAll(); applyDone(n-1); }
 document.querySelectorAll("[data-s]").forEach(b => b.onclick = () => { if (busy) return; const n = +b.dataset.s; prepare(n); run([n]); });
-$("playAll").onclick = () => { if (busy) return; resetAll(); run([1,2,3,4]); };
+$("playAll").onclick = () => { if (busy) return; resetAll(); run([1,2,3,4,5,6]); };
 $("resetAll").onclick = () => { if (busy) return; resetAll(); camGo(HOME.p, HOME.t);
   document.querySelectorAll("[data-s]").forEach(b => b.setAttribute("aria-pressed","false"));
-  $("capH").textContent = "Press a step"; $("capT").textContent = "Each step shows what visitors do with their hands."; $("capW").textContent = "Four visitors, two on each side of the bench, work at the same time."; $("capS").textContent = "Each tile has an NFC tag, so a phone or the bench reader can say the word aloud."; };
+  $("capH").textContent = "Press a step"; $("capT").textContent = "Each step shows what visitors do with their hands."; $("capW").textContent = "Six seats, each with a full kit tray. Shared supplies sit on a turntable in the middle."; $("capS").textContent = "Each word sticker carries a small QR code. The seat screen shows the word, and any phone can play it aloud."; };
 
 /* ---------- clip mode: ?clip=N records step N close up; ?clip=0 is the overview ---------- */
 const CLIP = (() => { const m = location.search.match(/[?&]clip=(\d+)/); return m ? +m[1] : null; })();
-const CLOSE = { 1:[[-1.05, 1.3, 0.08], [-0.1, 0.8, 0.0]], 2:[[-1.0, 1.35, 0.05], [-0.15, 0.95, 0.0]], 3:[[-1.0, 1.4, 0.05], [0.05, 0.78, 0.0]], 4:[[2.6, 1.55, 1.45], [1.55, 1.2, 0]] };
+const CLOSE = { 1:[[-1.95, 1.6, 0.0], [-0.4, 1.05, 0.0]], 2:[[1.15, 1.4, 0.2], [-0.1, 0.8, 0.35]], 3:[[-1.95, 1.6, 0.0], [-0.4, 1.05, 0.0]], 4:[[1.05, 1.5, 0.15], [-0.2, 0.78, 0.25]], 5:[[0.2, 1.55, 0.5], [-0.6, 1.2, -1.7]], 6:[[1.55, 1.45, -0.2], [2.3, 1.0, -1.3]] };
 if (CLIP !== null){
   renderer.setPixelRatio(1); camGo = () => {};
   const base = caption; caption = n => { base(n); if (CLIP > 0){ camera.position.set(...CLOSE[n][0]); controls.target.set(...CLOSE[n][1]); } };
   window.__clipReady = false; window.__clipDone = false;
   setTimeout(async () => {
-    if (CLIP === 0){ resetAll(); camera.position.set(-0.9, 2.3, 2.9); controls.target.set(0.85, 0.85, 0); controls.autoRotate = true; controls.autoRotateSpeed = 1.2;
-      window.__clipReady = true; await step1(); await step2(); await step3(); await step4(); await wait(500); }
+    if (CLIP === 0){ resetAll(); camera.position.set(2.2, 2.6, 3.0); controls.target.set(0.1, 0.9, -0.6); controls.autoRotate = true; controls.autoRotateSpeed = 0.9;
+      window.__clipReady = true; for (const n of [1,2,3,4,5,6]) await STEPS[n](); await wait(500); }
     else { prepare(CLIP); caption(CLIP); await wait(500); window.__clipReady = true; await STEPS[CLIP](); await wait(400); }
     window.__clipDone = true;
   }, 1500);
@@ -438,12 +661,15 @@ function frame(now){
   people.forEach(P => {
     P.look.lerp(P.lookTo, 0.08);
     const hp = P.head.getWorldPosition(V(0,0,0));
-    const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(P.look, hp, V(0,1,0)));
+    // a head turns at most about 70° from the body: never looks backward
+    const loc = P.g.worldToLocal(P.look.clone()).sub(P.head.position), flat = Math.hypot(loc.x, loc.z) || 1;
+    if (loc.z < 0.35*flat){ loc.z = 0.35*flat; }
+    const lookAt = P.g.localToWorld(loc.add(P.head.position));
+    const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(lookAt, hp, V(0,1,0)));
     P.head.quaternion.copy(P.g.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(q));
     P.arms.forEach(A => {
       if (A.follow) A.cur.copy(A.follow.getWorldPosition(V(0,0,0))).add(V(0, 0.018, 0));
-      else { if (A.restMode) A.to = A.rest();   // a resting arm hangs at the side, even while the person walks
-        const t = Math.min(1, (now - A.t0)/A.dur); A.cur.lerpVectors(A.from, A.to, ease(t)); }
+      else { if (A.restMode) A.to = A.rest(); const t = Math.min(1, (now - A.t0)/A.dur); A.cur.lerpVectors(A.from, A.to, ease(t)); }
       const sp = P.shoulderPos(A.sh); A.sh.position.copy(sp);
       const len = Math.max(0.05, Math.min(P.reach, sp.distanceTo(A.cur))); A.sh.lookAt(A.cur); A.arm.scale.set(1, len, 1); A.arm.position.z = len/2; A.hand.position.z = Math.max(0.05, len - 0.05*P.s);
     });
@@ -452,7 +678,8 @@ function frame(now){
 }
 function resize(){ const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix(); }
 new ResizeObserver(resize).observe(stage); resize();
-document.fonts && document.fonts.ready.then(() => { texs.forEach(f => f()); [folioF, folioB].forEach(Fo => Fo.redraw()); });
+resetAll();
+document.fonts && document.fonts.ready.then(() => redrawers.forEach(f => f()));
 requestAnimationFrame(frame);
 </script>
 </body>
