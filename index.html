@@ -330,6 +330,25 @@ a.btn{text-decoration:none; display:inline-flex}
 .wframe .hung .hrow{display:flex; direction:rtl; gap:3%; justify-content:center; width:100%; --wsize:clamp(5px,0.6vw,8px)}
 .wframe .hung .hrow .tile{width:22%; flex:0 0 22%}
 .wframe .hung .hrule{display:block; width:80%; height:2px; background:var(--gold-2); margin-top:3px}
+.make3{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr) minmax(0,1fr); gap:14px; align-items:start}
+@media (max-width:900px){ .make3{grid-template-columns:minmax(0,1fr)} }
+.mcard{display:grid; gap:8px; padding:12px; border:1px solid var(--line); border-radius:8px; background:var(--page); min-width:0}
+.mcard h3{margin:0; font-family:var(--display); font-weight:400; font-size:18px; display:flex; align-items:center}
+.mcard[aria-disabled="true"]{opacity:.45}
+.make3 .bins{grid-template-columns:repeat(2,minmax(0,1fr))}
+.make3 .stickers{grid-template-columns:repeat(2,minmax(0,1fr)); padding:8px}
+.make3 .stickers .wblock .row{grid-template-columns:repeat(3,minmax(0,1fr))}
+details.trace{display:block}
+details.trace summary{cursor:pointer; font-size:13.5px; color:var(--accent)}
+details.trace canvas{margin-top:6px}
+.strips{display:flex; flex-wrap:wrap; gap:6px; align-items:center; min-height:22px; font-size:13px; color:var(--muted)}
+.strips .st{height:8px; border-radius:3px}
+.strips .st.used{opacity:.25}
+.gluebox{display:grid; place-items:center}
+#glueTile{width:min(220px,100%)}
+#glueTile svg{width:100%; height:auto; display:block}
+#glueTile .side{cursor:pointer}
+#glueTile .side:focus-visible{outline:none; stroke:#e2b04f}
 </style>
 </head>
 <body>
@@ -349,7 +368,7 @@ a.btn{text-decoration:none; display:inline-flex}
       <video autoplay muted loop playsinline preload="metadata" aria-label="3D overview: visitors around a six-sided craft table make tiles, hear them, set them on folios, hang the folios on a wall frame, and print a name card"><source src="overview.mp4" type="video/mp4"><source src="overview.webm" type="video/webm"></video>
       <div style="display:grid;gap:8px">
         <h2 id="ov-h">At the exhibit</h2>
-        <p class="sub">A six-sided craft table seats six people, each with their own kit tray, proverb cards, and a small screen, so nobody waits in line. Blanks, papers, edge rolls, and the word library sit on a turntable in the middle. Tiles stay at the exhibit and are reused.</p>
+        <p class="sub">A six-sided craft table seats six people, each with their own kit tray, proverb cards, and a small screen, so nobody waits in line. Blanks, pre-cut edge strips, and the word library sit on a turntable in the middle. Tiles stay at the exhibit and are reused.</p>
         <ol><li>Choose one of three proverbs and hear it</li><li>Make one of its words as a tile</li><li>Scan the tile: the screen shows the word, your phone plays it</li><li>Finish the proverb with library tiles</li><li>Hang the folio on the wall frame (up to 50)</li><li>Print a card with your name</li></ol>
         <div><a class="btn" href="qalam-3d.html">Open the 3D walkthrough</a></div>
       </div>
@@ -362,7 +381,7 @@ a.btn{text-decoration:none; display:inline-flex}
     <div class="seatgrid">
       <svg viewBox="0 0 640 430" role="img" aria-labelledby="seat-t seat-d" class="seatsvg">
 <title id="seat-t">Top view of one seat at the craft table</title>
-<desc id="seat-d">From the visitor's side: proverb cards on the left, the kit tray in front with a word sticker sheet, a tracing card, a pencil, and a glue stick, the seat screen on the right, a folio further in, and the shared turntable in the middle of the table with blanks, papers, edge rolls, and the word library.</desc>
+<desc id="seat-d">From the visitor's side: proverb cards on the left, the kit tray in front with a word sticker sheet, a tracing card, a pencil, and a glue stick, the seat screen on the right, a folio further in, and the shared turntable in the middle of the table with blanks, pre-cut edge strips, and the word library.</desc>
 <polygon points="20,400 620,400 470,20 170,20" fill="#d8c39b" stroke="#a9824e" stroke-width="2"/>
 <path d="M150 20 A 190 190 0 0 0 490 20 Z" fill="#9a7445"/>
 <g>
@@ -375,7 +394,7 @@ a.btn{text-decoration:none; display:inline-flex}
 <polygon points="168,52 177,47 186,52 186,62 177,67 168,62" fill="#f3e3bd" stroke="#2f7d7a" stroke-width="3"/>
 <polygon points="456,52 465,47 474,52 474,62 465,67 456,62" fill="#f3e3bd" stroke="#b8892f" stroke-width="3"/>
 </g>
-<text x="320" y="104" text-anchor="middle" font-size="12" fill="#fbf4e4">Shared turntable: blanks · papers · edges · word library</text>
+<text x="320" y="104" text-anchor="middle" font-size="12" fill="#fbf4e4">Shared turntable: blanks · edge strips · word library</text>
 <g><circle cx="128" cy="44" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="128" y="49" text-anchor="middle" font-size="14" font-weight="600" fill="#2b1d0e">2</text></g><g><circle cx="512" cy="44" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="512" y="49" text-anchor="middle" font-size="14" font-weight="600" fill="#2b1d0e">4</text></g>
 <rect x="210" y="132" width="220" height="90" fill="#f6ead0" stroke="#b8892f" stroke-width="3"/>
 <line x1="226" y1="190" x2="414" y2="190" stroke="#b8892f" stroke-width="1.5"/>
@@ -401,7 +420,7 @@ a.btn{text-decoration:none; display:inline-flex}
 </svg>
       <ol class="seatlist">
         <li><b>1</b><span><strong>Proverb cards.</strong> Three cards with a QR code each. Read them and choose one.</span></li>
-        <li><b>2</b><span><strong>Kit tray.</strong> A word sticker sheet, a tracing card, a pencil, and a glue stick. Take one blank, one paper, and one edge from the turntable.</span></li>
+        <li><b>2</b><span><strong>Kit tray.</strong> A word sticker sheet, a tracing card, a pencil, and a glue stick. Take one blank and a pack of edge strips for that shape from the turntable.</span></li>
         <li><b>3</b><span><strong>Seat screen.</strong> Hold your tile to it to see the word, how to say it, and what it means. Scan the same code with your phone to hear it.</span></li>
         <li><b>4</b><span><strong>Folio and word library.</strong> Set your tile on the folio and take the missing words from the library on the turntable.</span></li>
         <li><b>5</b><span><strong>Wall frame</strong>, beside the table. Hang your finished folio.</span></li>
@@ -417,40 +436,39 @@ a.btn{text-decoration:none; display:inline-flex}
   </section>
 
   <section class="leaf" id="make" aria-labelledby="make-h">
-    <div class="sec-h"><div class="t"><h2 id="make-h"><span class="ros">2</span>Make your tile</h2><p class="sub">Make one word from your proverb. At the table, blanks, papers, and edges are real objects in the middle of the table. Pick one of each, paste the word, trace it, then add the edge.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: visitors paste word stickers, trace them, and add edges"><source src="step2.mp4" type="video/mp4"><source src="step2.webm" type="video/webm"></video><figcaption>At the table</figcaption></figure></div>
+    <div class="sec-h"><div class="t"><h2 id="make-h"><span class="ros">2</span>Make your tile</h2><p class="sub">Three short steps: pick a blank shape, paste your word on it, then glue the edge strips around it yourself. Blanks are upcycled cardboard already faced with ahar paper.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: visitors look at the example board, paste their word, and glue the edges"><source src="step2.mp4" type="video/mp4"><source src="step2.webm" type="video/webm"></video><figcaption>At the table</figcaption></figure></div>
 
     <div class="example" id="example" aria-labelledby="ex-h">
-      <div class="ex-head"><h3 id="ex-h">Example: how a tile is made</h3><p class="sub">Follow these four stages. On the right are finished tiles in each shape. At the table, the same example hangs on a board.</p></div>
+      <div class="ex-head"><h3 id="ex-h">Example: how a tile is made</h3><p class="sub">Three stages, left to right. On the right are finished tiles in each shape. At the table, the same example hangs on a board.</p></div>
       <div class="ex-steps" id="exSteps"></div>
-      <div class="ex-done"><span class="k">Finished shapes</span><div id="exDone"></div></div>
+      <div class="ex-done"><span class="k">Finished tiles</span><div id="exDone"></div></div>
     </div>
 
-    <div class="stations">
-      <div class="station"><span class="k"><b class="sn">a</b>Pick a shape</span><div class="bins" id="shapeBins"></div></div>
-      <div class="station"><span class="k"><b class="sn">b</b>Pick a paper</span><div class="sheets" id="paperSheets"></div></div>
-    </div>
-    <div class="station"><span class="k"><b class="sn">c</b>Pick a word from your proverb · each word comes in three scripts</span><div class="stickers" id="stickerSheet"></div></div>
-    <div class="station"><span class="k"><b class="sn">d</b>Pick an edge · every edge fits every shape</span><div class="bins edges" id="edgeBins"></div></div>
-
-    <div class="mkrow">
-    <div class="mk">
-      <div class="mk-c"><span class="k">Blank</span><div class="mk-t" id="mkBlank"></div></div>
-      <span class="op" aria-hidden="true">+</span>
-      <div class="mk-c"><span class="k">Word sticker</span><div class="mk-p" id="mkPaper"></div></div>
-      <span class="op" aria-hidden="true">=</span>
-      <div class="mk-c"><span class="k">Your tile</span><div class="mk-t" id="mkTile"></div></div>
-      <div class="mk-b">
+    <div class="make3">
+      <div class="mcard" id="mStep1">
+        <h3><b class="sn">1</b>Pick a shape</h3>
+        <div class="bins" id="shapeBins"></div>
+      </div>
+      <div class="mcard" id="mStep2">
+        <h3><b class="sn">2</b>Paste your word</h3>
+        <p class="sub">Pick your word in the script you like.</p>
+        <div class="stickers" id="stickerSheet"></div>
         <button class="btn" id="paste" type="button">Paste the sticker</button>
-        <button class="btn" id="addEdge" type="button">Add the edge</button>
+        <details class="trace" id="traceBox"><summary>Try tracing the word (optional)</summary>
+          <canvas id="traceCanvas" width="520" height="200" aria-label="Tracing card for the chosen word"></canvas>
+          <button class="btn ghost" id="traceClear" type="button">Clear</button>
+        </details>
+      </div>
+      <div class="mcard" id="mStep3">
+        <h3><b class="sn">3</b>Glue the edges</h3>
+        <div class="seg" id="edge" aria-label="Edge strip"></div>
+        <div class="strips" id="strips" aria-live="polite"></div>
+        <div class="gluebox"><div id="glueTile"></div></div>
+        <div class="btns"><button class="btn" id="glueNext" type="button">Glue the next strip</button></div>
         <p class="sub" id="mkNote" aria-live="polite"></p>
-        <button class="btn ghost" id="makeAll" type="button">Make the whole proverb for me</button>
       </div>
     </div>
-    <div class="trace" id="traceBox">
-      <div><span class="k">Tracing card · follow the dotted letters with your finger or mouse</span><canvas id="traceCanvas" width="520" height="200" aria-label="Tracing card for the chosen word"></canvas></div>
-      <div class="btns" style="align-self:end"><button class="btn ghost" id="traceClear" type="button">Clear</button></div>
-    </div>
-    </div>
+    <div class="btns"><button class="btn ghost" id="makeAll" type="button">Make the whole proverb for me</button></div>
   </section>
 
   <section class="leaf" id="hear" aria-labelledby="hear-h">
@@ -541,21 +559,22 @@ const PROVERBS = [
   {seq:["khayr","jalis","zaman","kitab"], ar:"خير جليس في الزمان كتاب", tr:"khayru jalīsin fī z-zamāni kitāb", en:"The best companion in time is a book.", src:"al-Mutanabbi, poet (915–965 CE)"}
 ];
 // the word library: tiles made earlier, in mixed shapes, scripts, and edges
-const LIB_STYLE = [["hex","kufi","corr","margin"],["circ","naskh","ahar","gold"],["sq","ruqaa","board","wood"],["tri","naskh","cereal","margin"]];
+const LIB_STYLE = [["hex","kufi","ahar","margin"],["circ","naskh","ahar","gold"],["sq","ruqaa","ahar","margin"],["tri","naskh","ahar","gold"]];
 const LIBRARY = WORDS.map((w, i) => { const [shape, script, material, edge] = LIB_STYLE[i % 4]; return {id:w.id, shape, script, material, edge, key:"L" + w.id, lib:true}; });
 const OPTS = {
   shape:[["hex","Hexagon"],["tri","Triangle"],["sq","Square"],["circ","Circle"]],
   material:[["ahar","Ahar paper"],["corr","Corrugated"],["board","Paperboard"],["cereal","Cereal box"]],
   script:[["kufi","Kufic"],["naskh","Naskh"],["ruqaa","Ruqʿa"]],
-  edge:[["margin","Color strip"],["gold","Gold tape"],["wood","Wood strip"]]
+  edge:[["margin","Color strip"],["gold","Gold tape"]]
 };
 const SCRIPT_NAME = {kufi:"Kufic", naskh:"Naskh", ruqaa:"Ruqʿa"};
 const SCRIPT_FONT = {kufi:"Reem Kufi", naskh:"Amiri", ruqaa:"Aref Ruqaa"};
 const MAT_NAME = {ahar:"ahar paper on card", corr:"upcycled corrugated cardboard", board:"paperboard", cereal:"second-life cereal box"};
-const EDGE_NAME = {margin:"color strip", gold:"gold tape", wood:"wood strip"};
+const EDGE_NAME = {margin:"color strip", gold:"gold tape"};
+const SIDES = {hex:6, tri:3, sq:4, circ:1};   // strips come pre-cut: one per side, one long bendable strip for the circle
 const SLOTS = 50;
 // choices for the next tile; each made tile keeps its own copy
-const state = {prov:0, shape:"hex", script:"naskh", material:"ahar", edge:"margin", word:"sabr", stage:0, made:[], sel:null, line:[], hung:[], gStyle:"naskh", gArEdited:false};
+const state = {glued:0, prov:0, shape:"hex", script:"naskh", material:"ahar", edge:"margin", word:"sabr", stage:0, made:[], sel:null, line:[], hung:[], gStyle:"naskh", gArEdited:false};
 let nextKey = 1;
 const byId = id => WORDS.find(w => w.id === id);
 const byKey = k => state.made.find(t => t.key === k) || LIBRARY.find(t => t.key === k);
@@ -595,52 +614,71 @@ function renderChoose(){
 /* ---------- example board ---------- */
 function renderExample(){
   const base = {id:"nur", shape:"hex", script:"naskh", material:"ahar", edge:"margin"};
-  const st = $("exSteps"); st.innerHTML = "";
-  [["1 Shape", tileEl(base, {noWord:true, noEdge:true, bare:true})], ["2 Paper", tileEl(base, {noWord:true, noEdge:true})], ["3 Word", tileEl(base, {noEdge:true})], ["4 Edge", tileEl(base)]].forEach(([t, el]) => {
+  const st = $("exSteps"); st.innerHTML = ""; st.style.gridTemplateColumns = "repeat(3,minmax(0,1fr))";
+  [["1 Pick a shape", tileEl(base, {noWord:true, noEdge:true})], ["2 Paste your word", tileEl(base, {noEdge:true})], ["3 Glue the edges", tileEl(base)]].forEach(([t, el]) => {
     const d = document.createElement("div"); d.className = "ex-step"; d.append(el); const s = document.createElement("span"); s.textContent = t; d.append(s); st.append(d); });
   const dn = $("exDone"); dn.innerHTML = "";
-  [{id:"sabr", shape:"hex", script:"kufi", material:"corr", edge:"margin"}, {id:"khayr", shape:"tri", script:"naskh", material:"ahar", edge:"gold"},
-   {id:"kitab", shape:"sq", script:"ruqaa", material:"board", edge:"wood"}, {id:"nur", shape:"circ", script:"naskh", material:"cereal", edge:"margin"}].forEach(t => dn.append(tileEl(t)));
+  [{id:"sabr", shape:"hex", script:"kufi", material:"ahar", edge:"margin"}, {id:"khayr", shape:"tri", script:"naskh", material:"ahar", edge:"gold"},
+   {id:"kitab", shape:"sq", script:"ruqaa", material:"ahar", edge:"margin"}, {id:"nur", shape:"circ", script:"naskh", material:"ahar", edge:"gold"}].forEach(t => dn.append(tileEl(t)));
 }
 /* ---------- stations ---------- */
 function pressBtn(cls, pressed, labelText){ const b = document.createElement("button"); b.type = "button"; b.className = cls; b.setAttribute("aria-pressed", String(pressed)); if (labelText) b.setAttribute("aria-label", labelText); return b; }
-function newChoice(){ state.stage = 0; clearTrace(); renderStations(); renderMaker(); }
+function newChoice(){ state.stage = 0; state.glued = 0; clearTrace(); renderStations(); renderMaker(); }
 function renderStations(){
   const sb = $("shapeBins"); sb.innerHTML = "";
   OPTS.shape.forEach(([v, name]) => { const b = pressBtn("bin", state.shape === v, `${name} blank`);
-    b.append(tileEl({...choice(), shape:v}, {noWord:true, noEdge:true, bare:true})); const l = document.createElement("span"); l.className = "lbl"; l.textContent = name; b.append(l);
+    b.append(tileEl({...choice(), shape:v}, {noWord:true, noEdge:true})); const l = document.createElement("span"); l.className = "lbl"; l.textContent = name; b.append(l);
     b.onclick = () => { state.shape = v; newChoice(); }; sb.append(b); });
-  const ps = $("paperSheets"); ps.innerHTML = "";
-  OPTS.material.forEach(([v, name]) => { const b = pressBtn("sheet", state.material === v, `${name} paper`);
-    b.innerHTML = `<span class="sw mat-${v}"></span><span class="lbl">${name}</span>`; b.onclick = () => { state.material = v; newChoice(); }; ps.append(b); });
   const ss = $("stickerSheet"); ss.innerHTML = "";
   prov().seq.map(byId).forEach(w => { const blk = document.createElement("div"); blk.className = "wblock";
     blk.innerHTML = `<span class="gl">${w.en} · ${w.tr}</span>`; const row = document.createElement("div"); row.className = "row";
     OPTS.script.forEach(([sc, sname]) => { const b = pressBtn("stk script-" + sc, state.word === w.id && state.script === sc, `${w.tr} in ${sname}`);
       b.innerHTML = `<span class="word" lang="ar">${w.ar}</span><span class="qr" aria-hidden="true"></span>`; b.title = sname;
-      b.onclick = () => { state.word = w.id; state.script = sc; newChoice(); }; row.append(b); });
+      b.onclick = () => { if (state.stage === 2) state.stage = 0; if (state.stage === 0){ state.word = w.id; state.script = sc; } state.glued = 0; renderStations(); renderMaker(); }; row.append(b); });
     blk.append(row); ss.append(blk); });
-  const eb = $("edgeBins"); eb.innerHTML = "";
-  OPTS.edge.forEach(([v, name]) => { const b = pressBtn("bin", state.edge === v, `${name} edge`);
-    const mini = document.createElement("div"); mini.className = "mini";
-    OPTS.shape.forEach(([sh]) => mini.append(tileEl({...choice(), shape:sh, edge:v}, {noWord:true})));
-    b.append(mini); const l = document.createElement("span"); l.className = "lbl"; l.textContent = name; b.append(l);
-    b.onclick = () => { state.edge = v; if (state.stage === 2) state.stage = 0; renderStations(); renderMaker(); }; eb.append(b); });
+  const ed = $("edge"); ed.innerHTML = "";
+  OPTS.edge.forEach(([v, name]) => { const b = document.createElement("button"); b.type = "button"; b.textContent = name; b.setAttribute("aria-pressed", String(state.edge === v));
+    b.onclick = () => { if (state.glued > 0 && state.stage === 1) return; state.edge = v; renderStations(); renderMaker(); }; ed.append(b); });
 }
-function renderMaker(justPasted){
-  const c = choice(), w = byId(c.id);
-  $("mkBlank").innerHTML = ""; $("mkBlank").append(tileEl(c, {noWord:true, noEdge:true}));
-  const pp = $("mkPaper"); pp.className = "mk-p" + (state.stage >= 1 ? " used" : "");
-  pp.innerHTML = `<span class="paper script-${c.script}"><span class="word" lang="ar">${w.ar}</span><span class="qr" aria-hidden="true"></span></span>`;
-  const out = $("mkTile"); out.innerHTML = "";
-  const t = state.stage === 0 ? tileEl(c, {noWord:true, noEdge:true}) : tileEl(c, {noEdge: state.stage < 2});
-  if (justPasted) t.classList.add("just-pasted");
-  out.append(t);
-  $("paste").disabled = state.stage !== 0; $("addEdge").disabled = state.stage !== 1;
-  $("traceBox").setAttribute("aria-disabled", String(state.stage !== 1));
-  $("mkNote").textContent = state.stage === 0 ? `Paste “${w.en}” in ${SCRIPT_NAME[c.script]} onto the ${label("shape", c.shape).toLowerCase()} ${label("material", c.material).toLowerCase()} blank.`
-    : state.stage === 1 ? `Pasted. Trace the word on the card if you like, then add the ${EDGE_NAME[c.edge]}.` : `Done. ${w.tr} is in your tray in step 3. One tile is enough; the library has the other words.`;
+// the tile you are gluing, drawn side by side so each strip can be glued on its own
+const SHAPE_PTS = {hex:[[50,14],[150,14],[196,100],[150,186],[50,186],[4,100]], tri:[[100,10],[194,186],[6,186]], sq:[[14,14],[186,14],[186,186],[14,186]]};
+function glueSVG(){
+  const c = choice(), w = byId(c.id), n = SIDES[c.shape], col = c.edge === "gold" ? "#c99a3a" : getComputedStyle(document.documentElement).getPropertyValue(`--cat-${w.cat}`).trim();
+  const font = SCRIPT_FONT[c.script], face = c.shape === "circ" ? `<circle cx="100" cy="100" r="86" fill="#f3e3bd"/>` : `<polygon points="${SHAPE_PTS[c.shape].map(p => p.join(",")).join(" ")}" fill="#f3e3bd"/>`;
+  const word = state.stage >= 1 ? `<text x="100" y="${c.shape === "tri" ? 140 : 108}" text-anchor="middle" font-size="${w.ar.length > 6 ? 30 : 42}" font-weight="700" font-family="'${font}', serif" fill="#1b1a17" direction="rtl">${w.ar}</text>` : "";
+  let sides = "";
+  if (c.shape === "circ"){
+    const on = state.glued >= 1;
+    sides = `<circle class="side" data-i="0" tabindex="${state.stage === 1 && !on ? 0 : -1}" cx="100" cy="100" r="88" fill="none" stroke="${on ? col : "#9a8f7d"}" stroke-width="${on ? 12 : 2}" ${on ? "" : 'stroke-dasharray="6 5"'}><title>${on ? "Glued" : "Glue the long strip around the circle"}</title></circle>`;
+  } else {
+    const P = SHAPE_PTS[c.shape];
+    P.forEach((a, i) => { const b = P[(i+1) % n], on = i < state.glued;
+      sides += `<line class="side" data-i="${i}" tabindex="${state.stage === 1 && i === state.glued ? 0 : -1}" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${on ? col : "#9a8f7d"}" stroke-width="${on ? 12 : 2}" stroke-linecap="round" ${on ? "" : 'stroke-dasharray="6 5"'}><title>${on ? "Glued" : "Glue a strip here"}</title></line>`; });
+  }
+  return `<svg viewBox="-8 -8 216 216" role="img" aria-label="${w.tr} tile, ${state.glued} of ${n} edge strips glued">${face}${word}${sides}</svg>`;
+}
+function renderMaker(){
+  const c = choice(), w = byId(c.id), n = SIDES[c.shape];
+  $("paste").disabled = state.stage !== 0;
+  $("mStep3").setAttribute("aria-disabled", String(state.stage === 0));
+  $("glueNext").disabled = state.stage !== 1;
+  $("traceBox").setAttribute("aria-disabled", String(state.stage === 0));
+  $("glueTile").innerHTML = glueSVG();
+  $("glueTile").querySelectorAll(".side").forEach(el => { const go = () => { if (state.stage === 1 && +el.dataset.i === state.glued) glueOne(); };
+    el.addEventListener("click", go); el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); } }); });
+  const col = c.edge === "gold" ? "#c99a3a" : `var(--cat-${w.cat})`;
+  $("strips").innerHTML = (c.shape === "circ" ? `<span class="st${state.glued >= 1 ? " used" : ""}" style="width:120px;background:${col};border-radius:8px"></span> 1 long strip that bends around the circle`
+    : Array.from({length:n}, (_, i) => `<span class="st${i < state.glued ? " used" : ""}" style="width:${c.shape === "tri" ? 46 : 30}px;background:${col}"></span>`).join("") + ` ${n} pre-cut strips for a ${label("shape", c.shape).toLowerCase()}`);
+  $("mkNote").textContent = state.stage === 0 ? `Paste “${w.en}” in ${SCRIPT_NAME[c.script]} on the ${label("shape", c.shape).toLowerCase()} blank first.`
+    : state.stage === 1 ? `Glue the strips one at a time: tap the dotted side, or press Glue the next strip. ${state.glued} of ${n} glued.`
+    : `Done. ${w.tr} is in your tray in step 3. One tile is enough; the library has the other words.`;
   drawTraceGuide();
+}
+function glueOne(){
+  const n = SIDES[state.shape]; if (state.stage !== 1 || state.glued >= n) return;
+  state.glued++;
+  if (state.glued >= n){ state.stage = 2; const t = addMade(choice()); state.sel = t.key; renderTray(); renderHand(); }
+  renderStations(); renderMaker();
 }
 /* ---------- tracing card ---------- */
 const tc = $("traceCanvas"), tx = tc.getContext("2d"); let drawing = false, strokes = [];
@@ -655,7 +693,7 @@ function drawTraceGuide(){
 }
 function clearTrace(){ strokes = []; drawTraceGuide(); }
 const pt = e => { const r = tc.getBoundingClientRect(); return {x:(e.clientX - r.left)*tc.width/r.width, y:(e.clientY - r.top)*tc.height/r.height}; };
-tc.addEventListener("pointerdown", e => { if (state.stage !== 1) return; drawing = true; tc.setPointerCapture(e.pointerId); strokes.push([pt(e)]); });
+tc.addEventListener("pointerdown", e => { if (state.stage === 0) return; drawing = true; tc.setPointerCapture(e.pointerId); strokes.push([pt(e)]); });
 tc.addEventListener("pointermove", e => { if (!drawing) return; strokes[strokes.length-1].push(pt(e)); drawTraceGuide(); });
 tc.addEventListener("pointerup", () => drawing = false); tc.addEventListener("pointercancel", () => drawing = false);
 $("traceClear").onclick = clearTrace;
@@ -787,10 +825,10 @@ function say(text, tr){
   speechSynthesis.cancel(); speechSynthesis.speak(u);
 }
 function addMade(c){ const t = {...c, key: nextKey++}; state.made.push(t); return t; }
-$("paste").onclick = () => { if (state.stage !== 0) return; state.stage = 1; renderMaker(true); };
-$("addEdge").onclick = () => { if (state.stage !== 1) return; state.stage = 2; const t = addMade(choice()); state.sel = t.key; renderMaker(); renderTray(); renderHand(); };
+$("paste").onclick = () => { if (state.stage !== 0) return; state.stage = 1; state.glued = 0; renderStations(); renderMaker(); };
+$("glueNext").onclick = glueOne;
 $("makeAll").onclick = () => { const have = new Set(state.made.map(t => t.id)); prov().seq.forEach(id => { if (!have.has(id)) addMade({...choice(), id}); });
-  if (!state.sel) state.sel = state.made[0].key; state.stage = 2; renderMaker(); renderTray(); renderHand(); $("mkNote").textContent = "Every word of your proverb is in your tray in step 3. At the table you only make one; the library has the rest."; };
+  if (!state.sel) state.sel = state.made[0].key; state.stage = 2; state.glued = SIDES[state.shape]; renderMaker(); renderTray(); renderHand(); $("mkNote").textContent = "Every word of your proverb is in your tray in step 3. At the table you only make one; the library has the rest."; };
 $("speak").onclick = () => { const t = byKey(state.sel); if (!t) return; tap(); showScreen(byId(t.id)); };
 $("phone").onclick = () => { const t = byKey(state.sel); if (!t) return; const w = byId(t.id); showScreen(w); say(w.ar, w.tr); };
 $("place").onclick = () => { if (!state.sel || !state.made.some(t => t.key === state.sel)) return; if (state.line.includes(state.sel)){ $("hangNote").textContent = "That tile is already on the folio. Make another copy in step 1 if you need it."; return; } state.line.push(state.sel); renderFolio(); };
@@ -813,10 +851,10 @@ const TIPS = [
   {el: () => $("overview"), title: "At the exhibit", body: "Six people share a six-sided table. Open the 3D walkthrough to watch each step."},
   {el: () => $("seat"), title: "Your seat", body: "Every seat has the same setup. The numbers on the picture match the six steps."},
   {el: () => $("pcards"), title: "1 · Choose a proverb", body: "Read the three proverbs, press Hear it, then choose one. You will make one of its words."},
-  {el: () => $("example"), title: "2 · See how a tile is made", body: "The example shows the four stages and the finished shapes."},
-  {el: () => document.querySelector("#make .stations"), title: "Pick a shape and a paper", body: "Click a bin to pick the blank’s shape, then a paper sheet."},
-  {el: () => $("stickerSheet"), title: "Pick your word", body: "Only the words of your proverb are on the sheet. Each comes in Kufic, Naskh, and Ruqʿa."},
-  {el: () => $("paste"), title: "Paste, trace, add the edge", body: "Paste the sticker, try tracing the word, then add the edge."},
+  {el: () => $("example"), title: "2 · See how a tile is made", body: "The example shows the three stages and the finished tiles."},
+  {el: () => $("mStep1"), title: "Pick a shape", body: "Click a bin to pick your blank: hexagon, triangle, square, or circle."},
+  {el: () => $("mStep2"), title: "Paste your word", body: "Pick your word in the script you like, then paste it. Tracing it is optional."},
+  {el: () => $("mStep3"), title: "Glue the edges", body: "Strips come pre-cut for your shape. Tap each dotted side to glue a strip. The circle gets one long bendable strip."},
   {el: () => $("screen"), title: "3 · Scan it", body: "Click your tile, then Scan. The seat screen shows the word. Play on my phone reads it aloud."},
   {el: () => $("library"), title: "4 · Finish the proverb", body: "Set your tile on the folio, then take the missing words from the library."},
   {el: () => $("cords"), title: "5 · Hang the folio", body: "Hang finished folios on the frame. It holds up to 50."},
