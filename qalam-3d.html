@@ -54,8 +54,8 @@ html.clip .hint3d{display:none}
 <body>
 <div class="wrap">
   <div class="eyebrow">Qalam Tiles · 3D walkthrough</div>
-  <h1>The craft table and the wall frame <span class="ar" lang="ar">قلم</span></h1>
-  <p class="lede">A six-sided craft table seats six, each with their own kit tray, so nobody waits in line. Visitors choose a proverb, make one of its words as a tile, scan it, finish the proverb with tiles from neighbors and the word library, hang it on the wall frame, and take home a card with their name. <a href="index.html">Back to the tiles</a></p>
+  <h1>Qalam Tiles: the craft table and the wall frame <span class="ar" lang="ar">قلم</span></h1>
+  <p class="lede">A six-sided craft table seats six, each with their own kit tray, so nobody waits in line. Visitors start at the Qalam Tiles sign, then choose a proverb, make one of its words as a tile, scan it, finish the proverb with tiles from neighbors and the word library, hang it on the wall frame, and take home a card with their name. <a href="index.html">Back to the tiles</a></p>
 
   <div class="stage" id="stage"><span class="hint3d">Drag to look around · scroll to zoom</span></div>
 
@@ -83,8 +83,8 @@ html.clip .hint3d{display:none}
     <h2 id="legend-h">What’s on the table</h2>
     <div class="cols legend3">
       <div class="col"><span class="k">At each of the six seats</span><p>A kit tray with a word sticker sheet, a tracing card, a pencil, and a glue stick. Next to it: three proverb cards, a small seat screen, and a folio.</p></div>
-      <div class="col"><span class="k">On the turntable in the middle</span><p>Shared bins of blanks in four shapes (already faced with paper), packs of pre-cut edge strips in color and gold, glue, pencils, and the word library: tiles made earlier, reused all day.</p></div>
-      <div class="col"><span class="k">Around the table</span><p>The example board on the easel shows how a tile is made and the finished shapes. The carved wall frame holds up to 50 folios. The gift printer makes name cards.</p></div>
+      <div class="col"><span class="k">On the turntable in the middle</span><p>Shared bins of blanks in four shapes (already faced with paper), packs of pre-cut edge strips in color, gold, and wood (wood for straight sides only), glue, pencils, and the word library: tiles made earlier, reused all day.</p></div>
+      <div class="col"><span class="k">Around the table</span><p>The Qalam Tiles sign at the entrance shows the six steps, including how a tile is made. The carved wall frame holds up to 50 folios. The gift printer makes name cards.</p></div>
     </div>
   </section>
 </div>
@@ -103,7 +103,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.shadowMap.enable
 stage.prepend(renderer.domElement);
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(40, 16/9, 0.05, 30);
-const HOME = {p:[1.2, 2.7, 3.4], t:[0.2, 0.9, -0.6]};
+const HOME = {p:[0.85, 2.75, 3.55], t:[-0.15, 0.9, -0.5]};
 camera.position.set(...HOME.p);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.target.set(...HOME.t); controls.enableDamping = true; controls.minDistance = 0.5; controls.maxDistance = 9; controls.maxPolarAngle = Math.PI*0.49;
@@ -257,11 +257,11 @@ add(new THREE.CylinderGeometry(0.02, 0.022, 0.05, 16), M(0xf2f2f0, {roughness:.4
 add(new THREE.CylinderGeometry(0.022, 0.022, 0.01, 16), M(0x2f7d7a), [0, 0.075, 0], lazy);
 add(new THREE.CylinderGeometry(0.025, 0.02, 0.06, 16, 1, true), M(0x7a5326), [0.09, 0.05, 0.03], lazy);
 [0,1,2].forEach(i => { const p = add(new THREE.CylinderGeometry(0.003, 0.003, 0.12, 6), M(0xe2b04f), [0.085 + i*0.005, 0.09, 0.03], lazy); p.rotation.z = 0.1*(i-1); });
-// shared materials in a ring: four bins of blanks and two packs of pre-cut edge strips
+// shared materials in a ring: four bins of blanks and three packs of pre-cut edge strips (color, gold, wood)
 [[6, 0.0], [3, 1], [4, 2], [24, 3]].forEach(([seg, i]) => { const a = Math.PI/4 + i*Math.PI/4, x = Math.sin(a)*0.13, z = Math.cos(a)*0.13;
   add(new THREE.BoxGeometry(0.055, 0.025, 0.055), M(0x7a5326), [x, 0.032, z], lazy);
   const bl = seg === 4 ? add(new THREE.BoxGeometry(0.03, 0.01, 0.03), M(KRAFT), [x, 0.05, z], lazy) : add(new THREE.CylinderGeometry(0.018, 0.018, 0.01, seg), M(KRAFT), [x, 0.05, z], lazy); });
-[0x1f5aa6, 0xe2b04f].forEach((c, i) => { const a = Math.PI*1.35 + i*0.32, x = Math.sin(a)*0.13, z = Math.cos(a)*0.13;
+[0x1f5aa6, 0xe2b04f, 0xb08654].forEach((c, i) => { const a = Math.PI*1.3 + i*0.3, x = Math.sin(a)*0.13, z = Math.cos(a)*0.13;
   const tr = add(new THREE.BoxGeometry(0.06, 0.008, 0.06), M(0x7a5326), [x, 0.024, z], lazy); tr.rotation.y = a;
   for (let k = 0; k < 5; k++){ const st = add(new THREE.BoxGeometry(0.05, 0.003, 0.006), M(c, {roughness:.6}), [x + Math.cos(a)*(k-2)*0.009, 0.03 + (k%2)*0.003, z - Math.sin(a)*(k-2)*0.009], lazy); st.rotation.y = a + Math.PI/2; } });
 const READY = [["faraj", 0], ["khayr", Math.PI*0.5], ["jalis", Math.PI*0.9], ["zaman", Math.PI*1.25], ["kitab", Math.PI*1.6]];   // the word library: tiles stay at the exhibit
@@ -295,36 +295,52 @@ const folioA = folios[5], folioB = folios[3];   // the child's folio (front-left
 // slot i on a folio: first word at the visitor's right, because Arabic reads right to left
 function slotPos(Fo, i){ return Fo.g.localToWorld(V(0.105 - i*0.07, 0.0081, (262/400 - 0.5)*FD - 0.022)); }
 
-/* ---------- process board on an easel: the steps and the finished shapes ---------- */
-function boardDraw(g, w, h){
-  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = "#7a5326"; g.lineWidth = 16; g.strokeRect(8,8,w-16,h-16);
-  g.fillStyle = "#2b1d0e"; g.textAlign = "center"; g.font = F(400, 46, "Marcellus, serif"); g.fillText("Example: how a tile is made", w/2, 72);
-  g.fillStyle = "#6f5a3c"; g.font = F(400, 24); g.fillText("Blanks come faced with paper. Edge strips come pre-cut for each shape.", w/2, 112);
+
+
+/* ---------- welcome sign: visitors start here, read the six steps, then take a free seat ---------- */
+function signDraw(g, w, h){
+  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = "#7a5326"; g.lineWidth = 18; g.strokeRect(9,9,w-18,h-18);
+  g.strokeStyle = "#b8892f"; g.lineWidth = 3; g.strokeRect(30,30,w-60,h-60);
+  g.textAlign = "center"; g.fillStyle = "#2b1d0e"; g.font = F(400, 64, "Marcellus, serif"); g.fillText("Qalam Tiles", w/2 - 60, 112);
+  g.fillStyle = "#b8892f"; g.direction = "rtl"; g.font = F(700, 70, "Amiri, serif"); g.fillText("قلم", w/2 + 250, 116); g.direction = "ltr";
+  g.fillStyle = "#6f5a3c"; g.font = F(500, 30); g.fillText("Start here. Read the six steps, then take a free seat at the table.", w/2, 166);
   const hex = (x, y, r, fill, stroke, lw) => { g.beginPath(); for (let i = 0; i < 6; i++){ const a = Math.PI/6 + i*Math.PI/3; g.lineTo(x + r*Math.cos(a), y + r*Math.sin(a)); } g.closePath(); g.fillStyle = fill; g.fill(); if (stroke){ g.strokeStyle = stroke; g.lineWidth = lw; g.stroke(); } };
-  const steps = [["1 Pick a shape", "hexagon, triangle,", "square, or circle"], ["2 Paste your word", "press it flat; trace", "it if you like"], ["3 Glue the edges", "one pre-cut strip", "on each side"]];
-  steps.forEach(([t, a, b], i) => {
-    const x = 180 + i*320, y = 220;
-    hex(x, y, 66, "#f3e3bd", i === 2 ? "#1f5aa6" : "#8f6d40", i === 2 ? 14 : 4);
-    if (i >= 1){ g.fillStyle = "#1b1a17"; g.font = F(700, 40, "Amiri, serif"); g.fillText("نور", x, y + 4); qrMark(g, x - 10, y + 18, 20); }
-    g.fillStyle = "#2b1d0e"; g.font = F(600, 28); g.fillText(t, x, y + 104);
-    g.fillStyle = "#6f5a3c"; g.font = F(400, 22); g.fillText(a, x, y + 134); g.fillText(b, x, y + 160);
-    if (i < 2){ g.fillStyle = "#b8892f"; g.font = F(700, 44); g.fillText("→", x + 160, y + 12); }
-  });
-  g.fillStyle = "#2b1d0e"; g.font = F(600, 27); g.fillText("Finished tiles", w/2, 438);
-  [["hex", "#1f5aa6", "الصبر"], ["tri", "#b8892f", "خير"], ["sq", "#2f7d7a", "كتاب"], ["circ", "#c99a3a", "نور"]].forEach(([s, c, word], i) => {
-    const x = 200 + i*200, y = 532; g.fillStyle = c; g.beginPath();
-    if (s === "hex") hex(x, y, 60, c);
-    if (s === "tri"){ g.moveTo(x, y-62); g.lineTo(x+66, y+50); g.lineTo(x-66, y+50); g.closePath(); g.fill(); }
-    if (s === "sq"){ g.fillRect(x-54, y-54, 108, 108); }
-    if (s === "circ"){ g.arc(x, y, 58, 0, 7); g.fill(); }
-    const ty = s === "tri" ? y + 14 : y; g.fillStyle = "#f3e3bd"; g.fillRect(x-34, ty-30, 68, 60);
-    g.fillStyle = "#1b1a17"; g.font = F(700, word.length > 3 ? 24 : 30, "Amiri, serif"); g.fillText(word, x, ty + 4);
+  const ar = (t, x, y, px) => { g.fillStyle = "#1b1a17"; g.direction = "rtl"; g.font = F(700, px, "Amiri, serif"); g.fillText(t, x, y); g.direction = "ltr"; };
+  const icons = [
+    (x, y) => { [-46, 46].forEach(d => { g.fillStyle = "#fbf4e4"; g.strokeStyle = "#b8892f"; g.lineWidth = 3; g.fillRect(x + d - 22, y - 34, 44, 62); g.strokeRect(x + d - 22, y - 34, 44, 62); });
+                g.fillStyle = "#fbf4e4"; g.fillRect(x - 30, y - 46, 60, 80); g.strokeStyle = "#e2b04f"; g.lineWidth = 6; g.strokeRect(x - 30, y - 46, 60, 80); ar("الصبر", x, y - 6, 22); qrMark(g, x - 9, y + 8, 18); },
+    (x, y) => { hex(x - 62, y, 24, "#e9d6ae", "#8f6d40", 3); hex(x, y, 24, "#f3e3bd", "#8f6d40", 3); ar("نور", x, y + 7, 22); hex(x + 66, y, 30, "#f3e3bd", "#1f5aa6", 9); ar("نور", x + 66, y + 8, 24);
+                g.fillStyle = "#6f5a3c"; g.font = F(500, 17); [["shape", -62], ["word", 0], ["edges", 66]].forEach(([t, dx]) => g.fillText(t, x + dx, y + 52)); },
+    (x, y) => { g.fillStyle = "#2c2c2a"; g.fillRect(x - 10, y - 46, 92, 80); g.fillStyle = "#fbf4e4"; g.fillRect(x - 3, y - 39, 78, 66); ar("نور", x + 36, y - 2, 30); g.fillStyle = "#6f5a3c"; g.font = F(400, 16); g.fillText("light", x + 36, y + 18);
+                g.fillStyle = "#2c2c2a"; g.fillRect(x - 74, y - 40, 32, 58); g.fillStyle = "#9fd8c8"; g.fillRect(x - 70, y - 34, 24, 44); },
+    (x, y) => { g.fillStyle = "#fbf4e4"; g.strokeStyle = "#b8892f"; g.lineWidth = 3; g.fillRect(x - 96, y - 44, 192, 92); g.strokeRect(x - 96, y - 44, 192, 92);
+                g.strokeStyle = "#e2b04f"; g.lineWidth = 6; g.beginPath(); g.moveTo(x - 84, y + 30); g.lineTo(x + 84, y + 30); g.stroke();
+                hex(x + 58, y - 4, 24, "#f3e3bd", "#1f5aa6", 5); ar("الصبر", x + 58, y + 2, 15);
+                g.fillStyle = "#1f5aa6"; g.fillRect(x - 22, y - 26, 44, 44); g.fillStyle = "#f3e3bd"; g.fillRect(x - 18, y - 22, 36, 36); ar("مفتاح", x, y + 2, 15);
+                g.beginPath(); g.arc(x - 58, y - 4, 23, 0, 7); g.fillStyle = "#c99a3a"; g.fill(); g.beginPath(); g.arc(x - 58, y - 4, 18, 0, 7); g.fillStyle = "#f3e3bd"; g.fill(); ar("الفرج", x - 58, y + 2, 15); },
+    (x, y) => { g.fillStyle = "#efe2c4"; g.fillRect(x - 96, y - 46, 192, 96); g.strokeStyle = "#7a5326"; g.lineWidth = 9; g.strokeRect(x - 96, y - 46, 192, 96);
+                g.strokeStyle = "#6b4a24"; g.lineWidth = 2; [-26, 14].forEach(dy => { g.beginPath(); g.moveTo(x - 88, y + dy); g.lineTo(x + 88, y + dy); g.stroke(); });
+                [[-60, -26], [0, -26], [60, -26], [-30, 14], [30, 14]].forEach(([dx, dy]) => { g.fillStyle = "#fbf4e4"; g.fillRect(x + dx - 20, y + dy + 4, 40, 26); g.strokeStyle = "#b8892f"; g.lineWidth = 2; g.strokeRect(x + dx - 20, y + dy + 4, 40, 26); }); },
+    (x, y) => { g.fillStyle = "#ffffff"; g.fillRect(x - 46, y - 52, 92, 62); g.strokeStyle = "#b4b2a9"; g.lineWidth = 2; g.strokeRect(x - 46, y - 52, 92, 62); ar("سارة", x, y - 22, 28); g.fillStyle = "#2b1d0e"; g.font = F(400, 16, "Marcellus, serif"); g.fillText("Sara", x, y - 2);
+                g.fillStyle = "#6b4a24"; g.fillRect(x - 70, y + 2, 140, 48); g.fillStyle = "#2c2c2a"; g.fillRect(x - 52, y + 2, 104, 8); }
+  ];
+  const names = ["Choose a proverb", "Make your tile", "Scan it", "Finish the proverb", "Hang the folio", "Take a gift"];
+  names.forEach((nm, i) => {
+    const cx = 200 + (i % 3)*350, cy = 300 + Math.floor(i/3)*250;
+    g.fillStyle = "#fbf1dc"; g.strokeStyle = "#d9c39a"; g.lineWidth = 3; g.fillRect(cx - 150, cy - 100, 300, 210); g.strokeRect(cx - 150, cy - 100, 300, 210);
+    g.beginPath(); g.arc(cx - 122, cy - 72, 21, 0, 7); g.fillStyle = "#e2b04f"; g.fill(); g.fillStyle = "#2b1d0e"; g.font = F(700, 24); g.fillText(String(i + 1), cx - 122, cy - 63);
+    icons[i](cx, cy - 4);
+    g.fillStyle = "#2b1d0e"; g.font = F(600, 28); g.fillText(nm, cx, cy + 90);
+    if (i % 3 < 2){ g.fillStyle = "#b8892f"; g.font = F(700, 40); g.fillText("→", cx + 175, cy + 12); }
   });
 }
-const easel = new THREE.Group(); easel.position.set(-1.7, 0, -0.55); easel.rotation.y = 0.55; scene.add(easel);
-[-0.3, 0.3].forEach(x => { const l = add(new THREE.CylinderGeometry(0.015, 0.015, 1.6, 8), M(0x7a5326), [x, 0.8, 0], easel); l.rotation.x = -0.12; });
-const BT = canvasTex(1000, 640, boardDraw); redrawers.push(() => BT.redraw(boardDraw));
-const board = add(new THREE.BoxGeometry(0.9, 0.576, 0.02), [M(0x7a5326), M(0x7a5326), M(0x7a5326), M(0x7a5326), new THREE.MeshStandardMaterial({map:BT.t, roughness:.9}), M(0x7a5326)], [0, 1.25, 0.03], easel);
+const SIGN_P = V(-2.25, 0, 1.15), SIGN_A = 1.0;
+const sign = new THREE.Group(); sign.position.copy(SIGN_P); sign.rotation.y = SIGN_A; scene.add(sign);
+[-0.52, 0.52].forEach(x => add(new THREE.CylinderGeometry(0.025, 0.03, 1.95, 10), M(0x7a5326), [x, 0.975, -0.03], sign));
+add(new THREE.BoxGeometry(0.4, 0.04, 0.3), M(0x6b4a24), [-0.52, 0.02, -0.03], sign); add(new THREE.BoxGeometry(0.4, 0.04, 0.3), M(0x6b4a24), [0.52, 0.02, -0.03], sign);
+const ST_ = canvasTex(1100, 800, signDraw); redrawers.push(() => ST_.redraw(signDraw));
+const signBoard = add(new THREE.BoxGeometry(1.1, 0.8, 0.025), [M(0x7a5326), M(0x7a5326), M(0x7a5326), M(0x7a5326), new THREE.MeshStandardMaterial({map:ST_.t, roughness:.9}), M(0x7a5326)], [0, 1.45, 0], sign);
+const SIGN_CAM = [[SIGN_P.x + Math.sin(SIGN_A - 0.4)*2.5, 2.35, SIGN_P.z + Math.cos(SIGN_A - 0.4)*2.5], [SIGN_P.x + 0.2, 1.3, SIGN_P.z + 0.1]];
 
 /* ---------- the wall frame: a carved wooden frame with 5 cords × 10 pegs, up to 50 folios ---------- */
 const WZ = -1.86, CORDS = [1.98, 1.7, 1.42, 1.14, 0.86], PEGX = i => -1.62 + i*0.36;
@@ -423,6 +439,12 @@ function makePerson(h, shirt, pants, x, z, rotY){
 }
 const people = VIS.map(v => { const phi = SEATS[v.seat], s = v.h/1.7, d = AP + 0.15*s; const pos = radial(phi, d); return makePerson(v.h, v.shirt, v.pants, pos.x, pos.z, phi + Math.PI); });
 const [P1, P2, P3, P4] = people;
+// two new visitors stand at the welcome sign, reading, while others work at the table
+const signFront = (d, side) => SIGN_P.clone().add(V(Math.sin(SIGN_A)*d, 0, Math.cos(SIGN_A)*d)).add(V(Math.cos(SIGN_A)*side, 0, -Math.sin(SIGN_A)*side));
+const RD = [[1.62, 0x8e4f9e, 0x2f3542, signFront(0.95, -0.4)], [1.3, 0x5b8c3a, 0x3f3f46, signFront(0.85, 0.36)]].map(([h, sh, pa, p]) => makePerson(h, sh, pa, p.x, p.z, SIGN_A + Math.PI));
+const [R1, R2] = RD; RD.forEach(R => people.push(R));
+const VISP = [P1, P2, P3, P4];
+const SIGN_LOOK = V(SIGN_P.x, 1.4, SIGN_P.z);
 const armOf = (P, side) => P.arms[side === "L" ? 0 : 1];
 function reach(P, side, target, dur=850){ const A = armOf(P, side); A.follow = null; A.restMode = !target; A.from = A.cur.clone(); A.to = target ? target.clone() : A.rest(); A.t0 = performance.now(); A.dur = dur; }
 function restAll(P, dur=600){ ["L","R"].forEach(sd => reach(P, sd, null, dur)); }
@@ -553,6 +575,7 @@ function resetAll(){
   scanners.forEach(sc => sc.userData.show(null));
   cards.forEach(cs => cs.forEach(c => { c.userData.parent.attach(c); c.position.copy(c.userData.home); c.rotation.copy(c.userData.rot); }));
   people.forEach(P => { P.arms.forEach(A => A.follow = null); P.g.position.copy(P.home); P.g.rotation.y = P.homeRot; P.g.updateMatrixWorld(true); restAll(P, 300); look(P, V(0, TOP, 0)); });
+  RD.forEach(R => look(R, SIGN_LOOK));
 }
 function place(Fo, ids){ ids.forEach(id => { const T = tiles[id]; if (T.parent !== scene) scene.attach(T); T.position.copy(slotPos(Fo, Fo.words.length)); T.rotation.set(0, Fo.phi, 0); Fo.g.attach(T); Fo.words.push(id); }); Fo.redraw(); }
 function applyDone(n){
@@ -567,13 +590,13 @@ function applyDone(n){
 
 const CAP = {
   1:["1 · Choose a proverb",
-     "Each seat has three proverb cards. The child and the teen pick one, read the meaning, and scan its QR code. The seat screen shows the proverb, and their phone can play it aloud.",
-     "Every seat has its own cards and screen, so everyone chooses at the same time.",
+     "Visitors start at the Qalam Tiles sign, which shows the six steps, then take a free seat. At the table, the child and the teen pick a proverb card, read the meaning, and scan its QR code. The seat screen shows the proverb, and their phone can play it aloud.",
+     "While some people work at the table, new visitors read the sign and wait for a free seat. Every seat has its own cards and screen, so everyone chooses at the same time.",
      "The three proverbs use nine words in all. Each visitor makes one of the words in the proverb they chose."],
   2:["2 · Make your tile",
-     "First, visitors look at the example board: pick a shape, paste your word, glue the edges. Then each visitor pastes their word sticker on a blank, presses it flat, can trace it with the pencil, and glues a pre-cut strip on each side.",
-     "Personal tools sit in each kit tray. Blanks and packs of pre-cut strips, in color or gold, are shared in the middle. Two seats wait for the next people.",
-     "The example board stays beside the table, so anyone can check the next stage without asking."],
+     "First, visitors check step 2 on the Qalam Tiles sign: pick a shape, paste your word, glue the edges. Then each visitor pastes their word sticker on a blank, presses it flat, can trace it with the pencil, and glues a pre-cut strip on each side.",
+     "Personal tools sit in each kit tray. Blanks and packs of pre-cut strips, in color, gold, or wood, are shared in the middle. Wood is for straight sides only. Two seats wait for the next people.",
+     "The sign stays at the entrance, so anyone can check the next stage without asking."],
   3:["3 · Scan it",
      "The child and the teen hold their tiles to the seat screen. It reads the QR code and shows the word, how to say it, and what it means.",
      "Each seat has its own screen, so nobody waits. To hear the word, visitors scan the same code with their own phone.",
@@ -588,20 +611,25 @@ const CAP = {
      "Tiles stay at the exhibit. At the end of the day, folios come down and the tiles go back to the library."],
   6:["6 · Take a gift",
      "An adult types a name on the phone by the printer. The screen suggests the Arabic spelling, and the visitor checks or fixes it before printing.",
-     "Names can also be typed from any phone by scanning a QR sign, so the printer never has a line. Cards wait in a pickup tray.",
+     "Names can also be typed from any phone by scanning a QR sign, so the printer never has a line. Meanwhile, a visitor who was reading the sign takes the free seat.",
      "The printer makes a small card with the name in Arabic calligraphy and in English, to take home."]
 };
 function caption(n){ const c = CAP[n]; $("capH").textContent = c[0]; $("capT").textContent = c[1]; $("capW").textContent = c[2]; $("capS").textContent = c[3]; }
 async function step1(){
-  caption(1); camGo([-2.1, 1.8, 0.0], [-0.35, 1.0, 0.0]);
+  caption(1);
+  // new visitors start at the welcome sign, then come to the table
+  RD.forEach(R => look(R, SIGN_LOOK));
+  if (CLIP !== null){ if (CLIP === 1){ camera.position.set(...SIGN_CAM[0]); controls.target.set(...SIGN_CAM[1]); } } else camGo(...SIGN_CAM, 1200);
+  await wait(3200);
+  if (CLIP === 1){ camera.position.set(...CLOSE[1][0]); controls.target.set(...CLOSE[1][1]); } else if (CLIP === null) camGo([-2.1, 1.8, 0.0], [-0.35, 1.0, 0.0]);
   await Promise.all([ choose(P2, VIS[1].seat, 0), choose(P3, VIS[2].seat, 1) ]);
   await wait(300);
 }
-const BOARD_CAM = [[-1.12, 1.32, 0.42], [-1.68, 1.22, -0.52]];
+const BOARD_CAM = (() => { const c = signFront(0.75, 0), t = signFront(0, 0); return [[c.x, 1.78, c.z], [t.x, 1.55, t.z]]; })();   // close-up of the sign
 async function step2(){
   caption(2);
-  // first, everyone looks at the example board on the easel
-  const bp = wpos(board); people.forEach(P => look(P, bp));
+  // first, a close look at step 2 on the sign: pick a shape, paste your word, glue the edges
+  VISP.forEach(P => look(P, V(0, TOP, 0)));
   if (CLIP !== null){ camera.position.set(...BOARD_CAM[0]); controls.target.set(...BOARD_CAM[1]); } else camGo(...BOARD_CAM, 1200);
   await wait(3200);
   if (CLIP !== null){ if (CLIP === 2){ camera.position.set(...CLOSE[2][0]); controls.target.set(...CLOSE[2][1]); } else if (CLIP === 0){ camera.position.set(2.2, 2.6, 3.0); controls.target.set(0.1, 0.9, -0.6); } }
@@ -631,7 +659,8 @@ async function step5(){
 }
 async function step6(){
   caption(6); camGo([1.0, 1.7, 0.3], [2.2, 1.0, -1.2]);
-  await gift(P1);
+  const seat4 = radial(SEATS[4], AP + 0.15*R1.s);
+  await Promise.all([ gift(P1), (async () => { await wait(700); look(R1, V(0, TOP, 0)); await walkPath(R1, [V(-2.15, 0, 1.3), V(-1.95, 0, 0.4), V(-1.45, 0, 0.0), seat4], SEATS[4] + Math.PI); look(R1, V(0, TOP, 0)); })() ]);
 }
 const STEPS = [null, step1, step2, step3, step4, step5, step6];
 let busy = false;

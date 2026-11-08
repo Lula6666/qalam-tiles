@@ -59,6 +59,7 @@ h2{font-family:var(--display); font-weight:400; font-size:22px; margin:0; displa
 .seg{display:flex; flex-wrap:wrap; border:1px solid var(--line); border-radius:6px; overflow:hidden; max-width:100%}
 .seg button{font:inherit; font-size:13px; border:0; background:transparent; color:var(--ink); padding:5px 10px; cursor:pointer; border-inline-end:1px solid var(--line)}
 .seg button:last-child{border-inline-end:0}
+.seg button:disabled{opacity:.4; cursor:not-allowed; text-decoration:line-through}
 .seg button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
 button:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
 .btn{font:inherit; font-size:14px; font-weight:500; border:1px solid var(--accent); background:var(--accent); color:var(--accent-ink); padding:7px 13px; border-radius:6px; cursor:pointer}
@@ -376,12 +377,106 @@ details.trace canvas{margin-top:6px}
   </section>
 
   <section class="leaf" id="seat" aria-labelledby="seat-h">
-    <h2 id="seat-h">Your seat at the table</h2>
-    <p class="sub">Everyone gets the same seat setup, so six people can work at once without waiting. The numbers match the steps below.</p>
+    <h2 id="seat-h">How it works, from proverb to gift</h2>
+    <p class="sub">Six steps. Every seat has the same setup, so six people can work at once without waiting. The numbers match the steps below.</p>
     <div class="seatgrid">
-      <svg viewBox="0 0 640 430" role="img" aria-labelledby="seat-t seat-d" class="seatsvg">
-<title id="seat-t">Top view of one seat at the craft table</title>
-<desc id="seat-d">From the visitor's side: proverb cards on the left, the kit tray in front with a word sticker sheet, a tracing card, a pencil, and a glue stick, the seat screen on the right, a folio further in, and the shared turntable in the middle of the table with blanks, pre-cut edge strips, and the word library.</desc>
+      <svg viewBox="0 0 660 460" role="img" aria-labelledby="seat-t seat-d" class="seatsvg">
+<title id="seat-t">The six steps, from choosing a proverb to taking a gift</title>
+<desc id="seat-d">Six panels: 1 choose one of three proverb cards; 2 make a tile in three stages, shape, word, edges; 3 scan it at the seat screen and hear it on a phone; 4 finish the proverb on a folio, reading right to left, with tiles from neighbors and the library; 5 hang the folio on the wall frame; 6 print a name card in Arabic and English to take home.</desc>
+<g transform="translate(10 10)">
+<rect x="0" y="0" width="200" height="200" rx="8" fill="#f6ead0" stroke="#d9c39a" stroke-width="1.5"/>
+<circle cx="20" cy="20" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#2b1d0e">1</text>
+<rect x="34" y="44" width="44" height="60" rx="3" fill="#fbf4e4" stroke="#b8892f" transform="rotate(-8 56 74)"/>
+<rect x="122" y="44" width="44" height="60" rx="3" fill="#fbf4e4" stroke="#b8892f" transform="rotate(8 144 74)"/>
+<rect x="72" y="30" width="56" height="76" rx="3" fill="#fbf4e4" stroke="#e2b04f" stroke-width="3"/>
+<text x="100" y="50" font-size="13" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">الصبر</text><text x="100" y="66" font-size="13" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">مفتاح</text><text x="100" y="82" font-size="13" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">الفرج</text><rect x="95" y="88" width="8" height="8" fill="#1b1a17"/><rect x="97" y="90" width="4" height="4" fill="#f6ead0"/>
+<text x="100" y="130" text-anchor="middle" font-size="11.5" fill="#6f5a3c">read · listen · pick one</text>
+<text x="100" y="170" text-anchor="middle" font-size="15" font-weight="600" fill="#2b1d0e">Choose a proverb</text>
+<text x="100" y="189" text-anchor="middle" font-size="12" fill="#6f5a3c">three cards at every seat</text>
+</g>
+<g transform="translate(230 10)">
+<rect x="0" y="0" width="200" height="200" rx="8" fill="#f6ead0" stroke="#d9c39a" stroke-width="1.5"/>
+<circle cx="20" cy="20" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#2b1d0e">2</text>
+<polygon points="55.3,82.0 38.0,92.0 20.7,82.0 20.7,62.0 38.0,52.0 55.3,62.0" fill="#e9d6ae" stroke="#8f6d40" stroke-width="1.5"/>
+<text x="64" y="77" text-anchor="middle" font-size="16" fill="#b8892f">→</text>
+<polygon points="107.3,82.0 90.0,92.0 72.7,82.0 72.7,62.0 90.0,52.0 107.3,62.0" fill="#f3e3bd" stroke="#8f6d40" stroke-width="1.5"/><text x="90" y="76" font-size="14" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">نور</text>
+<text x="116" y="77" text-anchor="middle" font-size="16" fill="#b8892f">→</text>
+<polygon points="176.8,84.0 156.0,96.0 135.2,84.0 135.2,60.0 156.0,48.0 176.8,60.0" fill="#f3e3bd" stroke="#1f5aa6" stroke-width="6" stroke-linejoin="round"/><text x="156" y="77" font-size="15" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">نور</text>
+<text x="38" y="112" text-anchor="middle" font-size="11" fill="#6f5a3c">shape</text><text x="90" y="112" text-anchor="middle" font-size="11" fill="#6f5a3c">word</text><text x="156" y="112" text-anchor="middle" font-size="11" fill="#6f5a3c">edges</text>
+<text x="100" y="132" text-anchor="middle" font-size="11.5" fill="#6f5a3c">same as on the sign</text>
+<text x="100" y="170" text-anchor="middle" font-size="15" font-weight="600" fill="#2b1d0e">Make your tile</text>
+<text x="100" y="189" text-anchor="middle" font-size="12" fill="#6f5a3c">one word, three stages</text>
+</g>
+<g transform="translate(450 10)">
+<rect x="0" y="0" width="200" height="200" rx="8" fill="#f6ead0" stroke="#d9c39a" stroke-width="1.5"/>
+<circle cx="20" cy="20" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#2b1d0e">3</text>
+<rect x="96" y="36" width="82" height="74" rx="6" fill="#2c2c2a"/><rect x="102" y="42" width="70" height="62" rx="3" fill="#fbf4e4"/>
+<text x="137" y="68" font-size="20" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">نور</text><text x="137" y="84" text-anchor="middle" font-size="10.5" fill="#6f5a3c">nūr</text><text x="137" y="97" text-anchor="middle" font-size="10.5" fill="#2b1d0e">light</text>
+<polygon points="83.9,104.0 70.0,112.0 56.1,104.0 56.1,88.0 70.0,80.0 83.9,88.0" fill="#f3e3bd" stroke="#1f5aa6" stroke-width="4"/><text x="70" y="100" font-size="11" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">نور</text>
+<rect x="24" y="34" width="26" height="44" rx="5" fill="#2c2c2a"/><rect x="27" y="39" width="20" height="32" rx="2" fill="#9fd8c8"/>
+<path d="M56 46 q6 10 0 20 M62 41 q10 15 0 30" fill="none" stroke="#2f7d7a" stroke-width="2"/>
+<text x="100" y="132" text-anchor="middle" font-size="11.5" fill="#6f5a3c">see it · hear it</text>
+<text x="100" y="170" text-anchor="middle" font-size="15" font-weight="600" fill="#2b1d0e">Scan it</text>
+<text x="100" y="189" text-anchor="middle" font-size="12" fill="#6f5a3c">seat screen + your phone</text>
+</g>
+<g transform="translate(10 250)">
+<rect x="0" y="0" width="200" height="200" rx="8" fill="#f6ead0" stroke="#d9c39a" stroke-width="1.5"/>
+<circle cx="20" cy="20" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#2b1d0e">4</text>
+<rect x="18" y="34" width="164" height="92" rx="2" fill="#fbf4e4" stroke="#b8892f" stroke-width="2"/>
+<line x1="28" y1="102" x2="172" y2="102" stroke="#e2b04f" stroke-width="4"/>
+<polygon points="164.5,85.5 148.0,95.0 131.5,85.5 131.5,66.5 148.0,57.0 164.5,66.5" fill="#f3e3bd" stroke="#1f5aa6" stroke-width="4"/><text x="148" y="80" font-size="12" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">الصبر</text>
+<rect x="83" y="58" width="34" height="34" fill="#f3e3bd" stroke="#1f5aa6" stroke-width="4"/><text x="100" y="80" font-size="12" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">مفتاح</text>
+<circle cx="52" cy="76" r="18" fill="#f3e3bd" stroke="#c99a3a" stroke-width="4"/><text x="52" y="80" font-size="12" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">الفرج</text>
+<text x="100" y="118" text-anchor="middle" font-size="10.5" fill="#6f5a3c">← reads right to left</text>
+<text x="100" y="140" text-anchor="middle" font-size="11.5" fill="#6f5a3c">any number of words</text>
+<text x="100" y="170" text-anchor="middle" font-size="15" font-weight="600" fill="#2b1d0e">Finish the proverb</text>
+<text x="100" y="189" text-anchor="middle" font-size="12" fill="#6f5a3c">from neighbors and the library</text>
+</g>
+<g transform="translate(230 250)">
+<rect x="0" y="0" width="200" height="200" rx="8" fill="#f6ead0" stroke="#d9c39a" stroke-width="1.5"/>
+<circle cx="20" cy="20" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#2b1d0e">5</text>
+<rect x="20" y="32" width="160" height="104" rx="3" fill="#efe2c4" stroke="#7a5326" stroke-width="7"/>
+<line x1="26" y1="52" x2="174" y2="52" stroke="#6b4a24" stroke-width="1.5"/><line x1="26" y1="94" x2="174" y2="94" stroke="#6b4a24" stroke-width="1.5"/>
+<line x1="48" y1="52" x2="48" y2="58" stroke="#7a5326" stroke-width="2"/><rect x="34" y="58" width="28" height="20" fill="#fbf4e4" stroke="#b8892f"/><polygon points="58.5,70.0 55.0,72.0 51.5,70.0 51.5,66.0 55.0,64.0 58.5,66.0" fill="#1f5aa6"/><rect x="44" y="64" width="7" height="7" fill="#2f7d7a"/><circle cx="40" cy="68" r="3.5" fill="#c99a3a"/><line x1="100" y1="52" x2="100" y2="58" stroke="#7a5326" stroke-width="2"/><rect x="86" y="58" width="28" height="20" fill="#fbf4e4" stroke="#b8892f"/><polygon points="110.5,70.0 107.0,72.0 103.5,70.0 103.5,66.0 107.0,64.0 110.5,66.0" fill="#1f5aa6"/><rect x="96" y="64" width="7" height="7" fill="#2f7d7a"/><circle cx="92" cy="68" r="3.5" fill="#c99a3a"/><line x1="152" y1="52" x2="152" y2="58" stroke="#7a5326" stroke-width="2"/><rect x="138" y="58" width="28" height="20" fill="#fbf4e4" stroke="#b8892f"/><polygon points="162.5,70.0 159.0,72.0 155.5,70.0 155.5,66.0 159.0,64.0 162.5,66.0" fill="#1f5aa6"/><rect x="148" y="64" width="7" height="7" fill="#2f7d7a"/><circle cx="144" cy="68" r="3.5" fill="#c99a3a"/><line x1="48" y1="94" x2="48" y2="100" stroke="#7a5326" stroke-width="2"/><rect x="34" y="100" width="28" height="20" fill="#fbf4e4" stroke="#b8892f"/><polygon points="58.5,112.0 55.0,114.0 51.5,112.0 51.5,108.0 55.0,106.0 58.5,108.0" fill="#1f5aa6"/><rect x="44" y="106" width="7" height="7" fill="#2f7d7a"/><circle cx="40" cy="110" r="3.5" fill="#c99a3a"/><line x1="100" y1="94" x2="100" y2="100" stroke="#7a5326" stroke-width="2"/><rect x="86" y="100" width="28" height="20" fill="#fbf4e4" stroke="#b8892f"/><polygon points="110.5,112.0 107.0,114.0 103.5,112.0 103.5,108.0 107.0,106.0 110.5,108.0" fill="#1f5aa6"/><rect x="96" y="106" width="7" height="7" fill="#2f7d7a"/><circle cx="92" cy="110" r="3.5" fill="#c99a3a"/>
+<text x="100" y="152" text-anchor="middle" font-size="11.5" fill="#6f5a3c">5 cords · up to 50 folios</text>
+<text x="100" y="170" text-anchor="middle" font-size="15" font-weight="600" fill="#2b1d0e">Hang the folio</text>
+<text x="100" y="189" text-anchor="middle" font-size="12" fill="#6f5a3c">on the wall frame</text>
+</g>
+<g transform="translate(450 250)">
+<rect x="0" y="0" width="200" height="200" rx="8" fill="#f6ead0" stroke="#d9c39a" stroke-width="1.5"/>
+<circle cx="20" cy="20" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#2b1d0e">6</text>
+<rect x="62" y="28" width="76" height="52" rx="2" fill="#ffffff" stroke="#b4b2a9"/>
+<text x="100" y="54" font-size="20" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">سارة</text><text x="100" y="72" text-anchor="middle" font-size="12" font-family="Marcellus, serif" fill="#2b1d0e">Sara</text>
+<rect x="44" y="72" width="112" height="46" rx="6" fill="#6b4a24"/><rect x="58" y="72" width="84" height="6" fill="#2c2c2a"/><circle cx="140" cy="100" r="4" fill="#9fd8c8"/>
+<text x="100" y="138" text-anchor="middle" font-size="11.5" fill="#6f5a3c">your name in Arabic, to keep</text>
+<text x="100" y="170" text-anchor="middle" font-size="15" font-weight="600" fill="#2b1d0e">Take a gift</text>
+<text x="100" y="189" text-anchor="middle" font-size="12" fill="#6f5a3c">a printed name card</text>
+</g>
+<path d="M212 110 h16" fill="none" stroke="#b8892f" stroke-width="2.5"/><polygon points="230,104 230,116 237,110" fill="#b8892f" transform="translate(-6 0)"/>
+<path d="M432 110 h16" fill="none" stroke="#b8892f" stroke-width="2.5"/><polygon points="450,104 450,116 457,110" fill="#b8892f" transform="translate(-6 0)"/>
+<path d="M212 350 h16" fill="none" stroke="#b8892f" stroke-width="2.5"/><polygon points="230,344 230,356 237,350" fill="#b8892f" transform="translate(-6 0)"/>
+<path d="M432 350 h16" fill="none" stroke="#b8892f" stroke-width="2.5"/><polygon points="450,344 450,356 457,350" fill="#b8892f" transform="translate(-6 0)"/>
+<path d="M550 212 v14 H110 v18" fill="none" stroke="#b8892f" stroke-width="2.5"/><polygon points="104,240 116,240 110,248" fill="#b8892f"/>
+</svg>
+      <ol class="seatlist">
+        <li><b>1</b><span><strong>Proverb cards.</strong> Three cards with a QR code each. Read them and choose one.</span></li>
+        <li><b>2</b><span><strong>Kit tray.</strong> A word sticker sheet, a tracing card, a pencil, and a glue stick. Take one blank and a pack of edge strips for that shape from the turntable.</span></li>
+        <li><b>3</b><span><strong>Seat screen.</strong> Hold your tile to it to see the word, how to say it, and what it means. Scan the same code with your phone to hear it.</span></li>
+        <li><b>4</b><span><strong>Folio and word library.</strong> Set your tile on the folio and take the missing words from the library on the turntable.</span></li>
+        <li><b>5</b><span><strong>Wall frame</strong>, beside the table. Hang your finished folio.</span></li>
+        <li><b>6</b><span><strong>Gift printer</strong>, by the frame. Print a card with your name.</span></li>
+      </ol>
+    </div>
+    <p class="sub">At the entrance, a Qalam Tiles sign shows these six steps, so visitors can read them before they sit down.</p>
+  </section>
+
+  <section class="leaf" id="seatzoom" aria-labelledby="seat2-h">
+    <h2 id="seat2-h">Your seat at the table</h2>
+    <p class="sub">A close look at one seat, from where you sit. Every seat is the same.</p>
+    <div class="seatgrid">
+      <svg viewBox="0 0 640 430" role="img" aria-labelledby="seat2-t seat2-d" class="seatsvg">
+<title id="seat2-t">Top view of one seat at the craft table</title>
+<desc id="seat2-d">From the visitor's side: proverb cards on the left, the kit tray in front with a word sticker sheet, a tracing card, a pencil, and a glue stick, the seat screen on the right, a folio further in, and the shared turntable in the middle of the table with blanks, pre-cut edge strips, and the word library.</desc>
 <polygon points="20,400 620,400 470,20 170,20" fill="#d8c39b" stroke="#a9824e" stroke-width="2"/>
 <path d="M150 20 A 190 190 0 0 0 490 20 Z" fill="#9a7445"/>
 <g>
@@ -389,8 +484,7 @@ details.trace canvas{margin-top:6px}
 <rect x="232" y="44" width="34" height="26" rx="3" fill="#7a5326"/><polygon points="249,48 259,66 239,66" fill="#c9a878"/>
 <rect x="274" y="56" width="34" height="26" rx="3" fill="#7a5326"/><rect x="283" y="61" width="16" height="16" fill="#c9a878"/>
 <rect x="316" y="58" width="34" height="26" rx="3" fill="#7a5326"/><circle cx="333" cy="71" r="9" fill="#c9a878"/>
-<rect x="360" y="52" width="30" height="24" fill="#f3e3bd" stroke="#b8892f"/><rect x="364" y="48" width="30" height="24" fill="#c9a878" stroke="#8f6d40"/><rect x="368" y="44" width="30" height="24" fill="#d6cbb6" stroke="#888780"/>
-<circle cx="418" cy="40" r="10" fill="#1f5aa6"/><circle cx="436" cy="30" r="10" fill="#e2b04f"/><circle cx="412" cy="20" r="9" fill="#b08654"/>
+<rect x="360" y="44" width="30" height="20" rx="2" fill="#7a5326"/><rect x="363" y="47" width="24" height="2.6" fill="#1f5aa6"/><rect x="363" y="51" width="24" height="2.6" fill="#1f5aa6"/><rect x="363" y="55" width="24" height="2.6" fill="#1f5aa6"/><rect x="363" y="59" width="24" height="2.6" fill="#1f5aa6"/><rect x="396" y="32" width="30" height="20" rx="2" fill="#7a5326"/><rect x="399" y="35" width="24" height="2.6" fill="#e2b04f"/><rect x="399" y="39" width="24" height="2.6" fill="#e2b04f"/><rect x="399" y="43" width="24" height="2.6" fill="#e2b04f"/><rect x="399" y="47" width="24" height="2.6" fill="#e2b04f"/><rect x="428" y="18" width="30" height="20" rx="2" fill="#7a5326"/><rect x="431" y="21" width="24" height="2.6" fill="#b08654"/><rect x="431" y="25" width="24" height="2.6" fill="#b08654"/><rect x="431" y="29" width="24" height="2.6" fill="#b08654"/><rect x="431" y="33" width="24" height="2.6" fill="#b08654"/>
 <polygon points="168,52 177,47 186,52 186,62 177,67 168,62" fill="#f3e3bd" stroke="#2f7d7a" stroke-width="3"/>
 <polygon points="456,52 465,47 474,52 474,62 465,67 456,62" fill="#f3e3bd" stroke="#b8892f" stroke-width="3"/>
 </g>
@@ -398,7 +492,7 @@ details.trace canvas{margin-top:6px}
 <g><circle cx="128" cy="44" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="128" y="49" text-anchor="middle" font-size="14" font-weight="600" fill="#2b1d0e">2</text></g><g><circle cx="512" cy="44" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="512" y="49" text-anchor="middle" font-size="14" font-weight="600" fill="#2b1d0e">4</text></g>
 <rect x="210" y="132" width="220" height="90" fill="#f6ead0" stroke="#b8892f" stroke-width="3"/>
 <line x1="226" y1="190" x2="414" y2="190" stroke="#b8892f" stroke-width="1.5"/>
-<rect x="364" y="160" width="26" height="26" fill="none" stroke="#b8892f" stroke-dasharray="3 3"/><rect x="330" y="160" width="26" height="26" fill="none" stroke="#b8892f" stroke-dasharray="3 3"/>
+<text x="404" y="182" text-anchor="end" font-size="11" fill="#8a7f6d">tiles go here, right to left ←</text>
 <text x="320" y="212" text-anchor="middle" font-size="12.5" fill="#6f5a3c">Folio</text>
 <g><circle cx="446" cy="150" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="446" y="155" text-anchor="middle" font-size="14" font-weight="600" fill="#2b1d0e">4</text></g>
 <rect x="150" y="262" width="340" height="96" rx="6" fill="#a9824e" stroke="#7a5326" stroke-width="2"/>
@@ -418,16 +512,13 @@ details.trace canvas{margin-top:6px}
 <g><circle cx="594" cy="258" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="594" y="263" text-anchor="middle" font-size="14" font-weight="600" fill="#2b1d0e">3</text></g>
 <text x="320" y="392" text-anchor="middle" font-size="13" fill="#2b1d0e">You sit here</text>
 </svg>
-      <ol class="seatlist">
-        <li><b>1</b><span><strong>Proverb cards.</strong> Three cards with a QR code each. Read them and choose one.</span></li>
-        <li><b>2</b><span><strong>Kit tray.</strong> A word sticker sheet, a tracing card, a pencil, and a glue stick. Take one blank and a pack of edge strips for that shape from the turntable.</span></li>
-        <li><b>3</b><span><strong>Seat screen.</strong> Hold your tile to it to see the word, how to say it, and what it means. Scan the same code with your phone to hear it.</span></li>
-        <li><b>4</b><span><strong>Folio and word library.</strong> Set your tile on the folio and take the missing words from the library on the turntable.</span></li>
-        <li><b>5</b><span><strong>Wall frame</strong>, beside the table. Hang your finished folio.</span></li>
-        <li><b>6</b><span><strong>Gift printer</strong>, by the frame. Print a card with your name.</span></li>
-      </ol>
+      <ul class="seatlist">
+        <li><b>1</b><span><strong>Proverb cards</strong> on a small stand, each with a QR code.</span></li>
+        <li><b>2</b><span><strong>Kit tray:</strong> word stickers, a tracing card, a glue stick, and a pencil. From the turntable: a blank and a pack of pre-cut strips (color, gold, or wood).</span></li>
+        <li><b>3</b><span><strong>Seat screen</strong> that reads the QR code on your tile.</span></li>
+        <li><b>4</b><span><strong>Folio</strong> where you build the proverb, right to left, with tiles from the word library on the turntable.</span></li>
+      </ul>
     </div>
-    <p class="sub">Also beside the table: an example board on an easel that shows how a tile is made, the same as the example in step 2.</p>
   </section>
 
   <section class="leaf" id="choose" aria-labelledby="choose-h">
@@ -436,10 +527,10 @@ details.trace canvas{margin-top:6px}
   </section>
 
   <section class="leaf" id="make" aria-labelledby="make-h">
-    <div class="sec-h"><div class="t"><h2 id="make-h"><span class="ros">2</span>Make your tile</h2><p class="sub">Three short steps: pick a blank shape, paste your word on it, then glue the edge strips around it yourself. Blanks are upcycled cardboard already faced with ahar paper.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: visitors look at the example board, paste their word, and glue the edges"><source src="step2.mp4" type="video/mp4"><source src="step2.webm" type="video/webm"></video><figcaption>At the table</figcaption></figure></div>
+    <div class="sec-h"><div class="t"><h2 id="make-h"><span class="ros">2</span>Make your tile</h2><p class="sub">Three short steps: pick a blank shape, paste your word on it, then glue the edge strips around it yourself: color, gold, or wood (wood is for straight sides only). Blanks are upcycled cardboard already faced with ahar paper.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: visitors look at the example board, paste their word, and glue the edges"><source src="step2.mp4" type="video/mp4"><source src="step2.webm" type="video/webm"></video><figcaption>At the table</figcaption></figure></div>
 
     <div class="example" id="example" aria-labelledby="ex-h">
-      <div class="ex-head"><h3 id="ex-h">Example: how a tile is made</h3><p class="sub">Three stages, left to right. On the right are finished tiles in each shape. At the table, the same example hangs on a board.</p></div>
+      <div class="ex-head"><h3 id="ex-h">Example: how a tile is made</h3><p class="sub">Three stages, left to right. On the right are finished tiles in each shape. At the exhibit, the Qalam Tiles sign shows the same three stages.</p></div>
       <div class="ex-steps" id="exSteps"></div>
       <div class="ex-done"><span class="k">Finished tiles</span><div id="exDone"></div></div>
     </div>
@@ -565,12 +656,14 @@ const OPTS = {
   shape:[["hex","Hexagon"],["tri","Triangle"],["sq","Square"],["circ","Circle"]],
   material:[["ahar","Ahar paper"],["corr","Corrugated"],["board","Paperboard"],["cereal","Cereal box"]],
   script:[["kufi","Kufic"],["naskh","Naskh"],["ruqaa","Ruqʿa"]],
-  edge:[["margin","Color strip"],["gold","Gold tape"]]
+  edge:[["margin","Color strip"],["gold","Gold tape"],["wood","Wood strip"]]
 };
 const SCRIPT_NAME = {kufi:"Kufic", naskh:"Naskh", ruqaa:"Ruqʿa"};
 const SCRIPT_FONT = {kufi:"Reem Kufi", naskh:"Amiri", ruqaa:"Aref Ruqaa"};
 const MAT_NAME = {ahar:"ahar paper on card", corr:"upcycled corrugated cardboard", board:"paperboard", cereal:"second-life cereal box"};
-const EDGE_NAME = {margin:"color strip", gold:"gold tape"};
+const EDGE_NAME = {margin:"color strip", gold:"gold tape", wood:"wood strip"};
+const WOOD = "#b08654", WOOD_BG = "linear-gradient(90deg,#d8b886 0 30%,#a9824e 31% 34%,#d8b886 35% 66%,#a9824e 67% 70%,#d8b886 71%)";
+const edgeCol = (c, w) => c.edge === "gold" ? "#c99a3a" : c.edge === "wood" ? WOOD : getComputedStyle(document.documentElement).getPropertyValue(`--cat-${w.cat}`).trim();
 const SIDES = {hex:6, tri:3, sq:4, circ:1};   // strips come pre-cut: one per side, one long bendable strip for the circle
 const SLOTS = 50;
 // choices for the next tile; each made tile keeps its own copy
@@ -619,7 +712,7 @@ function renderExample(){
     const d = document.createElement("div"); d.className = "ex-step"; d.append(el); const s = document.createElement("span"); s.textContent = t; d.append(s); st.append(d); });
   const dn = $("exDone"); dn.innerHTML = "";
   [{id:"sabr", shape:"hex", script:"kufi", material:"ahar", edge:"margin"}, {id:"khayr", shape:"tri", script:"naskh", material:"ahar", edge:"gold"},
-   {id:"kitab", shape:"sq", script:"ruqaa", material:"ahar", edge:"margin"}, {id:"nur", shape:"circ", script:"naskh", material:"ahar", edge:"gold"}].forEach(t => dn.append(tileEl(t)));
+   {id:"kitab", shape:"sq", script:"ruqaa", material:"ahar", edge:"wood"}, {id:"nur", shape:"circ", script:"naskh", material:"ahar", edge:"gold"}].forEach(t => dn.append(tileEl(t)));
 }
 /* ---------- stations ---------- */
 function pressBtn(cls, pressed, labelText){ const b = document.createElement("button"); b.type = "button"; b.className = cls; b.setAttribute("aria-pressed", String(pressed)); if (labelText) b.setAttribute("aria-label", labelText); return b; }
@@ -628,7 +721,7 @@ function renderStations(){
   const sb = $("shapeBins"); sb.innerHTML = "";
   OPTS.shape.forEach(([v, name]) => { const b = pressBtn("bin", state.shape === v, `${name} blank`);
     b.append(tileEl({...choice(), shape:v}, {noWord:true, noEdge:true})); const l = document.createElement("span"); l.className = "lbl"; l.textContent = name; b.append(l);
-    b.onclick = () => { state.shape = v; newChoice(); }; sb.append(b); });
+    b.onclick = () => { state.shape = v; if (v === "circ" && state.edge === "wood") state.edge = "margin"; newChoice(); }; sb.append(b); });
   const ss = $("stickerSheet"); ss.innerHTML = "";
   prov().seq.map(byId).forEach(w => { const blk = document.createElement("div"); blk.className = "wblock";
     blk.innerHTML = `<span class="gl">${w.en} · ${w.tr}</span>`; const row = document.createElement("div"); row.className = "row";
@@ -638,12 +731,13 @@ function renderStations(){
     blk.append(row); ss.append(blk); });
   const ed = $("edge"); ed.innerHTML = "";
   OPTS.edge.forEach(([v, name]) => { const b = document.createElement("button"); b.type = "button"; b.textContent = name; b.setAttribute("aria-pressed", String(state.edge === v));
+    if (v === "wood" && state.shape === "circ"){ b.disabled = true; b.title = "Wood is stiff, so it can't bend around a circle"; }
     b.onclick = () => { if (state.glued > 0 && state.stage === 1) return; state.edge = v; renderStations(); renderMaker(); }; ed.append(b); });
 }
 // the tile you are gluing, drawn side by side so each strip can be glued on its own
 const SHAPE_PTS = {hex:[[50,14],[150,14],[196,100],[150,186],[50,186],[4,100]], tri:[[100,10],[194,186],[6,186]], sq:[[14,14],[186,14],[186,186],[14,186]]};
 function glueSVG(){
-  const c = choice(), w = byId(c.id), n = SIDES[c.shape], col = c.edge === "gold" ? "#c99a3a" : getComputedStyle(document.documentElement).getPropertyValue(`--cat-${w.cat}`).trim();
+  const c = choice(), w = byId(c.id), n = SIDES[c.shape], col = edgeCol(c, w);
   const font = SCRIPT_FONT[c.script], face = c.shape === "circ" ? `<circle cx="100" cy="100" r="86" fill="#f3e3bd"/>` : `<polygon points="${SHAPE_PTS[c.shape].map(p => p.join(",")).join(" ")}" fill="#f3e3bd"/>`;
   const word = state.stage >= 1 ? `<text x="100" y="${c.shape === "tri" ? 140 : 108}" text-anchor="middle" font-size="${w.ar.length > 6 ? 30 : 42}" font-weight="700" font-family="'${font}', serif" fill="#1b1a17" direction="rtl">${w.ar}</text>` : "";
   let sides = "";
@@ -666,8 +760,8 @@ function renderMaker(){
   $("glueTile").innerHTML = glueSVG();
   $("glueTile").querySelectorAll(".side").forEach(el => { const go = () => { if (state.stage === 1 && +el.dataset.i === state.glued) glueOne(); };
     el.addEventListener("click", go); el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); } }); });
-  const col = c.edge === "gold" ? "#c99a3a" : `var(--cat-${w.cat})`;
-  $("strips").innerHTML = (c.shape === "circ" ? `<span class="st${state.glued >= 1 ? " used" : ""}" style="width:120px;background:${col};border-radius:8px"></span> 1 long strip that bends around the circle`
+  const col = c.edge === "gold" ? "#c99a3a" : c.edge === "wood" ? WOOD_BG : `var(--cat-${w.cat})`;
+  $("strips").innerHTML = (c.shape === "circ" ? `<span class="st${state.glued >= 1 ? " used" : ""}" style="width:120px;background:${col};border-radius:8px"></span> 1 long strip that bends around the circle (wood is too stiff for circles)`
     : Array.from({length:n}, (_, i) => `<span class="st${i < state.glued ? " used" : ""}" style="width:${c.shape === "tri" ? 46 : 30}px;background:${col}"></span>`).join("") + ` ${n} pre-cut strips for a ${label("shape", c.shape).toLowerCase()}`);
   $("mkNote").textContent = state.stage === 0 ? `Paste “${w.en}” in ${SCRIPT_NAME[c.script]} on the ${label("shape", c.shape).toLowerCase()} blank first.`
     : state.stage === 1 ? `Glue the strips one at a time: tap the dotted side, or press Glue the next strip. ${state.glued} of ${n} glued.`
@@ -849,12 +943,13 @@ document.fonts && document.fonts.ready.then(drawTraceGuide);
 const TIPS = [
   {el: () => document.querySelector(".lede"), title: "An online preview", body: "This page previews a hands-on craft table. At the exhibit everything is real paper and cardboard. Here you click to try each step."},
   {el: () => $("overview"), title: "At the exhibit", body: "Six people share a six-sided table. Open the 3D walkthrough to watch each step."},
-  {el: () => $("seat"), title: "Your seat", body: "Every seat has the same setup. The numbers on the picture match the six steps."},
+  {el: () => $("seat"), title: "How it works", body: "The six steps, from choosing a proverb to taking a gift. The numbers match the steps below."},
+  {el: () => $("seatzoom"), title: "Your seat", body: "A close look at one seat: the proverb cards, the kit tray, the seat screen, and the folio."},
   {el: () => $("pcards"), title: "1 · Choose a proverb", body: "Read the three proverbs, press Hear it, then choose one. You will make one of its words."},
   {el: () => $("example"), title: "2 · See how a tile is made", body: "The example shows the three stages and the finished tiles."},
   {el: () => $("mStep1"), title: "Pick a shape", body: "Click a bin to pick your blank: hexagon, triangle, square, or circle."},
   {el: () => $("mStep2"), title: "Paste your word", body: "Pick your word in the script you like, then paste it. Tracing it is optional."},
-  {el: () => $("mStep3"), title: "Glue the edges", body: "Strips come pre-cut for your shape. Tap each dotted side to glue a strip. The circle gets one long bendable strip."},
+  {el: () => $("mStep3"), title: "Glue the edges", body: "Strips come pre-cut for your shape. Tap each dotted side to glue a strip. The circle gets one long bendable strip. Wood strips work on straight sides only."},
   {el: () => $("screen"), title: "3 · Scan it", body: "Click your tile, then Scan. The seat screen shows the word. Play on my phone reads it aloud."},
   {el: () => $("library"), title: "4 · Finish the proverb", body: "Set your tile on the folio, then take the missing words from the library."},
   {el: () => $("cords"), title: "5 · Hang the folio", body: "Hang finished folios on the frame. It holds up to 50."},
