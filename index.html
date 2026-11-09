@@ -15,7 +15,7 @@
   --bg:#f3ead8; --page:#fbf4e4; --page-2:#f4e8cc; --ink:#2b1d0e; --muted:#6f5a3c; --line:#d9c39a;
   --gold:#b8892f; --gold-2:#e2b04f; --gold-ink:#6b4a12; --wood:#c99a5b; --wood-dark:#7a5326; --awning:#b5532e;
   --copper:#c47a3c; --accent:#7a5326; --accent-ink:#fbf4e4;
-  --cat-virtue:#1f5aa6; --cat-knowledge:#b8892f; --cat-object:#2f7d7a; --cat-everyday:#2f7d7a;
+  --cat-p1:#1f5aa6; --cat-p2:#0f7b6c; --cat-p3:#c4572f; --cat-object:#0f7b6c;
   --kraft:#c9a878; --board:#d6cbb6; --cereal:#b7a993; --ahar:#f3e3bd; --tile-ink:#1b1a17;
   --display:"Marcellus", Georgia, serif; --body:"IBM Plex Sans", system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
   --naskh:"Amiri", "Noto Naskh Arabic", serif; --kufi:"Reem Kufi", "Amiri", sans-serif; --ruqaa:"Aref Ruqaa", "Amiri", serif;
@@ -86,6 +86,19 @@ button:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
 .shape-tri .face{inset:9% 7% 5%}
 .shape-sq{aspect-ratio:1/1}
 .shape-sq,.shape-sq .face{clip-path:inset(0 round 7%)}
+.tile .trim{position:absolute; inset:6%; background:linear-gradient(115deg,#d8b886 0 30%,#a9824e 31% 33%,#d8b886 34% 62%,#a9824e 63% 64%,#d8b886 65%)}
+.tile.trimmed .face{inset:11%}
+.shape-hex .trim{clip-path:polygon(25% 2%,75% 2%,99% 50%,75% 98%,25% 98%,1% 50%)}
+.shape-tri .trim{clip-path:polygon(50% 1%,99% 99%,1% 99%)}
+.shape-tri.trimmed .face{inset:15% 12% 8%}
+.shape-sq .trim{clip-path:inset(0 round 7%)}
+.pband{height:10px; border-radius:2px; background:var(--pc)}
+.pcolor{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--pc); font-weight:700}
+.woodsw{display:flex; gap:8px; align-items:center; font-size:14px; cursor:pointer}
+.woodsw input{width:18px; height:18px; accent-color:#a9824e}
+.woodnote{font-size:12.5px; color:var(--muted)}
+.libhead{display:flex; gap:8px; align-items:center; font-size:13px; font-weight:600; color:var(--pc)}
+.libhead i{width:14px; height:14px; border-radius:3px; background:var(--pc); display:inline-block}
 .edge-wood{--edge:linear-gradient(115deg,#d8b886 0 30%,#a9824e 31% 33%,#d8b886 34% 62%,#a9824e 63% 64%,#d8b886 65%)}
 .edge-gold{--edge:linear-gradient(135deg,#e8c06c,#b8892f 45%,#f0d79c 55%,#b8892f)}
 .mat-corr .face{background:repeating-linear-gradient(90deg,rgba(60,40,10,.10) 0 2px,transparent 2px 8px),var(--kraft)}
@@ -358,7 +371,7 @@ details.trace canvas{margin-top:6px}
   <header class="leaf head">
     <div class="band" aria-hidden="true"></div>
     <h1>Qalam Tiles <span class="ar" lang="ar">قلم</span></h1>
-    <p class="lede">An online preview of a hands-on craft table. At the exhibit, visitors choose an Arabic proverb, make one of its words as a tile from real paper and cardboard, scan it, finish the proverb with tiles from neighbors and a shared word library, hang it on a wall frame, and take home a card with their name. Here you can try every step with clicks.</p>
+    <p class="lede">An online preview of a hands-on craft table. At the exhibit, visitors choose an Arabic proverb, make one of its words as a tile from real paper and cardboard, scan it, finish the proverb with tiles from neighbors and a bin of ready-to-use tiles, hang it on a wall frame, and take home a card with their name. Here you can try every step with clicks.</p>
     <div class="steps"><span><b>1</b>Choose a proverb</span><span><b>2</b>Make your tile</span><span><b>3</b>Scan it</span><span><b>4</b>Finish the proverb</span><span><b>5</b>Hang the folio</span><span><b>6</b>Take a gift</span></div>
     <div class="btns" style="justify-content:center"><button class="btn ghost" id="showTips" type="button">Show tips</button><a class="btn ghost" href="qalam-3d.html">Open the 3D walkthrough</a></div>
     <div class="band" aria-hidden="true"></div>
@@ -369,8 +382,8 @@ details.trace canvas{margin-top:6px}
       <video autoplay muted loop playsinline preload="metadata" aria-label="3D overview: visitors around a six-sided craft table make tiles, hear them, set them on folios, hang the folios on a wall frame, and print a name card"><source src="overview.mp4" type="video/mp4"><source src="overview.webm" type="video/webm"></video>
       <div style="display:grid;gap:8px">
         <h2 id="ov-h">At the exhibit</h2>
-        <p class="sub">A six-sided craft table seats six people, each with their own kit tray, proverb cards, and a small screen, so nobody waits in line. Blanks, pre-cut edge strips, and the word library sit on a turntable in the middle. Tiles stay at the exhibit and are reused.</p>
-        <ol><li>Choose one of three proverbs and hear it</li><li>Make one of its words as a tile</li><li>Scan the tile: the screen shows the word, your phone plays it</li><li>Finish the proverb with library tiles</li><li>Hang the folio on the wall frame (up to 50)</li><li>Print a card with your name</li></ol>
+        <p class="sub">A six-sided craft table seats six people, so nobody waits in line. Each proverb has its own color: two blue seats, two teal, two coral. Sit at the color of the proverb you like, and everything for it is already there. Tiles stay at the exhibit and are reused.</p>
+        <ol><li>Choose one of three proverbs and hear it</li><li>Make one of its words as a tile</li><li>Scan the tile: the screen shows the word, your phone plays it</li><li>Finish the proverb with ready-to-use tiles of your color</li><li>Hang the folio on the wall frame (up to 50)</li><li>Print a card with your name</li></ol>
         <div><a class="btn" href="qalam-3d.html">Open the 3D walkthrough</a></div>
       </div>
     </div>
@@ -426,11 +439,11 @@ details.trace canvas{margin-top:6px}
 <line x1="28" y1="102" x2="172" y2="102" stroke="#e2b04f" stroke-width="4"/>
 <polygon points="164.5,85.5 148.0,95.0 131.5,85.5 131.5,66.5 148.0,57.0 164.5,66.5" fill="#f3e3bd" stroke="#1f5aa6" stroke-width="4"/><text x="148" y="80" font-size="12" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">الصبر</text>
 <rect x="83" y="58" width="34" height="34" fill="#f3e3bd" stroke="#1f5aa6" stroke-width="4"/><text x="100" y="80" font-size="12" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">مفتاح</text>
-<circle cx="52" cy="76" r="18" fill="#f3e3bd" stroke="#c99a3a" stroke-width="4"/><text x="52" y="80" font-size="12" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">الفرج</text>
+<circle cx="52" cy="76" r="18" fill="#f3e3bd" stroke="#1f5aa6" stroke-width="4"/><text x="52" y="80" font-size="12" font-family="Amiri, serif" font-weight="700" direction="rtl" text-anchor="middle" fill="#1b1a17">الفرج</text>
 <text x="100" y="118" text-anchor="middle" font-size="10.5" fill="#6f5a3c">← reads right to left</text>
 <text x="100" y="140" text-anchor="middle" font-size="11.5" fill="#6f5a3c">any number of words</text>
 <text x="100" y="170" text-anchor="middle" font-size="15" font-weight="600" fill="#2b1d0e">Finish the proverb</text>
-<text x="100" y="189" text-anchor="middle" font-size="12" fill="#6f5a3c">from neighbors and the library</text>
+<text x="100" y="189" text-anchor="middle" font-size="12" fill="#6f5a3c">from neighbors and your color bin</text>
 </g>
 <g transform="translate(230 250)">
 <rect x="0" y="0" width="200" height="200" rx="8" fill="#f6ead0" stroke="#d9c39a" stroke-width="1.5"/>
@@ -460,9 +473,9 @@ details.trace canvas{margin-top:6px}
 </svg>
       <ol class="seatlist">
         <li><b>1</b><span><strong>Proverb cards.</strong> Three cards with a QR code each. Read them and choose one.</span></li>
-        <li><b>2</b><span><strong>Kit tray.</strong> A word sticker sheet, a tracing card, a pencil, and a glue stick. Take one blank and a pack of edge strips for that shape from the turntable.</span></li>
+        <li><b>2</b><span><strong>Kit tray in your seat’s color.</strong> Stickers for your proverb’s words, blanks, strips in your color, a pencil, and a glue stick. Everything is already there.</span></li>
         <li><b>3</b><span><strong>Seat screen.</strong> Hold your tile to it to see the word, how to say it, and what it means. Scan the same code with your phone to hear it.</span></li>
-        <li><b>4</b><span><strong>Folio and word library.</strong> Set your tile on the folio and take the missing words from the library on the turntable.</span></li>
+        <li><b>4</b><span><strong>Folio and ready-to-use tiles.</strong> Set your tile on the folio. Take the missing words from the bin of your color in the middle.</span></li>
         <li><b>5</b><span><strong>Wall frame</strong>, beside the table. Hang your finished folio.</span></li>
         <li><b>6</b><span><strong>Gift printer</strong>, by the frame. Print a card with your name.</span></li>
       </ol>
@@ -476,7 +489,7 @@ details.trace canvas{margin-top:6px}
     <div class="seatgrid">
       <svg viewBox="0 0 640 430" role="img" aria-labelledby="seat2-t seat2-d" class="seatsvg">
 <title id="seat2-t">Top view of one seat at the craft table</title>
-<desc id="seat2-d">From the visitor's side: proverb cards on the left, the kit tray in front with a word sticker sheet, a tracing card, a pencil, and a glue stick, the seat screen on the right, a folio further in, and the shared turntable in the middle of the table with blanks, pre-cut edge strips, and the word library.</desc>
+<desc id="seat2-d">From the visitor's side: proverb cards on the left, the kit tray in front with a word sticker sheet, a tracing card, a pencil, and a glue stick, the seat screen on the right, a folio further in, and the shared turntable in the middle of the table with blanks, one bin of ready-to-use tiles per proverb color, and wood trim.</desc>
 <polygon points="20,400 620,400 470,20 170,20" fill="#d8c39b" stroke="#a9824e" stroke-width="2"/>
 <path d="M150 20 A 190 190 0 0 0 490 20 Z" fill="#9a7445"/>
 <g>
@@ -484,11 +497,11 @@ details.trace canvas{margin-top:6px}
 <rect x="232" y="44" width="34" height="26" rx="3" fill="#7a5326"/><polygon points="249,48 259,66 239,66" fill="#c9a878"/>
 <rect x="274" y="56" width="34" height="26" rx="3" fill="#7a5326"/><rect x="283" y="61" width="16" height="16" fill="#c9a878"/>
 <rect x="316" y="58" width="34" height="26" rx="3" fill="#7a5326"/><circle cx="333" cy="71" r="9" fill="#c9a878"/>
-<rect x="360" y="44" width="30" height="20" rx="2" fill="#7a5326"/><rect x="363" y="47" width="24" height="2.6" fill="#1f5aa6"/><rect x="363" y="51" width="24" height="2.6" fill="#1f5aa6"/><rect x="363" y="55" width="24" height="2.6" fill="#1f5aa6"/><rect x="363" y="59" width="24" height="2.6" fill="#1f5aa6"/><rect x="396" y="32" width="30" height="20" rx="2" fill="#7a5326"/><rect x="399" y="35" width="24" height="2.6" fill="#e2b04f"/><rect x="399" y="39" width="24" height="2.6" fill="#e2b04f"/><rect x="399" y="43" width="24" height="2.6" fill="#e2b04f"/><rect x="399" y="47" width="24" height="2.6" fill="#e2b04f"/><rect x="428" y="18" width="30" height="20" rx="2" fill="#7a5326"/><rect x="431" y="21" width="24" height="2.6" fill="#b08654"/><rect x="431" y="25" width="24" height="2.6" fill="#b08654"/><rect x="431" y="29" width="24" height="2.6" fill="#b08654"/><rect x="431" y="33" width="24" height="2.6" fill="#b08654"/>
-<polygon points="168,52 177,47 186,52 186,62 177,67 168,62" fill="#f3e3bd" stroke="#2f7d7a" stroke-width="3"/>
-<polygon points="456,52 465,47 474,52 474,62 465,67 456,62" fill="#f3e3bd" stroke="#b8892f" stroke-width="3"/>
+<rect x="358" y="40" width="30" height="24" rx="3" fill="#1f5aa6"/><rect x="362" y="44" width="10" height="9" fill="#f3e3bd"/><rect x="374" y="44" width="10" height="9" fill="#f3e3bd"/><rect x="362" y="54" width="10" height="6" fill="#f3e3bd"/><rect x="392" y="30" width="30" height="24" rx="3" fill="#0f7b6c"/><rect x="396" y="34" width="10" height="9" fill="#f3e3bd"/><rect x="408" y="34" width="10" height="9" fill="#f3e3bd"/><rect x="396" y="44" width="10" height="6" fill="#f3e3bd"/><rect x="426" y="40" width="30" height="24" rx="3" fill="#c4572f"/><rect x="430" y="44" width="10" height="9" fill="#f3e3bd"/><rect x="442" y="44" width="10" height="9" fill="#f3e3bd"/><rect x="430" y="54" width="10" height="6" fill="#f3e3bd"/><rect x="460" y="66" width="26" height="14" rx="2" fill="#7a5326"/><rect x="463" y="69" width="20" height="2.6" fill="#d8b886"/><rect x="463" y="73" width="20" height="2.6" fill="#d8b886"/>
+<polygon points="168,52 177,47 186,52 186,62 177,67 168,62" fill="#f3e3bd" stroke="#1f5aa6" stroke-width="3"/>
+
 </g>
-<text x="320" y="104" text-anchor="middle" font-size="12" fill="#fbf4e4">Shared turntable: blanks · edge strips · word library</text>
+<text x="320" y="104" text-anchor="middle" font-size="12" fill="#fbf4e4">Turntable: blanks · a bin of ready tiles per color · wood trim</text>
 <g><circle cx="128" cy="44" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="128" y="49" text-anchor="middle" font-size="14" font-weight="600" fill="#2b1d0e">2</text></g><g><circle cx="512" cy="44" r="13" fill="#e2b04f" stroke="#6b4a12" stroke-width="1.5"/><text x="512" y="49" text-anchor="middle" font-size="14" font-weight="600" fill="#2b1d0e">4</text></g>
 <rect x="210" y="132" width="220" height="90" fill="#f6ead0" stroke="#b8892f" stroke-width="3"/>
 <line x1="226" y1="190" x2="414" y2="190" stroke="#b8892f" stroke-width="1.5"/>
@@ -514,9 +527,9 @@ details.trace canvas{margin-top:6px}
 </svg>
       <ul class="seatlist">
         <li><b>1</b><span><strong>Proverb cards</strong> on a small stand, each with a QR code.</span></li>
-        <li><b>2</b><span><strong>Kit tray:</strong> word stickers, a tracing card, a glue stick, and a pencil. From the turntable: a blank and a pack of pre-cut strips (color, gold, or wood).</span></li>
+        <li><b>2</b><span><strong>Kit tray in your seat’s color:</strong> stickers for your proverb, blanks, strips in your color, a glue stick, and a pencil.</span></li>
         <li><b>3</b><span><strong>Seat screen</strong> that reads the QR code on your tile.</span></li>
-        <li><b>4</b><span><strong>Folio</strong> where you build the proverb, right to left, with tiles from the word library on the turntable.</span></li>
+        <li><b>4</b><span><strong>Folio</strong> where you build the proverb, right to left, with ready-to-use tiles from the bin of your color.</span></li>
       </ul>
     </div>
   </section>
@@ -527,7 +540,7 @@ details.trace canvas{margin-top:6px}
   </section>
 
   <section class="leaf" id="make" aria-labelledby="make-h">
-    <div class="sec-h"><div class="t"><h2 id="make-h"><span class="ros">2</span>Make your tile</h2><p class="sub">Three short steps: pick a blank shape, paste your word on it, then glue the edge strips around it yourself: color, gold, or wood (wood is for straight sides only). Blanks are upcycled cardboard already faced with ahar paper.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: visitors look at the example board, paste their word, and glue the edges"><source src="step2.mp4" type="video/mp4"><source src="step2.webm" type="video/webm"></video><figcaption>At the table</figcaption></figure></div>
+    <div class="sec-h"><div class="t"><h2 id="make-h"><span class="ros">2</span>Make your tile</h2><p class="sub">Three short steps: pick a blank shape, paste your word on it, then glue the strips around it. The strips are always your proverb’s color, so anyone can see which proverb a tile belongs to. Wood trim is an optional extra for straight sides.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: visitors look at the example board, paste their word, and glue the edges"><source src="step2.mp4" type="video/mp4"><source src="step2.webm" type="video/webm"></video><figcaption>At the table</figcaption></figure></div>
 
     <div class="example" id="example" aria-labelledby="ex-h">
       <div class="ex-head"><h3 id="ex-h">Example: how a tile is made</h3><p class="sub">Three stages, left to right. On the right are finished tiles in each shape. At the exhibit, the Qalam Tiles sign shows the same three stages.</p></div>
@@ -568,7 +581,6 @@ details.trace canvas{margin-top:6px}
       <div style="display:grid;gap:8px">
         <span class="k">Your tiles</span>
         <div class="tray" id="tray"></div>
-        <div class="legend"><span><i style="background:var(--cat-virtue)"></i>virtue</span><span><i style="background:var(--cat-knowledge)"></i>knowledge</span><span><i style="background:var(--cat-everyday)"></i>everyday</span></div>
       </div>
       <div style="display:grid;gap:10px" id="handWrap">
         <span class="k">Tile in hand</span>
@@ -585,8 +597,8 @@ details.trace canvas{margin-top:6px}
   </section>
 
   <section class="leaf" aria-labelledby="folio-h">
-    <div class="sec-h"><div class="t"><h2 id="folio-h"><span class="ros">4</span>Finish the proverb</h2><p class="sub">Set your tile on the folio, then take the missing words from the word library. At the table, the library is a box of tiles made earlier, and neighbors pass tiles too. Tap a tile on the line to lift it off.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: neighbors pass tiles and take one from the library to finish their proverbs"><source src="step4.mp4" type="video/mp4"><source src="step4.webm" type="video/webm"></video><figcaption>At the table</figcaption></figure></div>
-    <div style="display:grid;gap:6px"><span class="k">Word library · tiles for your proverb</span><div class="library" id="library"></div></div>
+    <div class="sec-h"><div class="t"><h2 id="folio-h"><span class="ros">4</span>Finish the proverb</h2><p class="sub">Set your tile on the folio, then take the missing words from the bin of your color. At the table, the middle has one bin of ready-to-use tiles for each color, and neighbors pass tiles too. Tap a tile on the line to lift it off.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: neighbors pass tiles and take one from the library to finish their proverbs"><source src="step4.mp4" type="video/mp4"><source src="step4.webm" type="video/webm"></video><figcaption>At the table</figcaption></figure></div>
+    <div style="display:grid;gap:6px" id="libWrap"><span class="libhead" id="libHead"></span><div class="library" id="library"></div></div>
     <div class="folio-wrap">
       <div class="folio" id="folio">
         <div class="line" id="line"></div>
@@ -602,7 +614,7 @@ details.trace canvas{margin-top:6px}
   </section>
 
   <section class="leaf" aria-labelledby="frame-h">
-    <div class="sec-h"><div class="t"><h2 id="frame-h"><span class="ros">5</span>Hang the folio</h2><p class="sub">A carved wooden frame on the wall with five cords and ten pegs on each, for up to 50 folios. The lowest cord is at a child’s height. Tiles stay at the exhibit: at the end of the day, folios come down and the tiles go back to the library.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: a child and a teen hang their folios on the wall frame"><source src="step5.mp4" type="video/mp4"><source src="step5.webm" type="video/webm"></video><figcaption>At the wall</figcaption></figure></div>
+    <div class="sec-h"><div class="t"><h2 id="frame-h"><span class="ros">5</span>Hang the folio</h2><p class="sub">A carved wooden frame on the wall with five cords and ten pegs on each, for up to 50 folios. The lowest cord is at a child’s height. Tiles stay at the exhibit: at the end of the day, folios come down and the tiles go back to their color bins.</p></div><figure class="clip"><video autoplay muted loop playsinline preload="metadata" aria-label="Close-up: a child and a teen hang their folios on the wall frame"><source src="step5.mp4" type="video/mp4"><source src="step5.webm" type="video/webm"></video><figcaption>At the wall</figcaption></figure></div>
     <div class="wframe"><div class="cords" id="cords"></div></div>
     <div class="halves"><button class="btn ghost" id="takeDown" type="button">Take my folios down</button><span class="sub" id="frameCount"></span></div>
   </section>
@@ -634,40 +646,39 @@ details.trace canvas{margin-top:6px}
 </div>
 <script>
 const WORDS = [
-  {id:"sabr",   ar:"الصبر",     tr:"aṣ-ṣabr",    en:"patience",  cat:"virtue",    story:"A virtue praised across Arabic poetry and proverb, often paired with relief that follows hardship."},
-  {id:"miftah", ar:"مفتاح",     tr:"miftāḥ",     en:"key",       cat:"everyday",  story:"From the root f-t-ḥ, “to open.” The same root gives fatḥ, an opening or beginning."},
-  {id:"faraj",  ar:"الفرج",     tr:"al-faraj",   en:"relief",    cat:"virtue",    story:"Relief or release after difficulty; the reward the proverb promises to the patient."},
-  {id:"ilm",    ar:"العلم",     tr:"al-ʿilm",    en:"knowledge", cat:"knowledge", story:"Knowledge or learning. Libraries and paper mills in Baghdad made it portable and copyable."},
-  {id:"nur",    ar:"نور",       tr:"nūr",        en:"light",     cat:"knowledge", story:"Light, used throughout Arabic writing as a figure for understanding."},
-  {id:"khayr",  ar:"خير",       tr:"khayr",      en:"best",      cat:"virtue",    story:"Good, or the best of something. Here it means “the best.”"},
-  {id:"jalis",  ar:"جليس",      tr:"jalīs",      en:"companion", cat:"everyday",  story:"Someone you sit with, a companion. From the root j-l-s, “to sit.”"},
-  {id:"zaman",  ar:"في الزمان", tr:"fī z-zamān", en:"in time",   cat:"everyday",  story:"“In time” or “in this age.” Zamān means time or an era."},
-  {id:"kitab",  ar:"كتاب",      tr:"kitāb",      en:"book",      cat:"knowledge", story:"From the root k-t-b, “to write,” shared with kātib (writer) and maktaba (library)."}
+  {id:"sabr",   ar:"الصبر",     tr:"aṣ-ṣabr",    en:"patience",  cat:"p1",    story:"A virtue praised across Arabic poetry and proverb, often paired with relief that follows hardship."},
+  {id:"miftah", ar:"مفتاح",     tr:"miftāḥ",     en:"key",       cat:"p1",  story:"From the root f-t-ḥ, “to open.” The same root gives fatḥ, an opening or beginning."},
+  {id:"faraj",  ar:"الفرج",     tr:"al-faraj",   en:"relief",    cat:"p1",    story:"Relief or release after difficulty; the reward the proverb promises to the patient."},
+  {id:"ilm",    ar:"العلم",     tr:"al-ʿilm",    en:"knowledge", cat:"p2", story:"Knowledge or learning. Libraries and paper mills in Baghdad made it portable and copyable."},
+  {id:"nur",    ar:"نور",       tr:"nūr",        en:"light",     cat:"p2", story:"Light, used throughout Arabic writing as a figure for understanding."},
+  {id:"khayr",  ar:"خير",       tr:"khayr",      en:"best",      cat:"p3",    story:"Good, or the best of something. Here it means “the best.”"},
+  {id:"jalis",  ar:"جليس",      tr:"jalīs",      en:"companion", cat:"p3",  story:"Someone you sit with, a companion. From the root j-l-s, “to sit.”"},
+  {id:"zaman",  ar:"في الزمان", tr:"fī z-zamān", en:"in time",   cat:"p3",  story:"“In time” or “in this age.” Zamān means time or an era."},
+  {id:"kitab",  ar:"كتاب",      tr:"kitāb",      en:"book",      cat:"p3", story:"From the root k-t-b, “to write,” shared with kātib (writer) and maktaba (library)."}
 ];
 const PROVERBS = [
-  {seq:["sabr","miftah","faraj"], ar:"الصبر مفتاح الفرج", tr:"aṣ-ṣabru miftāḥu l-faraj", en:"Patience is the key to relief.", src:"Arabic proverb"},
-  {seq:["ilm","nur"],             ar:"العلم نور",        tr:"al-ʿilmu nūr",            en:"Knowledge is light.", src:"Arabic proverb"},
-  {seq:["khayr","jalis","zaman","kitab"], ar:"خير جليس في الزمان كتاب", tr:"khayru jalīsin fī z-zamāni kitāb", en:"The best companion in time is a book.", src:"al-Mutanabbi, poet (915–965 CE)"}
+  {color:"p1", cname:"Blue", seq:["sabr","miftah","faraj"], ar:"الصبر مفتاح الفرج", tr:"aṣ-ṣabru miftāḥu l-faraj", en:"Patience is the key to relief.", src:"Arabic proverb"},
+  {color:"p2", cname:"Teal", seq:["ilm","nur"],             ar:"العلم نور",        tr:"al-ʿilmu nūr",            en:"Knowledge is light.", src:"Arabic proverb"},
+  {color:"p3", cname:"Coral", seq:["khayr","jalis","zaman","kitab"], ar:"خير جليس في الزمان كتاب", tr:"khayru jalīsin fī z-zamāni kitāb", en:"The best companion in time is a book.", src:"al-Mutanabbi, poet (915–965 CE)"}
 ];
-// the word library: tiles made earlier, in mixed shapes, scripts, and edges
-const LIB_STYLE = [["hex","kufi","ahar","margin"],["circ","naskh","ahar","gold"],["sq","ruqaa","ahar","margin"],["tri","naskh","ahar","gold"]];
-const LIBRARY = WORDS.map((w, i) => { const [shape, script, material, edge] = LIB_STYLE[i % 4]; return {id:w.id, shape, script, material, edge, key:"L" + w.id, lib:true}; });
+// ready-to-use tiles made earlier, kept in one bin per proverb color
+const LIB_STYLE = [["hex","kufi",false],["circ","naskh",false],["sq","ruqaa",true],["tri","naskh",false]];
+const LIBRARY = WORDS.map((w, i) => { const [shape, script, trim] = LIB_STYLE[i % 4]; return {id:w.id, shape, script, material:"ahar", edge:"margin", trim, key:"L" + w.id, lib:true}; });
 const OPTS = {
   shape:[["hex","Hexagon"],["tri","Triangle"],["sq","Square"],["circ","Circle"]],
   material:[["ahar","Ahar paper"],["corr","Corrugated"],["board","Paperboard"],["cereal","Cereal box"]],
-  script:[["kufi","Kufic"],["naskh","Naskh"],["ruqaa","Ruqʿa"]],
-  edge:[["margin","Color strip"],["gold","Gold tape"],["wood","Wood strip"]]
+  script:[["kufi","Kufic"],["naskh","Naskh"],["ruqaa","Ruqʿa"]]
 };
 const SCRIPT_NAME = {kufi:"Kufic", naskh:"Naskh", ruqaa:"Ruqʿa"};
 const SCRIPT_FONT = {kufi:"Reem Kufi", naskh:"Amiri", ruqaa:"Aref Ruqaa"};
 const MAT_NAME = {ahar:"ahar paper on card", corr:"upcycled corrugated cardboard", board:"paperboard", cereal:"second-life cereal box"};
-const EDGE_NAME = {margin:"color strip", gold:"gold tape", wood:"wood strip"};
 const WOOD = "#b08654", WOOD_BG = "linear-gradient(90deg,#d8b886 0 30%,#a9824e 31% 34%,#d8b886 35% 66%,#a9824e 67% 70%,#d8b886 71%)";
-const edgeCol = (c, w) => c.edge === "gold" ? "#c99a3a" : c.edge === "wood" ? WOOD : getComputedStyle(document.documentElement).getPropertyValue(`--cat-${w.cat}`).trim();
+const edgeCol = (c, w) => getComputedStyle(document.documentElement).getPropertyValue(`--cat-${w.cat}`).trim();
+const PCOLOR = w => PROVERBS.find(p => p.seq.includes(w.id));
 const SIDES = {hex:6, tri:3, sq:4, circ:1};   // strips come pre-cut: one per side, one long bendable strip for the circle
 const SLOTS = 50;
 // choices for the next tile; each made tile keeps its own copy
-const state = {glued:0, prov:0, shape:"hex", script:"naskh", material:"ahar", edge:"margin", word:"sabr", stage:0, made:[], sel:null, line:[], hung:[], gStyle:"naskh", gArEdited:false};
+const state = {glued:0, prov:0, shape:"hex", script:"naskh", material:"ahar", edge:"margin", trim:false, word:"sabr", stage:0, made:[], sel:null, line:[], hung:[], gStyle:"naskh", gArEdited:false};
 let nextKey = 1;
 const byId = id => WORDS.find(w => w.id === id);
 const byKey = k => state.made.find(t => t.key === k) || LIBRARY.find(t => t.key === k);
@@ -681,6 +692,7 @@ function tileEl(t, opts = {}){
   const w = byId(t.id), edge = opts.noEdge ? "none" : t.edge, el = document.createElement("div");
   el.className = `tile shape-${t.shape} mat-${opts.bare ? "bare" : t.material} script-${t.script}` + (edge === "wood" ? " edge-wood" : edge === "gold" ? " edge-gold" : edge === "none" ? " edge-none" : "") + (opts.noWord ? " no-word" : "");
   if (edge === "margin") el.style.setProperty("--edge", catVar(w.cat));
+  if (t.trim && edge === "margin" && t.shape !== "circ"){ el.classList.add("trimmed"); const tr = document.createElement("div"); tr.className = "trim"; el.append(tr); }
   const f = document.createElement("div"); f.className = "face";
   const s = document.createElement("span"); s.className = "word"; s.lang = "ar"; s.textContent = w.ar;
   f.append(s);
@@ -689,14 +701,15 @@ function tileEl(t, opts = {}){
   el.setAttribute("role","img"); el.setAttribute("aria-label", opts.noWord ? `blank ${label("shape", t.shape).toLowerCase()}` : `${w.tr}, ${w.en}`);
   return el;
 }
-const choice = () => ({id:state.word, shape:state.shape, script:state.script, material:state.material, edge:state.edge});
+const choice = () => ({id:state.word, shape:state.shape, script:state.script, material:state.material, edge:"margin", trim:state.trim && state.shape !== "circ"});
 
 /* ---------- choose a proverb ---------- */
 function renderChoose(){
   const box = $("pcards"); box.innerHTML = "";
   PROVERBS.forEach((p, i) => {
     const c = document.createElement("article"); c.className = "pcard"; c.setAttribute("aria-current", String(state.prov === i));
-    c.innerHTML = `<div class="p" lang="ar">${p.ar}</div><div class="tr">${p.tr}</div><div class="en">${p.en}</div><div class="src">${p.src} · ${p.seq.length} words</div>
+    c.style.setProperty("--pc", catVar(p.color)); c.style.borderColor = catVar(p.color);
+    c.innerHTML = `<div class="pband"></div><div class="pcolor">${p.cname} seats · ${p.cname.toLowerCase()} tiles</div><div class="p" lang="ar">${p.ar}</div><div class="tr">${p.tr}</div><div class="en">${p.en}</div><div class="src">${p.src} · ${p.seq.length} words</div>
       <div class="qrc"><span class="qr" aria-hidden="true"></span></div>
       <div class="btns"><button class="btn ghost" type="button" data-hear="${i}">Hear it</button><button class="btn" type="button" data-pick="${i}">${state.prov === i ? "Chosen" : "Choose this one"}</button></div>`;
     box.append(c);
@@ -711,8 +724,8 @@ function renderExample(){
   [["1 Pick a shape", tileEl(base, {noWord:true, noEdge:true})], ["2 Paste your word", tileEl(base, {noEdge:true})], ["3 Glue the edges", tileEl(base)]].forEach(([t, el]) => {
     const d = document.createElement("div"); d.className = "ex-step"; d.append(el); const s = document.createElement("span"); s.textContent = t; d.append(s); st.append(d); });
   const dn = $("exDone"); dn.innerHTML = "";
-  [{id:"sabr", shape:"hex", script:"kufi", material:"ahar", edge:"margin"}, {id:"khayr", shape:"tri", script:"naskh", material:"ahar", edge:"gold"},
-   {id:"kitab", shape:"sq", script:"ruqaa", material:"ahar", edge:"wood"}, {id:"nur", shape:"circ", script:"naskh", material:"ahar", edge:"gold"}].forEach(t => dn.append(tileEl(t)));
+  [{id:"sabr", shape:"hex", script:"kufi", material:"ahar", edge:"margin"}, {id:"khayr", shape:"tri", script:"naskh", material:"ahar", edge:"margin"},
+   {id:"kitab", shape:"sq", script:"ruqaa", material:"ahar", edge:"margin", trim:true}, {id:"nur", shape:"circ", script:"naskh", material:"ahar", edge:"margin"}].forEach(t => dn.append(tileEl(t)));
 }
 /* ---------- stations ---------- */
 function pressBtn(cls, pressed, labelText){ const b = document.createElement("button"); b.type = "button"; b.className = cls; b.setAttribute("aria-pressed", String(pressed)); if (labelText) b.setAttribute("aria-label", labelText); return b; }
@@ -721,7 +734,7 @@ function renderStations(){
   const sb = $("shapeBins"); sb.innerHTML = "";
   OPTS.shape.forEach(([v, name]) => { const b = pressBtn("bin", state.shape === v, `${name} blank`);
     b.append(tileEl({...choice(), shape:v}, {noWord:true, noEdge:true})); const l = document.createElement("span"); l.className = "lbl"; l.textContent = name; b.append(l);
-    b.onclick = () => { state.shape = v; if (v === "circ" && state.edge === "wood") state.edge = "margin"; newChoice(); }; sb.append(b); });
+    b.onclick = () => { state.shape = v; if (v === "circ") state.trim = false; newChoice(); }; sb.append(b); });
   const ss = $("stickerSheet"); ss.innerHTML = "";
   prov().seq.map(byId).forEach(w => { const blk = document.createElement("div"); blk.className = "wblock";
     blk.innerHTML = `<span class="gl">${w.en} · ${w.tr}</span>`; const row = document.createElement("div"); row.className = "row";
@@ -729,10 +742,10 @@ function renderStations(){
       b.innerHTML = `<span class="word" lang="ar">${w.ar}</span><span class="qr" aria-hidden="true"></span>`; b.title = sname;
       b.onclick = () => { if (state.stage === 2) state.stage = 0; if (state.stage === 0){ state.word = w.id; state.script = sc; } state.glued = 0; renderStations(); renderMaker(); }; row.append(b); });
     blk.append(row); ss.append(blk); });
-  const ed = $("edge"); ed.innerHTML = "";
-  OPTS.edge.forEach(([v, name]) => { const b = document.createElement("button"); b.type = "button"; b.textContent = name; b.setAttribute("aria-pressed", String(state.edge === v));
-    if (v === "wood" && state.shape === "circ"){ b.disabled = true; b.title = "Wood is stiff, so it can't bend around a circle"; }
-    b.onclick = () => { if (state.glued > 0 && state.stage === 1) return; state.edge = v; renderStations(); renderMaker(); }; ed.append(b); });
+  const ed = $("edge"), circ = state.shape === "circ";
+  ed.innerHTML = `<label class="woodsw"><input type="checkbox" id="woodTrim" ${state.trim && !circ ? "checked" : ""} ${circ ? "disabled" : ""}> Add wood trim (optional)</label>
+    <span class="woodnote">${circ ? "Wood can’t bend around a circle." : "Goes on after the color strips."}</span>`;
+  $("woodTrim").onchange = e => { state.trim = e.target.checked; renderMaker(); };
 }
 // the tile you are gluing, drawn side by side so each strip can be glued on its own
 const SHAPE_PTS = {hex:[[50,14],[150,14],[196,100],[150,186],[50,186],[4,100]], tri:[[100,10],[194,186],[6,186]], sq:[[14,14],[186,14],[186,186],[14,186]]};
@@ -749,7 +762,8 @@ function glueSVG(){
     P.forEach((a, i) => { const b = P[(i+1) % n], on = i < state.glued;
       sides += `<line class="side" data-i="${i}" tabindex="${state.stage === 1 && i === state.glued ? 0 : -1}" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${on ? col : "#9a8f7d"}" stroke-width="${on ? 12 : 2}" stroke-linecap="round" ${on ? "" : 'stroke-dasharray="6 5"'}><title>${on ? "Glued" : "Glue a strip here"}</title></line>`; });
   }
-  return `<svg viewBox="-8 -8 216 216" role="img" aria-label="${w.tr} tile, ${state.glued} of ${n} edge strips glued">${face}${word}${sides}</svg>`;
+  const trim = c.trim && state.glued >= n ? `<polygon points="${SHAPE_PTS[c.shape].map(([x,y]) => [100 + (x-100)*0.84, 100 + (y-100)*0.84].join(",")).join(" ")}" fill="none" stroke="#b08654" stroke-width="7" stroke-linejoin="round"/>` : "";
+  return `<svg viewBox="-8 -8 216 216" role="img" aria-label="${w.tr} tile, ${state.glued} of ${n} edge strips glued">${face}${word}${sides}${trim}</svg>`;
 }
 function renderMaker(){
   const c = choice(), w = byId(c.id), n = SIDES[c.shape];
@@ -760,12 +774,12 @@ function renderMaker(){
   $("glueTile").innerHTML = glueSVG();
   $("glueTile").querySelectorAll(".side").forEach(el => { const go = () => { if (state.stage === 1 && +el.dataset.i === state.glued) glueOne(); };
     el.addEventListener("click", go); el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); } }); });
-  const col = c.edge === "gold" ? "#c99a3a" : c.edge === "wood" ? WOOD_BG : `var(--cat-${w.cat})`;
-  $("strips").innerHTML = (c.shape === "circ" ? `<span class="st${state.glued >= 1 ? " used" : ""}" style="width:120px;background:${col};border-radius:8px"></span> 1 long strip that bends around the circle (wood is too stiff for circles)`
-    : Array.from({length:n}, (_, i) => `<span class="st${i < state.glued ? " used" : ""}" style="width:${c.shape === "tri" ? 46 : 30}px;background:${col}"></span>`).join("") + ` ${n} pre-cut strips for a ${label("shape", c.shape).toLowerCase()}`);
+  const col = `var(--cat-${w.cat})`, pc = PCOLOR(w).cname.toLowerCase();
+  $("strips").innerHTML = (c.shape === "circ" ? `<span class="st${state.glued >= 1 ? " used" : ""}" style="width:120px;background:${col};border-radius:8px"></span> 1 long ${pc} strip that bends around the circle`
+    : Array.from({length:n}, (_, i) => `<span class="st${i < state.glued ? " used" : ""}" style="width:${c.shape === "tri" ? 46 : 30}px;background:${col}"></span>`).join("") + ` ${n} pre-cut ${pc} strips for a ${label("shape", c.shape).toLowerCase()}`);
   $("mkNote").textContent = state.stage === 0 ? `Paste “${w.en}” in ${SCRIPT_NAME[c.script]} on the ${label("shape", c.shape).toLowerCase()} blank first.`
     : state.stage === 1 ? `Glue the strips one at a time: tap the dotted side, or press Glue the next strip. ${state.glued} of ${n} glued.`
-    : `Done. ${w.tr} is in your tray in step 3. One tile is enough; the library has the other words.`;
+    : `Done. ${w.tr} is in your tray in step 3. One tile is enough; the ${PCOLOR(w).cname.toLowerCase()} bin has the other words.`;
   drawTraceGuide();
 }
 function glueOne(){
@@ -812,7 +826,7 @@ function renderHand(){
   if (!on){ $("big").innerHTML = ""; $("facts").innerHTML = `<p class="sub">Nothing in hand yet.</p>`; $("story").textContent = ""; $("status").textContent = "Waiting for a tile"; showScreen(null); return; }
   const w = byId(t.id);
   $("big").innerHTML = ""; $("big").append(tileEl(t));
-  $("facts").innerHTML = `<dl><dt>Say</dt><dd>${w.tr}</dd><dt>Means</dt><dd>${w.en}</dd><dt>Script</dt><dd>${SCRIPT_NAME[t.script]}</dd><dt>Made of</dt><dd>${MAT_NAME[t.material]}</dd><dt>Edge</dt><dd>${EDGE_NAME[t.edge]}</dd></dl>`;
+  $("facts").innerHTML = `<dl><dt>Say</dt><dd>${w.tr}</dd><dt>Means</dt><dd>${w.en}</dd><dt>Script</dt><dd>${SCRIPT_NAME[t.script]}</dd><dt>Made of</dt><dd>${MAT_NAME[t.material]}</dd><dt>Edge</dt><dd>${PCOLOR(w).cname.toLowerCase()} strips${t.trim ? " + wood trim" : ""} (${PCOLOR(w).cname.toLowerCase()} = this proverb)</dd></dl>`;
 $("story").style.setProperty("--cat", catVar(w.cat)); $("story").textContent = w.story;
   $("status").textContent = "Ready to scan"; showScreen(null);
 }
@@ -822,14 +836,16 @@ function showScreen(w){ const sc = $("screen"); sc.classList.toggle("on", !!w);
 const lineIds = () => state.line.map(k => byKey(k).id);
 const match = () => PROVERBS.find(p => p.seq.join(",") === lineIds().join(","));
 function renderLibrary(){
-  const box = $("library"); box.innerHTML = "";
+  const box = $("library"); box.innerHTML = ""; const P = prov();
+  $("libWrap").style.setProperty("--pc", catVar(P.color)); box.style.borderColor = catVar(P.color);
+  $("libHead").innerHTML = `<i></i>${P.cname} bin · ready-to-use tiles · take one`;
   prov().seq.forEach(id => { const t = LIBRARY.find(x => x.id === id), w = byId(id), used = state.line.includes(t.key);
-    const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-disabled", String(used)); b.setAttribute("aria-label", `Take ${w.tr} from the library`);
+    const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-disabled", String(used)); b.setAttribute("aria-label", `Take ${w.tr} from the ${prov().cname.toLowerCase()} bin`);
     b.append(tileEl(t)); const g = document.createElement("span"); g.className = "gloss"; g.textContent = used ? "on your folio" : w.en; b.append(g);
     b.onclick = () => { if (used) return; state.line.push(t.key); renderFolio(); }; box.append(b); });
 }
 function renderFolio(){
-  renderLibrary();
+  renderLibrary(); $("folio").style.borderColor = catVar(prov().color);
   const line = $("line"); line.innerHTML = "";
   state.line.forEach((k, i) => {
     const t = byKey(k), w = byId(t.id), b = document.createElement("button"); b.type = "button";
@@ -852,7 +868,8 @@ function renderFolio(){
   }
   $("hangNote").textContent = "A finished proverb can be hung on the frame.";
   const ids = lineIds(), partial = ids.length && PROVERBS.find(p => p.seq.slice(0, ids.length).join(",") === ids.join(","));
-  if (partial){ const n = byId(partial.seq[ids.length]); res.innerHTML = `<div class="hint">Keep going. Next word: <strong lang="ar" style="font-family:var(--naskh);font-size:18px">${n.ar}</strong> (${n.tr}, “${n.en}”). Use your tile or take it from the library.</div>`; }
+  if (partial){ const n = byId(partial.seq[ids.length]); res.innerHTML = `<div class="hint">Keep going. Next word: <strong lang="ar" style="font-family:var(--naskh);font-size:18px">${n.ar}</strong> (${n.tr}, “${n.en}”). Use your tile or take it from the ${prov().cname.toLowerCase()} bin.</div>`; }
+  else if (!ids.length) res.innerHTML = `<div class="hint">Start from the right with <strong lang="ar" style="font-family:var(--naskh);font-size:18px">${byId(prov().seq[0]).ar}</strong>: set your tile or take it from the ${prov().cname.toLowerCase()} bin.</div>`;
   else res.innerHTML = `<div class="hint">These words don’t start “${prov().en}” Lift them off and start from the right with <strong lang="ar" style="font-family:var(--naskh);font-size:18px">${byId(prov().seq[0]).ar}</strong>.</div>`;
 }
 function renderFrame(){
@@ -862,7 +879,7 @@ function renderFrame(){
     for (let k = 0; k < 10; k++){
       const i = r*10 + k, f = state.hung[i];
       if (!f){ const s = document.createElement("div"); s.className = "slot"; s.setAttribute("aria-hidden","true"); c.append(s); continue; }
-      const p = PROVERBS[f.p], b = document.createElement("button"); b.type = "button"; b.className = "hung";
+      const p = PROVERBS[f.p], b = document.createElement("button"); b.type = "button"; b.className = "hung"; b.style.borderColor = catVar(p.color);
       b.setAttribute("aria-label", `Hear the folio: ${p.tr}, ${p.en}`);
       const row = document.createElement("span"); row.className = "hrow"; f.tiles.forEach(t => row.append(tileEl(t))); b.append(row);
       const rule = document.createElement("span"); rule.className = "hrule"; b.append(rule);
@@ -949,9 +966,9 @@ const TIPS = [
   {el: () => $("example"), title: "2 · See how a tile is made", body: "The example shows the three stages and the finished tiles."},
   {el: () => $("mStep1"), title: "Pick a shape", body: "Click a bin to pick your blank: hexagon, triangle, square, or circle."},
   {el: () => $("mStep2"), title: "Paste your word", body: "Pick your word in the script you like, then paste it. Tracing it is optional."},
-  {el: () => $("mStep3"), title: "Glue the edges", body: "Strips come pre-cut for your shape. Tap each dotted side to glue a strip. The circle gets one long bendable strip. Wood strips work on straight sides only."},
+  {el: () => $("mStep3"), title: "Glue the edges", body: "Strips come pre-cut for your shape. Tap each dotted side to glue a strip. The strips are your proverb’s color. Wood trim is optional, for straight sides only."},
   {el: () => $("screen"), title: "3 · Scan it", body: "Click your tile, then Scan. The seat screen shows the word. Play on my phone reads it aloud."},
-  {el: () => $("library"), title: "4 · Finish the proverb", body: "Set your tile on the folio, then take the missing words from the library."},
+  {el: () => $("library"), title: "4 · Finish the proverb", body: "Set your tile on the folio, then take the missing words from the bin of your color."},
   {el: () => $("cords"), title: "5 · Hang the folio", body: "Hang finished folios on the frame. It holds up to 50."},
   {el: () => $("gift"), title: "6 · Take a gift", body: "Type your name, check the Arabic spelling, and print a card to keep."}
 ];

@@ -55,7 +55,7 @@ html.clip .hint3d{display:none}
 <div class="wrap">
   <div class="eyebrow">Qalam Tiles · 3D walkthrough</div>
   <h1>Qalam Tiles: the craft table and the wall frame <span class="ar" lang="ar">قلم</span></h1>
-  <p class="lede">A six-sided craft table seats six, each with their own kit tray, so nobody waits in line. Visitors start at the Qalam Tiles sign, then choose a proverb, make one of its words as a tile, scan it, finish the proverb with tiles from neighbors and the word library, hang it on the wall frame, and take home a card with their name. <a href="index.html">Back to the tiles</a></p>
+  <p class="lede">A six-sided craft table seats six, each with their own kit tray, so nobody waits in line. Visitors start at the Qalam Tiles sign and sit at a seat in the color of the proverb they like: blue, teal, or coral. They make one of its words as a tile, scan it, finish the proverb with tiles from neighbors and the bin of their color, hang it on the wall frame, and take home a card with their name. <a href="index.html">Back to the tiles</a></p>
 
   <div class="stage" id="stage"><span class="hint3d">Drag to look around · scroll to zoom</span></div>
 
@@ -83,7 +83,7 @@ html.clip .hint3d{display:none}
     <h2 id="legend-h">What’s on the table</h2>
     <div class="cols legend3">
       <div class="col"><span class="k">At each of the six seats</span><p>A kit tray with a word sticker sheet, a tracing card, a pencil, and a glue stick. Next to it: three proverb cards, a small seat screen, and a folio.</p></div>
-      <div class="col"><span class="k">On the turntable in the middle</span><p>Shared bins of blanks in four shapes (already faced with paper), packs of pre-cut edge strips in color, gold, and wood (wood for straight sides only), glue, pencils, and the word library: tiles made earlier, reused all day.</p></div>
+      <div class="col"><span class="k">On the turntable in the middle</span><p>Bins of blanks in four shapes (already faced with paper), a box of optional wood trim, glue, pencils, and the ready-to-use tiles: tiles made earlier, sitting in bins of their proverb color (blue, teal, coral) and reused all day.</p></div>
       <div class="col"><span class="k">Around the table</span><p>The Qalam Tiles sign at the entrance shows the six steps, including how a tile is made. The carved wall frame holds up to 50 folios. The gift printer makes name cards.</p></div>
     </div>
   </section>
@@ -138,18 +138,20 @@ const at = (phi, r, d=0, y=TOP) => radial(phi, r).add(tang(phi, d)).setY(y);
 
 /* ---------- words and proverbs (same as the website) ---------- */
 const WORDS = {
-  sabr:{ar:"الصبر", tr:"aṣ-ṣabr", en:"patience", cat:"virtue"}, miftah:{ar:"مفتاح", tr:"miftāḥ", en:"key", cat:"everyday"},
-  faraj:{ar:"الفرج", tr:"al-faraj", en:"relief", cat:"virtue"}, ilm:{ar:"العلم", tr:"al-ʿilm", en:"knowledge", cat:"knowledge"},
-  nur:{ar:"نور", tr:"nūr", en:"light", cat:"knowledge"}, khayr:{ar:"خير", tr:"khayr", en:"best", cat:"virtue"},
-  jalis:{ar:"جليس", tr:"jalīs", en:"companion", cat:"everyday"}, zaman:{ar:"في الزمان", tr:"fī z-zamān", en:"in time", cat:"everyday"},
-  kitab:{ar:"كتاب", tr:"kitāb", en:"book", cat:"knowledge"}
+  sabr:{ar:"الصبر", tr:"aṣ-ṣabr", en:"patience", cat:"p1"}, miftah:{ar:"مفتاح", tr:"miftāḥ", en:"key", cat:"p1"},
+  faraj:{ar:"الفرج", tr:"al-faraj", en:"relief", cat:"p1"}, ilm:{ar:"العلم", tr:"al-ʿilm", en:"knowledge", cat:"p2"},
+  nur:{ar:"نور", tr:"nūr", en:"light", cat:"p2"}, khayr:{ar:"خير", tr:"khayr", en:"best", cat:"p3"},
+  jalis:{ar:"جليس", tr:"jalīs", en:"companion", cat:"p3"}, zaman:{ar:"في الزمان", tr:"fī z-zamān", en:"in time", cat:"p3"},
+  kitab:{ar:"كتاب", tr:"kitāb", en:"book", cat:"p3"}
 };
 const PROVERBS = [
-  {seq:["sabr","miftah","faraj"], ar:"الصبر مفتاح الفرج", tr:"aṣ-ṣabru miftāḥu l-faraj", en:"Patience is the key to relief."},
-  {seq:["ilm","nur"], ar:"العلم نور", tr:"al-ʿilmu nūr", en:"Knowledge is light."},
-  {seq:["khayr","jalis","zaman","kitab"], ar:"خير جليس في الزمان كتاب", tr:"khayru jalīsin fī z-zamāni kitāb", en:"The best companion in time is a book."}
+  {col:"p1", seq:["sabr","miftah","faraj"], ar:"الصبر مفتاح الفرج", tr:"aṣ-ṣabru miftāḥu l-faraj", en:"Patience is the key to relief."},
+  {col:"p2", seq:["ilm","nur"], ar:"العلم نور", tr:"al-ʿilmu nūr", en:"Knowledge is light."},
+  {col:"p3", seq:["khayr","jalis","zaman","kitab"], ar:"خير جليس في الزمان كتاب", tr:"khayru jalīsin fī z-zamāni kitāb", en:"The best companion in time is a book."}
 ];
-const CAT = {virtue:0x1f5aa6, knowledge:0xb8892f, everyday:0x2f7d7a};
+const CAT = {p1:0x1f5aa6, p2:0x0f7b6c, p3:0xc4572f};   // one color per proverb: blue, teal, coral
+const CSS_COL = {p1:"#1f5aa6", p2:"#0f7b6c", p3:"#c4572f"};
+const SEAT_COL = ["p1","p3","p2","p2","p3","p1"];   // two seats per proverb color
 
 /* ---------- word stickers (with a small QR code) and tiles ---------- */
 const TR = 0.03, KRAFT = 0xc9a878;
@@ -209,8 +211,10 @@ function kitTray(phi){
 }
 const SEATS = [0,1,2,3,4,5].map(SEAT);
 const trays = SEATS.map(phi => kitTray(phi));
+// a colored mat at every seat shows which proverb it is for
+SEATS.forEach((phi, k) => { const m = add(new THREE.BoxGeometry(0.42, 0.003, 0.2), M(CAT[SEAT_COL[k]], {roughness:.85}), [0,0,0]); m.position.copy(at(phi, 0.635, 0, TOP + 0.0015)); m.rotation.y = phi; });
 function pcardDraw(p){ return (g,w,h) => {
-  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = "#b8892f"; g.lineWidth = 8; g.strokeRect(6,6,w-12,h-12);
+  g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h); g.strokeStyle = CSS_COL[p.col]; g.lineWidth = 14; g.strokeRect(7,7,w-14,h-14);
   g.fillStyle = "#1b1a17"; g.textAlign = "center"; g.direction = "rtl"; g.font = F(700, p.ar.length > 14 ? 34 : 44, "Amiri, serif"); g.fillText(p.ar, w/2, 120);
   g.direction = "ltr"; g.fillStyle = "#2b1d0e"; g.font = F(400, 22, "Marcellus, serif");
   const words = p.en.split(" "); let line = "", y = 180; words.forEach(wd => { if ((line + wd).length > 18){ g.fillText(line, w/2, y); y += 28; line = ""; } line += wd + " "; }); g.fillText(line, w/2, y);
@@ -257,17 +261,23 @@ add(new THREE.CylinderGeometry(0.02, 0.022, 0.05, 16), M(0xf2f2f0, {roughness:.4
 add(new THREE.CylinderGeometry(0.022, 0.022, 0.01, 16), M(0x2f7d7a), [0, 0.075, 0], lazy);
 add(new THREE.CylinderGeometry(0.025, 0.02, 0.06, 16, 1, true), M(0x7a5326), [0.09, 0.05, 0.03], lazy);
 [0,1,2].forEach(i => { const p = add(new THREE.CylinderGeometry(0.003, 0.003, 0.12, 6), M(0xe2b04f), [0.085 + i*0.005, 0.09, 0.03], lazy); p.rotation.z = 0.1*(i-1); });
-// shared materials in a ring: four bins of blanks and three packs of pre-cut edge strips (color, gold, wood)
+// shared materials in a ring: four bins of blanks, a box of optional wood trim, and ready-to-use tiles in bins of their proverb color
 [[6, 0.0], [3, 1], [4, 2], [24, 3]].forEach(([seg, i]) => { const a = Math.PI/4 + i*Math.PI/4, x = Math.sin(a)*0.13, z = Math.cos(a)*0.13;
   add(new THREE.BoxGeometry(0.055, 0.025, 0.055), M(0x7a5326), [x, 0.032, z], lazy);
   const bl = seg === 4 ? add(new THREE.BoxGeometry(0.03, 0.01, 0.03), M(KRAFT), [x, 0.05, z], lazy) : add(new THREE.CylinderGeometry(0.018, 0.018, 0.01, seg), M(KRAFT), [x, 0.05, z], lazy); });
-[0x1f5aa6, 0xe2b04f, 0xb08654].forEach((c, i) => { const a = Math.PI*1.3 + i*0.3, x = Math.sin(a)*0.13, z = Math.cos(a)*0.13;
+[0xb08654].forEach((c, i) => { const a = Math.PI*1.6, x = Math.sin(a)*0.13, z = Math.cos(a)*0.13;
   const tr = add(new THREE.BoxGeometry(0.06, 0.008, 0.06), M(0x7a5326), [x, 0.024, z], lazy); tr.rotation.y = a;
   for (let k = 0; k < 5; k++){ const st = add(new THREE.BoxGeometry(0.05, 0.003, 0.006), M(c, {roughness:.6}), [x + Math.cos(a)*(k-2)*0.009, 0.03 + (k%2)*0.003, z - Math.sin(a)*(k-2)*0.009], lazy); st.rotation.y = a + Math.PI/2; } });
+// the teal bin: its two words are made at the teal seats, so the bin starts with spare teal tiles
+{ const a = Math.PI*0.25, x = Math.sin(a)*0.22, z = Math.cos(a)*0.22;
+  const bin = add(new THREE.BoxGeometry(0.11, 0.012, 0.11), M(CAT.p2, {roughness:.8}), [x, 0.026, z], lazy); bin.rotation.y = a;
+  [0, 1].forEach(k => { add(new THREE.CylinderGeometry(0.034, 0.034, 0.012, 6), M(CAT.p2, {roughness:.7}), [x, 0.038 + k*0.013, z], lazy);
+    add(new THREE.CylinderGeometry(0.029, 0.029, 0.013, 6), M(0xf3e3bd, {roughness:.8}), [x, 0.038 + k*0.013, z], lazy); }); }
 const READY = [["faraj", 0], ["khayr", Math.PI*0.5], ["jalis", Math.PI*0.9], ["zaman", Math.PI*1.25], ["kitab", Math.PI*1.6]];   // the word library: tiles stay at the exhibit
 READY.forEach(([id, a]) => {
   const pos = V(Math.sin(a)*0.22, 0, Math.cos(a)*0.22);
-  makeBlank(id, pos, a); const T = tiles[id]; T.position.y = 0.02 + 0.0065; lazy.add(T); T.userData.home = T.position.clone(); T.userData.parent = lazy;
+  const bin = add(new THREE.BoxGeometry(0.11, 0.012, 0.11), M(CAT[WORDS[id].cat], {roughness:.8}), [pos.x, 0.026, pos.z], lazy); bin.rotation.y = a;
+  makeBlank(id, pos, a); const T = tiles[id]; T.position.y = 0.032 + 0.0065; lazy.add(T); T.userData.home = T.position.clone(); T.userData.parent = lazy;
   makePaper(id, V(0,0,0), 0); pasteNow(id); edgeNow(id); T.userData.ready = true;
 });
 
@@ -275,7 +285,7 @@ READY.forEach(([id, a]) => {
 const FW = 0.3, FD = 0.2;
 function folioDraw(Fo){ return (g,w,h) => {
   g.fillStyle = "#f6ead0"; g.fillRect(0,0,w,h);
-  g.strokeStyle = "#b8892f"; g.lineWidth = 8; g.strokeRect(10,10,w-20,h-20); g.lineWidth = 2; g.strokeRect(24,24,w-48,h-48);
+  g.strokeStyle = Fo.col || "#b8892f"; g.lineWidth = 12; g.strokeRect(10,10,w-20,h-20); g.lineWidth = 2; g.strokeRect(24,24,w-48,h-48);
   g.strokeStyle = "#7a5326"; g.lineWidth = 3; g.beginPath(); g.arc(w/2, 44, 9, 0, 7); g.stroke();
   const hit = PROVERBS.find(p => p.seq.join(",") === Fo.words.join(","));
   g.strokeStyle = hit ? "#e2b04f" : "#b8892f"; g.lineWidth = hit ? 10 : 3; g.beginPath(); g.moveTo(50, 262); g.lineTo(w-50, 262); g.stroke();
@@ -283,7 +293,7 @@ function folioDraw(Fo){ return (g,w,h) => {
 }; }
 function makeFolio(phi){
   const g = new THREE.Group(); g.position.copy(at(phi, 0.43, 0, TOP + 0.0015)); g.rotation.order = "YXZ"; g.rotation.y = phi; scene.add(g);
-  const Fo = {g, phi, words:[], home:g.position.clone()};
+  const Fo = {g, phi, words:[], home:g.position.clone(), col:CSS_COL[SEAT_COL[SEATS.indexOf(phi)]]};
   Fo.tex = canvasTex(600, 400, folioDraw(Fo));
   const p = add(new THREE.PlaneGeometry(FW, FD), new THREE.MeshStandardMaterial({map:Fo.tex.t, roughness:.9}), [0,0,0], g); p.rotation.x = -Math.PI/2;
   const bk = add(new THREE.PlaneGeometry(FW, FD), M(0xead9b4, {roughness:.95}), [0,-0.0005,0], g); bk.rotation.x = Math.PI/2;
@@ -303,12 +313,12 @@ function signDraw(g, w, h){
   g.strokeStyle = "#b8892f"; g.lineWidth = 3; g.strokeRect(30,30,w-60,h-60);
   g.textAlign = "center"; g.fillStyle = "#2b1d0e"; g.font = F(400, 64, "Marcellus, serif"); g.fillText("Qalam Tiles", w/2 - 60, 112);
   g.fillStyle = "#b8892f"; g.direction = "rtl"; g.font = F(700, 70, "Amiri, serif"); g.fillText("قلم", w/2 + 250, 116); g.direction = "ltr";
-  g.fillStyle = "#6f5a3c"; g.font = F(500, 30); g.fillText("Start here. Read the six steps, then take a free seat at the table.", w/2, 166);
+  g.fillStyle = "#6f5a3c"; g.font = F(500, 30); g.fillText("Start here. Pick a seat in the color of the proverb you like.", w/2, 166);
   const hex = (x, y, r, fill, stroke, lw) => { g.beginPath(); for (let i = 0; i < 6; i++){ const a = Math.PI/6 + i*Math.PI/3; g.lineTo(x + r*Math.cos(a), y + r*Math.sin(a)); } g.closePath(); g.fillStyle = fill; g.fill(); if (stroke){ g.strokeStyle = stroke; g.lineWidth = lw; g.stroke(); } };
   const ar = (t, x, y, px) => { g.fillStyle = "#1b1a17"; g.direction = "rtl"; g.font = F(700, px, "Amiri, serif"); g.fillText(t, x, y); g.direction = "ltr"; };
   const icons = [
-    (x, y) => { [-46, 46].forEach(d => { g.fillStyle = "#fbf4e4"; g.strokeStyle = "#b8892f"; g.lineWidth = 3; g.fillRect(x + d - 22, y - 34, 44, 62); g.strokeRect(x + d - 22, y - 34, 44, 62); });
-                g.fillStyle = "#fbf4e4"; g.fillRect(x - 30, y - 46, 60, 80); g.strokeStyle = "#e2b04f"; g.lineWidth = 6; g.strokeRect(x - 30, y - 46, 60, 80); ar("الصبر", x, y - 6, 22); qrMark(g, x - 9, y + 8, 18); },
+    (x, y) => { [-46, 46].forEach(d => { g.fillStyle = "#fbf4e4"; g.strokeStyle = d < 0 ? "#c4572f" : "#0f7b6c"; g.lineWidth = 5; g.fillRect(x + d - 22, y - 34, 44, 62); g.strokeRect(x + d - 22, y - 34, 44, 62); });
+                g.fillStyle = "#fbf4e4"; g.fillRect(x - 30, y - 46, 60, 80); g.strokeStyle = "#1f5aa6"; g.lineWidth = 7; g.strokeRect(x - 30, y - 46, 60, 80); ar("الصبر", x, y - 6, 22); qrMark(g, x - 9, y + 8, 18); },
     (x, y) => { hex(x - 62, y, 24, "#e9d6ae", "#8f6d40", 3); hex(x, y, 24, "#f3e3bd", "#8f6d40", 3); ar("نور", x, y + 7, 22); hex(x + 66, y, 30, "#f3e3bd", "#1f5aa6", 9); ar("نور", x + 66, y + 8, 24);
                 g.fillStyle = "#6f5a3c"; g.font = F(500, 17); [["shape", -62], ["word", 0], ["edges", 66]].forEach(([t, dx]) => g.fillText(t, x + dx, y + 52)); },
     (x, y) => { g.fillStyle = "#2c2c2a"; g.fillRect(x - 10, y - 46, 92, 80); g.fillStyle = "#fbf4e4"; g.fillRect(x - 3, y - 39, 78, 66); ar("نور", x + 36, y - 2, 30); g.fillStyle = "#6f5a3c"; g.font = F(400, 16); g.fillText("light", x + 36, y + 18);
@@ -317,7 +327,7 @@ function signDraw(g, w, h){
                 g.strokeStyle = "#e2b04f"; g.lineWidth = 6; g.beginPath(); g.moveTo(x - 84, y + 30); g.lineTo(x + 84, y + 30); g.stroke();
                 hex(x + 58, y - 4, 24, "#f3e3bd", "#1f5aa6", 5); ar("الصبر", x + 58, y + 2, 15);
                 g.fillStyle = "#1f5aa6"; g.fillRect(x - 22, y - 26, 44, 44); g.fillStyle = "#f3e3bd"; g.fillRect(x - 18, y - 22, 36, 36); ar("مفتاح", x, y + 2, 15);
-                g.beginPath(); g.arc(x - 58, y - 4, 23, 0, 7); g.fillStyle = "#c99a3a"; g.fill(); g.beginPath(); g.arc(x - 58, y - 4, 18, 0, 7); g.fillStyle = "#f3e3bd"; g.fill(); ar("الفرج", x - 58, y + 2, 15); },
+                g.beginPath(); g.arc(x - 58, y - 4, 23, 0, 7); g.fillStyle = "#1f5aa6"; g.fill(); g.beginPath(); g.arc(x - 58, y - 4, 18, 0, 7); g.fillStyle = "#f3e3bd"; g.fill(); ar("الفرج", x - 58, y + 2, 15); },
     (x, y) => { g.fillStyle = "#efe2c4"; g.fillRect(x - 96, y - 46, 192, 96); g.strokeStyle = "#7a5326"; g.lineWidth = 9; g.strokeRect(x - 96, y - 46, 192, 96);
                 g.strokeStyle = "#6b4a24"; g.lineWidth = 2; [-26, 14].forEach(dy => { g.beginPath(); g.moveTo(x - 88, y + dy); g.lineTo(x + 88, y + dy); g.stroke(); });
                 [[-60, -26], [0, -26], [60, -26], [-30, 14], [30, 14]].forEach(([dx, dy]) => { g.fillStyle = "#fbf4e4"; g.fillRect(x + dx - 20, y + dy + 4, 40, 26); g.strokeStyle = "#b8892f"; g.lineWidth = 2; g.strokeRect(x + dx - 20, y + dy + 4, 40, 26); }); },
@@ -590,25 +600,25 @@ function applyDone(n){
 
 const CAP = {
   1:["1 · Choose a proverb",
-     "Visitors start at the Qalam Tiles sign, which shows the six steps, then take a free seat. At the table, the child and the teen pick a proverb card, read the meaning, and scan its QR code. The seat screen shows the proverb, and their phone can play it aloud.",
-     "While some people work at the table, new visitors read the sign and wait for a free seat. Every seat has its own cards and screen, so everyone chooses at the same time.",
+     "Visitors start at the Qalam Tiles sign, then sit at a seat in the color of the proverb they like. The child sits at a blue seat and the teen at a teal one. At the table, the child and the teen pick a proverb card, read the meaning, and scan its QR code. The seat screen shows the proverb, and their phone can play it aloud.",
+     "While some people work at the table, new visitors read the sign and wait for a free seat. Two seats per color, side by side, so friends can make the same proverb together. Every seat has its own cards and screen.",
      "The three proverbs use nine words in all. Each visitor makes one of the words in the proverb they chose."],
   2:["2 · Make your tile",
-     "First, visitors check step 2 on the Qalam Tiles sign: pick a shape, paste your word, glue the edges. Then each visitor pastes their word sticker on a blank, presses it flat, can trace it with the pencil, and glues a pre-cut strip on each side.",
-     "Personal tools sit in each kit tray. Blanks and packs of pre-cut strips, in color, gold, or wood, are shared in the middle. Wood is for straight sides only. Two seats wait for the next people.",
+     "First, visitors check step 2 on the Qalam Tiles sign: pick a shape, paste your word, glue the edges. Then each visitor pastes their word sticker on a blank, presses it flat, can trace it with the pencil, and glues a pre-cut strip on each side. The strips are always the seat’s color, so every tile shows its proverb.",
+     "Everything is already at the seat: stickers for that proverb, blanks, and strips in the seat’s color. Wood trim is an optional extra in the middle, for straight sides only. Two seats wait for the next people.",
      "The sign stays at the entrance, so anyone can check the next stage without asking."],
   3:["3 · Scan it",
      "The child and the teen hold their tiles to the seat screen. It reads the QR code and shows the word, how to say it, and what it means.",
      "Each seat has its own screen, so nobody waits. To hear the word, visitors scan the same code with their own phone.",
      "No headphones are needed, which keeps it simple and cheap to run."],
   4:["4 · Finish the proverb",
-     "The child sets her tile on her folio. The adult beside her hands over مفتاح, and she takes الفرج from the word library on the turntable. At the back, the adult hands نور to the teen.",
-     "Nobody has to make every word. Missing words come from neighbors or from the library, which holds tiles made earlier.",
+     "The child sets her tile on her folio. The adult beside her hands over مفتاح, and she takes الفرج from the blue bin on the turntable. At the back, the adult hands نور to the teen.",
+     "Nobody has to make every word. Missing words come from neighbors or from the bin of your color in the middle, which holds tiles made earlier.",
      "When a line is right, its gold rule lights up and the meaning appears. Arabic reads right to left, so each line starts on the right."],
   5:["5 · Hang the folio",
      "The child and the teen walk to the wall and hang their folios. The child uses a low cord she can reach.",
      "The carved frame holds up to 50 folios on five cords, so everyone’s work hangs together through the day.",
-     "Tiles stay at the exhibit. At the end of the day, folios come down and the tiles go back to the library."],
+     "Tiles stay at the exhibit. At the end of the day, folios come down and the tiles go back to their color bins."],
   6:["6 · Take a gift",
      "An adult types a name on the phone by the printer. The screen suggests the Arabic spelling, and the visitor checks or fixes it before printing.",
      "Names can also be typed from any phone by scanning a QR sign, so the printer never has a line. Meanwhile, a visitor who was reading the sign takes the free seat.",
